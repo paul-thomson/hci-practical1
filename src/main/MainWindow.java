@@ -1,18 +1,23 @@
 package main;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.io.IOException;
 
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 
 public class MainWindow extends JFrame 
 {
+	JPanel mainPanel;
 	ImagePanel imagePanel;
 	JPanel toolbox;
+	
+	Dimension minimumSize = new Dimension(1000,600);
 	
 	String imageName = "res/kirby.jpg";
 
@@ -21,28 +26,24 @@ public class MainWindow extends JFrame
 	 */
 	public MainWindow() 
 	{
-		getContentPane().setLayout(new GridBagLayout());
-		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.anchor = GridBagConstraints.FIRST_LINE_START;
-		gbc.fill = GridBagConstraints.BOTH;
-		gbc.weightx = (float) 2/3;
-		gbc.weighty = (float) 1;
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		imagePanel = new ImagePanel();
-		getContentPane().add(imagePanel, gbc);
+		this.setMinimumSize(minimumSize);
 		
-		GridBagConstraints gbc2 = new GridBagConstraints();
-		gbc2.anchor = GridBagConstraints.FIRST_LINE_START;
-		gbc2.fill = GridBagConstraints.BOTH;
-		gbc2.weightx = (float) 1 - gbc.weightx;
-		gbc2.weighty = (float) 1;
-		gbc2.gridx = 1;
-		gbc2.gridy = 0;
+		mainPanel = new JPanel();
+		mainPanel.setBackground(Color.yellow);
+		this.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
+		this.setContentPane(mainPanel);
+				
+		try {
+			imagePanel = new ImagePanel(imageName);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		imagePanel.setOpaque(true); //content panes must be opaque
+		mainPanel.add(imagePanel);
 		
 		toolbox = new JPanel();
 		toolbox.setBackground(Color.red);
-		getContentPane().add(toolbox, gbc2);
 		
 //		try {
 //			imagePanel.setImage(imageName);
@@ -50,6 +51,8 @@ public class MainWindow extends JFrame
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
+		
+		mainPanel.add(toolbox);
 		
 		this.pack();
         this.setVisible(true);

@@ -15,13 +15,14 @@ public class ImagePanel extends JPanel
 	/** The image to display in this panel */
 	BufferedImage image;
 	/** The maximum size of the panel */
-	Dimension size = new Dimension(600,400);
+	Dimension size = new Dimension(800,600);
 
 	
 	public ImagePanel()
 	{
 		this.setVisible(true);
-//		this.setPreferredSize(size);
+		this.setPreferredSize(size);
+		
 	}
 	
 	public ImagePanel(String imageName) throws IOException
@@ -36,7 +37,6 @@ public class ImagePanel extends JPanel
 		super.paint(g);
 		
 		displayImage();
-		
 	}
 
 	private void displayImage() 
