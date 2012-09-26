@@ -1,3 +1,10 @@
-HAHA LOL
+Next time:
 
-XD XD XD
+1) Deal with exceptions: starting with no new object,
+			pressing enter with no vertex,
+			stop from continuing previous object
+2) Make move command
+3) Colours
+4) Add labelling
+5) IO: save and load labels/images
+6) ...

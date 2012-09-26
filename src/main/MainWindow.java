@@ -2,8 +2,12 @@ package main;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.KeyEventDispatcher;
+import java.awt.KeyboardFocusManager;
+import java.awt.event.ComponentEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 
 import javax.swing.BoxLayout;
@@ -11,11 +15,29 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 
-public class MainWindow extends JFrame 
+public class MainWindow extends JFrame
 {
+	
+	private class MyDispatcher implements KeyEventDispatcher {
+        @Override
+        public boolean dispatchKeyEvent(KeyEvent e) {
+        	if (e.getID() == KeyEvent.KEY_TYPED) {
+        		
+        		if (e.getKeyChar() == KeyEvent.VK_ENTER) {
+        			imagePanel.endShape();
+        		}
+            }
+            return false;
+        }
+	}
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	JPanel mainPanel;
 	ImagePanel imagePanel;
-	JPanel toolbox;
+	Toolbox toolbox;
 	
 	Dimension minimumSize = new Dimension(1000,600);
 	
@@ -26,6 +48,19 @@ public class MainWindow extends JFrame
 	 */
 	public MainWindow() 
 	{
+		
+		this.addWindowListener(new WindowAdapter() {
+		  	public void windowClosing(WindowEvent event) {
+		    	System.exit(0);
+		  	}
+		  	public void componentResized(ComponentEvent e) {
+		        
+		    }
+		});
+
+	  	KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
+        manager.addKeyEventDispatcher(new MyDispatcher());
+		
 		this.setMinimumSize(minimumSize);
 		
 		mainPanel = new JPanel();
@@ -40,18 +75,17 @@ public class MainWindow extends JFrame
 			e.printStackTrace();
 		}
 		imagePanel.setOpaque(true); //content panes must be opaque
+		
+		toolbox = new Toolbox();
+		
+		try {
+			imagePanel.setImage(imageName);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		mainPanel.add(imagePanel);
-		
-		toolbox = new JPanel();
-		toolbox.setBackground(Color.red);
-		
-//		try {
-//			imagePanel.setImage(imageName);
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-		
 		mainPanel.add(toolbox);
 		
 		this.pack();
