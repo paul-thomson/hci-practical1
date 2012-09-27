@@ -10,31 +10,35 @@ import javax.swing.JPanel;
 
 import data.Shape;
 
-public class Toolbox extends JPanel {
+public class Toolbox extends JPanel 
+{
 
+	private static final long serialVersionUID = 1L;
 	/**
 	 * Create the panel.
 	 */
-	public Toolbox() {
+	public Toolbox() 
+	{
 		this.setPreferredSize(new Dimension(200,600));
-		
+
 		setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		
+
 		JButton btnNewObject = new JButton("New Object");
-		btnNewObject.addActionListener(new ActionListener() {
+		btnNewObject.addActionListener(new ActionListener() 
+		{
 			@Override
-			public void actionPerformed(ActionEvent e) {
-			    	ImagePanel.addShape(new Shape());
+			public void actionPerformed(ActionEvent e) 
+			{
+				ImagePanel.addShape(new Shape());
 			}
 		});
 		add(btnNewObject);
-		
+
 		JButton btnSelectObject = new JButton("Move Object");
 		add(btnSelectObject);
-		
+
 		JButton btnChooseColour = new JButton("Choose Colour");
 		add(btnChooseColour);
-
 	}
 
 }

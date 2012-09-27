@@ -17,30 +17,12 @@ import javax.swing.JPanel;
 
 public class MainWindow extends JFrame
 {
-	
-	private class MyDispatcher implements KeyEventDispatcher {
-        @Override
-        public boolean dispatchKeyEvent(KeyEvent e) {
-        	if (e.getID() == KeyEvent.KEY_TYPED) {
-        		
-        		if (e.getKeyChar() == KeyEvent.VK_ENTER) {
-        			imagePanel.endShape();
-        		}
-            }
-            return false;
-        }
-	}
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	JPanel mainPanel;
 	ImagePanel imagePanel;
 	Toolbox toolbox;
-	
 	Dimension minimumSize = new Dimension(1000,600);
-	
 	String imageName = "res/kirby.jpg";
 
 	/**
@@ -48,67 +30,94 @@ public class MainWindow extends JFrame
 	 */
 	public MainWindow() 
 	{
-		
-		this.addWindowListener(new WindowAdapter() {
-		  	public void windowClosing(WindowEvent event) {
-		    	System.exit(0);
-		  	}
-		  	public void componentResized(ComponentEvent e) {
-		        
-		    }
+
+		this.addWindowListener(new WindowAdapter() 
+		{
+			public void windowClosing(WindowEvent event) 
+			{
+				System.exit(0);
+			}
+			public void componentResized(ComponentEvent e) 
+			{}
 		});
 
-	  	KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
-        manager.addKeyEventDispatcher(new MyDispatcher());
-		
+		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
+		manager.addKeyEventDispatcher(new MyDispatcher());
+
 		this.setMinimumSize(minimumSize);
-		
+
 		mainPanel = new JPanel();
 		mainPanel.setBackground(Color.yellow);
 		this.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
 		this.setContentPane(mainPanel);
-				
-		try {
+
+		try 
+		{
 			imagePanel = new ImagePanel(imageName);
-		} catch (IOException e) {
+		} 
+		catch (IOException e) 
+		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		imagePanel.setOpaque(true); //content panes must be opaque
-		
+
 		toolbox = new Toolbox();
-		
-		try {
+
+		try 
+		{
 			imagePanel.setImage(imageName);
-		} catch (IOException e) {
+		} 
+		catch (IOException e) 
+		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		mainPanel.add(imagePanel);
 		mainPanel.add(toolbox);
-		
+
 		this.pack();
-        this.setVisible(true);
-	
+		this.setVisible(true);
+
 	}
-	
+
 	@Override
-	public void paint(Graphics g) {
+	public void paint(Graphics g) 
+	{
 		super.paint(g);
 		imagePanel.paint(g); //update image panel
 	}
-	
+
 	/**
 	 * Runs the program
 	 * @param argv path to an image
 	 */
 	public static void main(String argv[]) {
-		try {
-			//create a window and display the image
+		try 
+		{
+			//creates a window and display the image
 			MainWindow window = new MainWindow();
-		} catch (Exception e) {
+		} 
+		catch (Exception e) 
+		{
 			e.printStackTrace();
+		}
+	}
+
+	private class MyDispatcher implements KeyEventDispatcher 
+	{
+		@Override
+		public boolean dispatchKeyEvent(KeyEvent e) 
+		{
+			if (e.getID() == KeyEvent.KEY_TYPED) 
+			{
+				if (e.getKeyChar() == KeyEvent.VK_ENTER) 
+				{
+					imagePanel.endShape();
+				}
+			}
+			return false;
 		}
 	}
 
