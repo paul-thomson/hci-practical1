@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import data.Shape;
+import data.ShapeData;
 
 public class Toolbox extends JPanel 
 {
@@ -29,7 +30,7 @@ public class Toolbox extends JPanel
 			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
-				ImagePanel.addShape(new Shape());
+				ShapeData.addShape(new Shape());
 			}
 		});
 		add(btnNewObject);
@@ -37,8 +38,8 @@ public class Toolbox extends JPanel
 		JButton btnSelectObject = new JButton("Move Object");
 		add(btnSelectObject);
 
-		JButton btnChooseColour = new JButton("Choose Colour");
-		add(btnChooseColour);
+		ColourPalette colourPalette = new ColourPalette();
+		add(colourPalette);
 	}
 
 }

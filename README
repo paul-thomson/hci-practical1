@@ -1,6 +1,6 @@
 Next time:
 
-1) Deal with exceptions: starting with no new object,
+1) Deal with exceptions:
 			pressing enter with no vertex,
 			stop from continuing previous object
 2) Make move command

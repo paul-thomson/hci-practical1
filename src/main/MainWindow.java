@@ -14,6 +14,9 @@ import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import data.Shape;
+import data.ShapeData;
+
 
 public class MainWindow extends JFrame
 {
@@ -114,7 +117,12 @@ public class MainWindow extends JFrame
 			{
 				if (e.getKeyChar() == KeyEvent.VK_ENTER) 
 				{
-					imagePanel.endShape();
+					Shape lastShape = ShapeData.endShape(ShapeData.index);
+					
+					if (lastShape != null) {
+						imagePanel.drawLine(lastShape.get(lastShape.size() - 2), lastShape.get(0), lastShape.getColor());
+						ShapeData.addShape(new Shape());	
+					}
 				}
 			}
 			return false;

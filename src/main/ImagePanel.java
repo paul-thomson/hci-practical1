@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -15,6 +16,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import data.Shape;
+import data.ShapeData;
 import data.Vertex;
 
 public class ImagePanel extends JPanel implements MouseListener
@@ -27,14 +29,11 @@ public class ImagePanel extends JPanel implements MouseListener
 	BufferedImage image;
 	/** The maximum size of the panel */
 	Dimension size = new Dimension(800,600);
-	/** All the shapes to be drawn */
-	static ArrayList<Shape> shapes;
 
 
 	public ImagePanel()
 	{
 		addMouseListener(this);
-		shapes = new ArrayList<Shape>();
 		this.setVisible(true);
 		this.setPreferredSize(size);
 
@@ -52,6 +51,7 @@ public class ImagePanel extends JPanel implements MouseListener
 		super.paint(g);
 
 		displayImage();
+		ArrayList<Shape> shapes = ShapeData.shapes;
 		for (Shape shape : shapes) 
 		{ 
 			drawShape(shape);
@@ -121,9 +121,9 @@ public class ImagePanel extends JPanel implements MouseListener
 			if (i != 0) 
 			{
 				Vertex previous = vertices.get(i - 1);
-				drawLine(current, previous);
+				drawLine(current, previous, shape.getColor());
 			}
-			drawVertex(current);
+			drawVertex(current, shape.getColor());
 		}
 	}
 
@@ -132,9 +132,11 @@ public class ImagePanel extends JPanel implements MouseListener
 	 * @param v1
 	 * @param v2
 	 */
-	private void drawLine(Vertex v1, Vertex v2) 
+	public void drawLine(Vertex v1, Vertex v2, Color color) 
 	{
+		
 		Graphics2D g = (Graphics2D) this.getGraphics();
+		g.setColor(color);
 		g.drawLine(v2.getX(), v2.getY(), v1.getX(), v1.getY());
 	}
 
@@ -143,35 +145,18 @@ public class ImagePanel extends JPanel implements MouseListener
 	 * @param v
 	 * @param color
 	 */
-	private void drawVertex(Vertex v) 
+	private void drawVertex(Vertex v, Color color) 
 	{
 		Graphics2D g = (Graphics2D) this.getGraphics();
+		g.setColor(color);
 		g.fillOval(v.getX() - v.getRadius(), v.getY() - v.getRadius(), v.getRadius()*2, v.getRadius()*2);
 	}
 
-	/**
-	 * Add a shape to the list of shapes to be drawn
-	 * @param shape
-	 */
-	public static void addShape(Shape shape) 
-	{
-		shapes.add(shape);
-	}
-
-	/**
-	 * Ends the current shape (which is last in the list of shapes) by 
-	 * adding the first vertex to the end
-	 */
-	public void endShape() 
-	{
-		Shape lastShape = shapes.get(shapes.size() - 1);
-		drawLine(lastShape.get(lastShape.size() - 1), lastShape.get(0));
-		lastShape.add(lastShape.get(0));
-	}
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) 
 	{
+		ArrayList<Shape> shapes = ShapeData.shapes;
 		Vertex vertex = new Vertex(arg0.getX(), arg0.getY());
 		if (shapes.size() == 0)
 		{
@@ -180,10 +165,10 @@ public class ImagePanel extends JPanel implements MouseListener
 		else if (arg0.getX() < image.getWidth() - vertex.getRadius()  && arg0.getY() < image.getWidth() - vertex.getRadius()) 
 		{
 			Shape lastShape = shapes.get(shapes.size() - 1);
-			drawVertex(vertex);
+			drawVertex(vertex, lastShape.getColor());
 			if (lastShape.size() != 0) 
 			{
-				drawLine(vertex, lastShape.get(lastShape.size()-1));
+				drawLine(vertex, lastShape.get(lastShape.size()-1), lastShape.getColor());
 			}
 			lastShape.add(vertex);
 		}
