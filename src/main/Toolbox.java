@@ -38,7 +38,7 @@ public class Toolbox extends JPanel
 		JButton btnSelectObject = new JButton("Move Object");
 		add(btnSelectObject);
 
-		ColourPalette colourPalette = new ColourPalette();
+		ColorPalette colourPalette = new ColorPalette();
 		add(colourPalette);
 	}
 
