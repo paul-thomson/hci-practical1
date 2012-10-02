@@ -17,7 +17,7 @@ public class Shape
 	{
 		vertices = new ArrayList<Vertex>();
 		color = Color.WHITE;
-		label = "";
+		label = "Default shape label";
 	}
 
 	public Shape(ArrayList<Vertex> vertices, Color color, String label) 
