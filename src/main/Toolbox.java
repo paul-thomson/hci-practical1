@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import data.Shape;
 import data.ShapeData;
@@ -40,5 +41,9 @@ public class Toolbox extends JPanel
 
 		ColorPalette colourPalette = new ColorPalette(shapeData, changeColor);
 		add(colourPalette);
+		
+		ShapeList shapeList = new ShapeList(shapeData);
+		JScrollPane scrollPane = new JScrollPane(shapeList);
+		add(scrollPane);
 	}
 }
