@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -63,9 +65,17 @@ public class MainWindow extends JFrame
 		}
 		imagePanel.setOpaque(true); //content panes must be opaque
 
-		toolbox = new Toolbox(shapeData);
+		toolbox = new Toolbox(shapeData, new ActionListener(){
 
-		try 
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				shapeData.setColor(ColorEnum.getColor(arg0.getActionCommand()));
+				imagePanel.repaint();
+			}
+			
+		});
+		
+		try
 		{
 			imagePanel.setImage(imageName);
 		} 

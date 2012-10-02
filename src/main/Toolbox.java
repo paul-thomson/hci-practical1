@@ -18,7 +18,7 @@ public class Toolbox extends JPanel
 	/**
 	 * Create the panel.
 	 */
-	public Toolbox(final ShapeData shapeData) 
+	public Toolbox(final ShapeData shapeData, ActionListener changeColor) 
 	{		
 		this.setPreferredSize(new Dimension(200,600));
 
@@ -38,8 +38,7 @@ public class Toolbox extends JPanel
 		JButton btnSelectObject = new JButton("Move Object");
 		add(btnSelectObject);
 
-		ColorPalette colourPalette = new ColorPalette(shapeData);
+		ColorPalette colourPalette = new ColorPalette(shapeData, changeColor);
 		add(colourPalette);
 	}
-
 }

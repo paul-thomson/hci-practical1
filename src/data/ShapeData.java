@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 public class ShapeData {
 	
+	/** Tells us which shape is currently selected */
 	public int index = -1;
 	public ArrayList<Shape> shapes = new ArrayList<Shape>();
 	public Color shapeColor = new Color(0,0,0);
@@ -50,6 +51,9 @@ public class ShapeData {
 	
 	public void setColor(Color newColor) {
 		shapeColor = newColor;
+		if (shapes.size() != 0) {
+			shapes.get(index).setColor(newColor);
+		}
 	}
 
 	/**
