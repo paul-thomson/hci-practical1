@@ -18,8 +18,8 @@ public class Toolbox extends JPanel
 	/**
 	 * Create the panel.
 	 */
-	public Toolbox() 
-	{
+	public Toolbox(final ShapeData shapeData) 
+	{		
 		this.setPreferredSize(new Dimension(200,600));
 
 		setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
@@ -30,7 +30,7 @@ public class Toolbox extends JPanel
 			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
-				ShapeData.addShape(new Shape());
+				shapeData.addShape(new Shape());
 			}
 		});
 		add(btnNewObject);
@@ -38,7 +38,7 @@ public class Toolbox extends JPanel
 		JButton btnSelectObject = new JButton("Move Object");
 		add(btnSelectObject);
 
-		ColorPalette colourPalette = new ColorPalette();
+		ColorPalette colourPalette = new ColorPalette(shapeData);
 		add(colourPalette);
 	}
 

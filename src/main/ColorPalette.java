@@ -21,7 +21,7 @@ public class ColorPalette extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public ColorPalette() {
+	public ColorPalette(final ShapeData shapeData) {
 		
 		setLayout(new GridLayout(2,6));		
 
@@ -36,7 +36,7 @@ public class ColorPalette extends JPanel {
 
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					ShapeData.setColor(ColorEnum.getColor(arg0.getActionCommand()));
+					shapeData.setColor(ColorEnum.getColor(arg0.getActionCommand()));
 					
 				}
 				

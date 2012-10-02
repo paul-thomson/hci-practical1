@@ -26,6 +26,7 @@ public class MainWindow extends JFrame
 	Toolbox toolbox;
 	Dimension minimumSize = new Dimension(1000,600);
 	String imageName = "res/kirby.jpg";
+	ShapeData shapeData = new ShapeData();
 
 	/**
 	 * Create the panel.
@@ -53,7 +54,7 @@ public class MainWindow extends JFrame
 
 		try 
 		{
-			imagePanel = new ImagePanel(imageName);
+			imagePanel = new ImagePanel(imageName, shapeData);
 		} 
 		catch (IOException e) 
 		{
@@ -62,7 +63,7 @@ public class MainWindow extends JFrame
 		}
 		imagePanel.setOpaque(true); //content panes must be opaque
 
-		toolbox = new Toolbox();
+		toolbox = new Toolbox(shapeData);
 
 		try 
 		{
@@ -114,11 +115,11 @@ public class MainWindow extends JFrame
 			{
 				if (e.getKeyChar() == KeyEvent.VK_ENTER) 
 				{
-					Shape lastShape = ShapeData.endShape(ShapeData.index);
+					Shape lastShape = shapeData.endShape(shapeData.getIndex());
 					
 					if (lastShape != null) {
 						imagePanel.drawLine(lastShape.get(lastShape.size() - 2), lastShape.get(0), lastShape.getColor());
-						ShapeData.addShape(new Shape());	
+						shapeData.addShape(new Shape());	
 					}
 				}
 			}

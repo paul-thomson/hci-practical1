@@ -5,26 +5,50 @@ import java.util.ArrayList;
 
 public class ShapeData {
 	
-	public static int index = -1;
-	public static ArrayList<Shape> shapes = new ArrayList<Shape>();
-	public static Color shapeColor = new Color(0,0,0);
+	public int index = -1;
+	public ArrayList<Shape> shapes = new ArrayList<Shape>();
+	public Color shapeColor = new Color(0,0,0);
 	
+	public int getIndex() {
+		return index;
+	}
+
+	public void setIndex(int index) {
+		this.index = index;
+	}
+
+	public ArrayList<Shape> getShapes() {
+		return shapes;
+	}
+
+	public void setShapes(ArrayList<Shape> shapes) {
+		this.shapes = shapes;
+	}
+
+	public Color getShapeColor() {
+		return shapeColor;
+	}
+
+	public void setShapeColor(Color shapeColor) {
+		this.shapeColor = shapeColor;
+	}
+
 	/**
 	 * Add a shape to the list of shapes to be drawn
 	 * @param shape
 	 */
-	public static void addShape(Shape shape) 
+	public void addShape(Shape shape) 
 	{
 		shape.setColor(shapeColor);
 		shapes.add(shape);
 		selectShape(shapes.size() - 1);
 	}
 	
-	public static void selectShape(int newIndex) {
+	public void selectShape(int newIndex) {
 		index = newIndex;
 	}
 	
-	public static void setColor(Color newColor) {
+	public void setColor(Color newColor) {
 		shapeColor = newColor;
 	}
 
@@ -32,7 +56,7 @@ public class ShapeData {
 	 * Ends the current shape (which is last in the list of shapes) by 
 	 * adding the first vertex to the end
 	 */
-	public static Shape endShape(int index) 
+	public Shape endShape(int index) 
 	{
 		if (shapes.size() > 0) {
 			if (shapes.get(index).size() > 0) {
@@ -44,7 +68,7 @@ public class ShapeData {
 		return null;
 	}
 	
-	public static Shape getShape(int index) {
+	public Shape getShape(int index) {
 		return shapes.get(index);
 	}
 }
