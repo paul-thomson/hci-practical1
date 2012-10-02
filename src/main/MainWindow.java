@@ -70,7 +70,7 @@ public class MainWindow extends JFrame
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				shapeData.setColor(ColorEnum.getColor(arg0.getActionCommand()));
-				imagePanel.repaint();
+				repaint();
 			}
 			
 		});
