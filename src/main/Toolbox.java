@@ -19,7 +19,8 @@ public class Toolbox extends JPanel
 	/**
 	 * Create the panel.
 	 */
-	public Toolbox(final ShapeData shapeData, ActionListener changeColor) 
+	public Toolbox(final ShapeData shapeData, ActionListener changeColor,
+			 ActionListener newFile,  ActionListener save,  ActionListener load) 
 	{		
 		this.setPreferredSize(new Dimension(200,600));
 
@@ -45,5 +46,8 @@ public class Toolbox extends JPanel
 		ShapeList shapeList = new ShapeList(shapeData);
 		JScrollPane scrollPane = new JScrollPane(shapeList);
 		add(scrollPane);
+		
+		FileIOPanel fileIO = new FileIOPanel(newFile, save, load);
+		add(fileIO);
 	}
 }

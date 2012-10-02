@@ -65,16 +65,30 @@ public class MainWindow extends JFrame
 		}
 		imagePanel.setOpaque(true); //content panes must be opaque
 
-		toolbox = new Toolbox(shapeData, new ActionListener(){
+		toolbox = new Toolbox(shapeData, 
+				// changeColor
+				new ActionListener(){
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					shapeData.setColor(ColorEnum.getColor(arg0.getActionCommand()));
+					repaint();
+				}},
+				// newFile -- TODO (save current session?: etc.)
+				new ActionListener(){
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+				}},
+				// save
+				new ActionListener(){
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+				}},
+				// load
+				new ActionListener(){
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+				}});
 
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				shapeData.setColor(ColorEnum.getColor(arg0.getActionCommand()));
-				repaint();
-			}
-			
-		});
-		
 		try
 		{
 			imagePanel.setImage(imageName);
@@ -126,7 +140,7 @@ public class MainWindow extends JFrame
 				if (e.getKeyChar() == KeyEvent.VK_ENTER) 
 				{
 					Shape lastShape = shapeData.endShape(shapeData.getIndex());
-					
+
 					if (lastShape != null) {
 						imagePanel.drawLine(lastShape.get(lastShape.size() - 2), lastShape.get(0), lastShape.getColor());
 						shapeData.addShape(new Shape());	
