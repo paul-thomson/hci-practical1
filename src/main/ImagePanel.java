@@ -29,9 +29,8 @@ public class ImagePanel extends JPanel implements MouseListener
 	BufferedImage image;
 	/** The maximum size of the panel */
 	Dimension size = new Dimension(800,600);
-	
-	ShapeData shapeData;
 
+	ShapeData shapeData;
 
 	public ImagePanel()
 	{
@@ -53,11 +52,11 @@ public class ImagePanel extends JPanel implements MouseListener
 	{
 		super.paint(g);
 
-		displayImage();
+		displayImage(g, false);
 		ArrayList<Shape> shapes = shapeData.getShapes();
 		for (Shape shape : shapes) 
 		{ 
-			drawShape(shape);
+			drawShape(g, shape);
 		}
 
 	}
@@ -65,16 +64,17 @@ public class ImagePanel extends JPanel implements MouseListener
 	/**
 	 * Display the loaded image
 	 */
-	private void displayImage() 
+	private void displayImage(Graphics g, boolean screenshot)
 	{
-		Graphics g = this.getGraphics();
+		if (!screenshot) {
+			g = this.getGraphics();
+		}
 
 		if (image != null) 
 		{
 			g.drawImage(
 					image, 0, 0, null);
 		}
-
 	}
 
 	/**
@@ -111,9 +111,8 @@ public class ImagePanel extends JPanel implements MouseListener
 	 * each adjacent vertex
 	 * @param shape
 	 */
-	private void drawShape(Shape shape) 
+	private void drawShape(Graphics g, Shape shape) 
 	{
-		Graphics2D g = (Graphics2D) this.getGraphics();
 		g.setColor(shape.getColor());
 		ArrayList<Vertex> vertices = shape.getVertices();
 		int size = vertices.size();
@@ -137,7 +136,7 @@ public class ImagePanel extends JPanel implements MouseListener
 	 */
 	public void drawLine(Vertex v1, Vertex v2, Color color) 
 	{
-		
+
 		Graphics2D g = (Graphics2D) this.getGraphics();
 		g.setColor(color);
 		g.drawLine(v2.getX(), v2.getY(), v1.getX(), v1.getY());
@@ -163,7 +162,7 @@ public class ImagePanel extends JPanel implements MouseListener
 		Vertex vertex = new Vertex(arg0.getX(), arg0.getY());
 		if (shapes.size() == 0)
 		{
-				// TODO: Check necessary?
+			// TODO: Check necessary?
 		}
 		else if (arg0.getX() < image.getWidth() - vertex.getRadius()  && arg0.getY() < image.getWidth() - vertex.getRadius()) 
 		{
@@ -199,6 +198,26 @@ public class ImagePanel extends JPanel implements MouseListener
 	public void mouseReleased(MouseEvent arg0) 
 	{
 		// TODO Auto-generated method stub
+	}
+
+	public BufferedImage getScreenshot() {
+		BufferedImage image = new BufferedImage(
+				this.getWidth(),
+				this.getHeight(),
+				BufferedImage.TYPE_INT_RGB
+				);
+		// call the Component's paint method, using
+		// the Graphics object of the image.
+		this.displayImage(image.getGraphics(), true);
+
+		File file = new File("BLAH");
+		try {
+			ImageIO.write(image, "png", file);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return image;
 	}
 
 }

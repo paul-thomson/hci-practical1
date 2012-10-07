@@ -4,11 +4,13 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.swing.BoxLayout;
@@ -27,7 +29,7 @@ public class MainWindow extends JFrame
 	ImagePanel imagePanel;
 	Toolbox toolbox;
 	Dimension minimumSize = new Dimension(1000,600);
-	String imageName = "res/kirby.jpg";
+	String imageName = "res/kirbycrop.jpg";
 	ShapeData shapeData = new ShapeData();
 
 	/**
@@ -128,6 +130,12 @@ public class MainWindow extends JFrame
 					Shape lastShape = shapeData.endShape(shapeData.getIndex());
 					
 					if (lastShape != null) {
+						// screenshot
+						BufferedImage screenshot = imagePanel.getScreenshot();
+						
+						Rectangle r = lastShape.getBoundingBox();
+						lastShape.setThumbnail(screenshot.getSubimage(r.x,r.y,r.width,r.height));
+						System.out.println("r.x: " + r.x + "r.y: " + r.y);
 						imagePanel.drawLine(lastShape.get(lastShape.size() - 2), lastShape.get(0), lastShape.getColor());
 						shapeData.addShape(new Shape());	
 					}

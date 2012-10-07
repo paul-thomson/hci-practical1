@@ -1,5 +1,4 @@
 package main;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
@@ -12,7 +11,7 @@ import data.ShapeData;
 
 public class ShapeList extends JPanel {
 
-	DefaultListModel listModel = new DefaultListModel();
+	static DefaultListModel listModel = new DefaultListModel();
 	
 	/**
 	 * Create the panel.
@@ -32,12 +31,13 @@ public class ShapeList extends JPanel {
 		add(list);
 	}
 	
-	public void removeShape(int index) {
+	public static void removeShape(int index) {
 		listModel.remove(index);
 	}
 	
-	public void addShape(Shape shape) {
+	public static void addShape(Shape shape) {
 		listModel.addElement(shape);
+		System.out.println(listModel.getSize());
 	}
 
 }

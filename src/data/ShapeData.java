@@ -3,6 +3,8 @@ package data;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import main.ShapeList;
+
 public class ShapeData {
 	
 	/** Tells us which shape is currently selected */
@@ -43,6 +45,7 @@ public class ShapeData {
 		shape.setColor(shapeColor);
 		shapes.add(shape);
 		selectShape(shapes.size() - 1);
+		ShapeList.addShape(shape);
 	}
 	
 	public void selectShape(int newIndex) {

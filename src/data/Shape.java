@@ -1,6 +1,10 @@
 package data;
 
 import java.awt.Color;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 /**
@@ -11,7 +15,8 @@ public class Shape
 
 	private ArrayList<Vertex> vertices;
 	private Color color;
-	private String label;
+	private String label = "Default Label";
+	private BufferedImage thumbnail = null;
 
 	public Shape() 
 	{
@@ -36,6 +41,24 @@ public class Shape
 	{
 		this.vertices = vertices;
 	}
+	
+	public Rectangle getBoundingBox() 
+	{
+		int xMax = 0;
+		int xMin = Integer.MAX_VALUE;
+		int yMax = 0;
+		int yMin = Integer.MAX_VALUE;
+		for (Vertex vertex : vertices)
+		{
+			xMax = Math.max(xMax, vertex.getX());
+			xMin = Math.min(xMin, vertex.getX());
+			yMax = Math.max(yMax, vertex.getY());
+			yMin = Math.min(yMin, vertex.getY());
+			
+		}
+		System.out.println("xMin: " + xMin + "yMin: " + yMin + "xMax: " + xMax + "yMax: " + yMax);
+		return  new Rectangle(xMin, yMin, xMax - xMin, yMax - yMin);
+	}
 
 	public Color getColor() 
 	{
@@ -56,6 +79,16 @@ public class Shape
 	{
 		this.label = label;
 	}
+	
+	public BufferedImage getThumbnail()
+	{
+		return thumbnail;
+	}
+	
+	public void setThumbnail(BufferedImage thumbnail) 
+	{
+		this.thumbnail = thumbnail;
+	}
 
 	public Vertex get(int index) 
 	{
@@ -65,6 +98,7 @@ public class Shape
 	public void add(Vertex vertex) 
 	{
 		vertices.add(vertex);
+		System.out.println("x: " + vertex.getX() + " y: " + vertex.getY());
 
 	}
 

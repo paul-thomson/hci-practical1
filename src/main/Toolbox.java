@@ -6,8 +6,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
 
 import data.Shape;
 import data.ShapeData;
@@ -27,6 +29,13 @@ public class Toolbox extends JPanel
 
 		ShapeList shapeList = new ShapeList(shapeData);
 		JScrollPane scrollPane = new JScrollPane(shapeList);
+		
+//		JList list = new JList(new String[]{"lol","lol2"}); //data has type Object[]
+//		list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+//		list.setLayoutOrientation(JList.VERTICAL_WRAP);
+//		list.setVisibleRowCount(-1);
+//		JScrollPane scrollPane = new JScrollPane(list);
+		scrollPane.setPreferredSize(new Dimension(200, 600));
 
 		JButton btnNewObject = new JButton("New Object");
 		btnNewObject.addActionListener(new ActionListener() 
