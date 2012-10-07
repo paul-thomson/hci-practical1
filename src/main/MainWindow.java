@@ -9,14 +9,20 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.io.IOException;
 
 import javax.swing.BoxLayout;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import data.Shape;
 import data.ShapeData;
+import fileio.FileIOPanel;
+import fileio.ImagePreview;
+import fileio.TypeFilter;
+import fileio.ViewFile;
 
 
 public class MainWindow extends JFrame
@@ -29,6 +35,7 @@ public class MainWindow extends JFrame
 	Dimension minimumSize = new Dimension(1000,600);
 	String imageName = "res/kirby.jpg";
 	ShapeData shapeData = new ShapeData();
+	JFileChooser fc;
 
 	/**
 	 * Create the panel.
@@ -68,26 +75,116 @@ public class MainWindow extends JFrame
 		toolbox = new Toolbox(shapeData, 
 				// changeColor
 				new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				shapeData.setColor(ColorEnum.getColor(arg0.getActionCommand()));
+				repaint();
+			}},
+			
+			// NEW IMAGE
+			new ActionListener(){
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					shapeData.setColor(ColorEnum.getColor(arg0.getActionCommand()));
-					repaint();
+					if (fc == null) {
+						fc = new JFileChooser();
+
+						//Add a custom file filter
+						fc.addChoosableFileFilter(new TypeFilter(1));
+						fc.addChoosableFileFilter(new TypeFilter(0));
+						fc.setAcceptAllFileFilterUsed(true);
+
+						//Add custom icons for file types.
+						fc.setFileView(new ViewFile());
+
+						//Add the preview pane.
+						fc.setAccessory(new ImagePreview(fc));
+					}
+
+					//Show it.
+					int returnVal = fc.showDialog(MainWindow.this,
+							"Opening New Image");
+
+					//Process the results.
+					if (returnVal == JFileChooser.APPROVE_OPTION) {
+						String file = fc.getSelectedFile().getPath();
+						
+						try {
+							// TODO SAVE BEFORE NEW PROJECT
+							shapeData = new ShapeData();
+							imagePanel.newImage(file, shapeData);
+							toolbox.changeShapeData(shapeData);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+					//Reset the file chooser for the next time it's shown.
+					fc.setSelectedFile(null);
 				}},
-				// newFile -- TODO (save current session?: etc.)
+				
+				// SAVE SESSION
 				new ActionListener(){
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-				}},
-				// save
-				new ActionListener(){
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-				}},
-				// load
-				new ActionListener(){
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-				}});
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						if (fc == null) {
+							fc = new JFileChooser();
+
+							//Add a custom file filter
+							fc.addChoosableFileFilter(new TypeFilter(1));
+							fc.addChoosableFileFilter(new TypeFilter(0));
+							fc.setAcceptAllFileFilterUsed(false);
+
+							//Add custom icons for file types.
+							fc.setFileView(new ViewFile());
+
+							//Add the preview pane.
+							fc.setAccessory(new ImagePreview(fc));
+						}
+
+						//Show it.
+						int returnVal = fc.showDialog(MainWindow.this,
+								"Saving Session");
+
+						//Process the results.
+						if (returnVal == JFileChooser.APPROVE_OPTION) {
+							File file = fc.getSelectedFile();
+						} else {
+						}
+						//Reset the file chooser for the next time it's shown.
+						fc.setSelectedFile(null);
+					}},
+					
+					// LOAD SESSION
+					new ActionListener(){
+						@Override
+						public void actionPerformed(ActionEvent arg0) {
+							if (fc == null) {
+								fc = new JFileChooser();
+
+								//Add a custom file filter
+								fc.addChoosableFileFilter(new TypeFilter(1));
+								fc.addChoosableFileFilter(new TypeFilter(0));
+								fc.setAcceptAllFileFilterUsed(false);
+
+								//Add custom icons for file types.
+								fc.setFileView(new ViewFile());
+
+								//Add the preview pane.
+								fc.setAccessory(new ImagePreview(fc));
+							}
+
+							//Show it.
+							int returnVal = fc.showDialog(MainWindow.this,
+									"Loading Session");
+
+							//Process the results.
+							if (returnVal == JFileChooser.APPROVE_OPTION) {
+								File file = fc.getSelectedFile();
+							} else {
+							}
+							//Reset the file chooser for the next time it's shown.
+							fc.setSelectedFile(null);
+						}});
 
 		try
 		{

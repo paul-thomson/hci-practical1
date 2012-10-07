@@ -11,22 +11,24 @@ import javax.swing.JScrollPane;
 
 import data.Shape;
 import data.ShapeData;
+import fileio.FileIOPanel;
 
 public class Toolbox extends JPanel 
 {
 
 	private static final long serialVersionUID = 1L;
+	ShapeData shapeData;
+	JButton btnNewObject = new JButton("New Object");
 	/**
 	 * Create the panel.
 	 */
 	public Toolbox(final ShapeData shapeData, ActionListener changeColor,
-			 ActionListener newFile,  ActionListener save,  ActionListener load) 
+			 ActionListener newFile, ActionListener save, ActionListener load) 
 	{		
+		this.shapeData = shapeData;
 		this.setPreferredSize(new Dimension(200,600));
-
 		setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
-		JButton btnNewObject = new JButton("New Object");
 		btnNewObject.addActionListener(new ActionListener() 
 		{
 			@Override
@@ -50,4 +52,17 @@ public class Toolbox extends JPanel
 		FileIOPanel fileIO = new FileIOPanel(newFile, save, load);
 		add(fileIO);
 	}
+	
+	public void changeShapeData(final ShapeData shapeData)
+	{
+		btnNewObject.addActionListener(new ActionListener() 
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) 
+			{
+				shapeData.addShape(new Shape());
+			}
+		});
+	}
+
 }
