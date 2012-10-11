@@ -46,7 +46,14 @@ public class ImagePanel extends JPanel implements MouseListener
 		setImage(imageName);
 		this.shapeData = shapeData;
 	}
-
+	
+	public void newImage(String imageName, ShapeData shapeData) throws IOException
+	{
+		setImage(imageName);
+		this.shapeData = shapeData;
+		this.repaint();
+	}
+	
 	@Override
 	public void paint(Graphics g) 
 	{

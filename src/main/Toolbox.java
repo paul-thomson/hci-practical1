@@ -13,16 +13,21 @@ import javax.swing.ListSelectionModel;
 
 import data.Shape;
 import data.ShapeData;
+import fileio.FileIOPanel;
 
 public class Toolbox extends JPanel 
 {
 
 	private static final long serialVersionUID = 1L;
+	ShapeData shapeData;
+	JButton btnNewObject = new JButton("New Object");
 	/**
 	 * Create the panel.
 	 */
-	public Toolbox(final ShapeData shapeData, ActionListener changeColor) 
+	public Toolbox(final ShapeData shapeData, ActionListener changeColor,
+			 ActionListener newFile, ActionListener save, ActionListener load) 
 	{		
+		this.shapeData = shapeData;
 		this.setPreferredSize(new Dimension(200,600));
 
 		setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
@@ -35,7 +40,7 @@ public class Toolbox extends JPanel
 //		list.setLayoutOrientation(JList.VERTICAL_WRAP);
 //		list.setVisibleRowCount(-1);
 //		JScrollPane scrollPane = new JScrollPane(list);
-		scrollPane.setPreferredSize(new Dimension(200, 600));
+		scrollPane.setPreferredSize(new Dimension(200, 300));
 
 		JButton btnNewObject = new JButton("New Object");
 		btnNewObject.addActionListener(new ActionListener() 
@@ -56,7 +61,22 @@ public class Toolbox extends JPanel
 
 		ColorPalette colourPalette = new ColorPalette(shapeData, changeColor);
 		add(colourPalette);
-		
 		add(scrollPane);
+		
+		FileIOPanel fileIO = new FileIOPanel(newFile, save, load);
+		add(fileIO);
 	}
+	
+	public void changeShapeData(final ShapeData shapeData)
+	{
+		btnNewObject.addActionListener(new ActionListener() 
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) 
+			{
+				shapeData.addShape(new Shape());
+			}
+		});
+	}
+
 }
