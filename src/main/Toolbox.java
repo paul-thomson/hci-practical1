@@ -42,7 +42,7 @@ public class Toolbox extends JPanel
 //		JScrollPane scrollPane = new JScrollPane(list);
 		scrollPane.setPreferredSize(new Dimension(200, 300));
 
-		JButton btnNewObject = new JButton("New Object");
+		btnNewObject = new JButton("New Object");
 		btnNewObject.addActionListener(new ActionListener() 
 		{
 			@Override
