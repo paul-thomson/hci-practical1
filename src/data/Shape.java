@@ -1,9 +1,9 @@
 package data;
 
 import java.awt.Color;
-import java.awt.Point;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Rectangle;
-import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -16,7 +16,8 @@ public class Shape
 	private ArrayList<Vertex> vertices;
 	private Color color;
 	private String label = "Default Label";
-	private BufferedImage thumbnail = null;
+	private int THUMB_SIZE = 50;
+	private Image thumbnail = new BufferedImage(THUMB_SIZE,THUMB_SIZE,BufferedImage.TYPE_INT_ARGB);
 
 	public Shape() 
 	{
@@ -80,14 +81,30 @@ public class Shape
 		this.label = label;
 	}
 	
-	public BufferedImage getThumbnail()
+	public Image getThumbnail()
 	{
 		return thumbnail;
 	}
 	
 	public void setThumbnail(BufferedImage thumbnail) 
 	{
-		this.thumbnail = thumbnail;
+
+		float max = Math.max(thumbnail.getHeight(), thumbnail.getWidth());
+		Image scaledImage = thumbnail.getScaledInstance((int)((thumbnail.getWidth()/max) * THUMB_SIZE), 
+				(int)((thumbnail.getHeight()/max) * THUMB_SIZE), 
+				Image.SCALE_FAST);
+		
+		BufferedImage newImage = new BufferedImage(THUMB_SIZE,THUMB_SIZE,BufferedImage.TYPE_INT_ARGB);
+
+		Graphics g = newImage.getGraphics();
+
+		g.setColor(new Color(0, 0, 0, 0));
+		int startX = (int) (THUMB_SIZE - ((thumbnail.getWidth()/max) * THUMB_SIZE))/2;
+		int startY = (int) (THUMB_SIZE - ((thumbnail.getHeight()/max) * THUMB_SIZE))/2;
+		g.drawImage(scaledImage, startX, startY, null);
+		g.dispose();
+		
+		this.thumbnail = newImage;
 	}
 
 	public Vertex get(int index) 
@@ -98,7 +115,6 @@ public class Shape
 	public void add(Vertex vertex) 
 	{
 		vertices.add(vertex);
-		System.out.println("x: " + vertex.getX() + " y: " + vertex.getY());
 
 	}
 
