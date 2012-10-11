@@ -216,13 +216,6 @@ public class ImagePanel extends JPanel implements MouseListener
 		// the Graphics object of the image.
 		this.displayImage(image.getGraphics(), true);
 
-		File file = new File("BLAH");
-		try {
-			ImageIO.write(image, "png", file);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		return image;
 	}
 
