@@ -147,6 +147,7 @@ public class MainWindow extends JFrame
 
 						//Process the results.
 						if (returnVal == JFileChooser.APPROVE_OPTION) {
+							// TODO FUNCTIONALITY
 							File file = fc.getSelectedFile();
 						} else {
 						}
@@ -179,6 +180,7 @@ public class MainWindow extends JFrame
 
 							//Process the results.
 							if (returnVal == JFileChooser.APPROVE_OPTION) {
+								// TODO FUNCTIONALITY
 								File file = fc.getSelectedFile();
 							} else {
 							}
