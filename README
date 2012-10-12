@@ -1,10 +1,10 @@
 Next time:
 
-1) Deal with exceptions:
-			pressing enter with no vertex,
-			stop from continuing previous object
-2) Make move command
-3) Colours
-4) Add labelling
-5) IO: save and load labels/images
-6) ...
+1) Move command
+2) Labelling
+3) Finish FileIO:
+				decide on file format
+				write/read sessions
+				exception handling (e.g. specify file types)
+4) Undo/redp
+5) Deal with ending a shape with only one vertex

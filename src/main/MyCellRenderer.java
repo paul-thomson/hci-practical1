@@ -33,17 +33,8 @@ public class MyCellRenderer extends JPanel implements ListCellRenderer {
 		JLabel label = new JLabel();
 		label.setText(this.shape.getLabel());
 		label.setOpaque(true);
-		
-		
-		BufferedImage thumbnail = this.shape.getThumbnail();
-		if (thumbnail != null) {
-			float max = Math.max(thumbnail.getHeight(), thumbnail.getWidth());
-			int largestDimension = 50;
-			Image scaledImage = thumbnail.getScaledInstance((int)((thumbnail.getWidth()/max) * largestDimension), 
-					(int)((thumbnail.getHeight()/max) * largestDimension), 
-					Image.SCALE_FAST);
-			label.setIcon(new ImageIcon(scaledImage));
-		}
+				
+		label.setIcon(new ImageIcon(this.shape.getThumbnail()));
 		
 		// had weird errors if this.add(label) was used, so just created panel instead
 		JPanel jp = new JPanel();

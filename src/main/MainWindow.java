@@ -55,9 +55,7 @@ public class MainWindow extends JFrame
 		manager.addKeyEventDispatcher(new MyDispatcher());
 
 		this.setMinimumSize(minimumSize);
-
 		mainPanel = new JPanel();
-		mainPanel.setBackground(Color.yellow);
 		this.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
 		this.setContentPane(mainPanel);
 
@@ -253,7 +251,6 @@ public class MainWindow extends JFrame
 						
 						Rectangle r = lastShape.getBoundingBox();
 						lastShape.setThumbnail(screenshot.getSubimage(r.x,r.y,r.width,r.height));
-						System.out.println("r.x: " + r.x + "r.y: " + r.y);
 						imagePanel.drawLine(lastShape.get(lastShape.size() - 2), lastShape.get(0), lastShape.getColor());
 						God.shapeData.addShape(new Shape());	
 					}
@@ -262,5 +259,4 @@ public class MainWindow extends JFrame
 			return false;
 		}
 	}
-
 }
