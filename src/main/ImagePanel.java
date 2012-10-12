@@ -16,7 +16,6 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import data.Shape;
-import data.ShapeData;
 import data.Vertex;
 
 public class ImagePanel extends JPanel implements MouseListener
@@ -30,8 +29,6 @@ public class ImagePanel extends JPanel implements MouseListener
 	/** The maximum size of the panel */
 	Dimension size = new Dimension(800,600);
 
-	ShapeData shapeData;
-
 	public ImagePanel()
 	{
 		addMouseListener(this);
@@ -40,17 +37,15 @@ public class ImagePanel extends JPanel implements MouseListener
 
 	}
 
-	public ImagePanel(String imageName, ShapeData shapeData) throws IOException
+	public ImagePanel(String imageName) throws IOException
 	{
 		this();
 		setImage(imageName);
-		this.shapeData = shapeData;
 	}
 	
-	public void newImage(String imageName, ShapeData shapeData) throws IOException
+	public void newImage(String imageName) throws IOException
 	{
 		setImage(imageName);
-		this.shapeData = shapeData;
 		this.repaint();
 	}
 	
@@ -60,7 +55,7 @@ public class ImagePanel extends JPanel implements MouseListener
 		super.paint(g);
 
 		displayImage(g, false);
-		ArrayList<Shape> shapes = shapeData.getShapes();
+		ArrayList<Shape> shapes = God.shapeData.getShapes();
 		for (Shape shape : shapes) 
 		{ 
 			drawShape(g, shape);
@@ -164,7 +159,7 @@ public class ImagePanel extends JPanel implements MouseListener
 	@Override
 	public void mouseClicked(MouseEvent arg0) 
 	{
-		ArrayList<Shape> shapes = shapeData.getShapes();
+		ArrayList<Shape> shapes = God.shapeData.getShapes();
 		Vertex vertex = new Vertex(arg0.getX(), arg0.getY());
 		if (shapes.size() == 0)
 		{

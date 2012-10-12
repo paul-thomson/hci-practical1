@@ -2,37 +2,36 @@ package main;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JButton;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.ListSelectionModel;
 
 import data.Shape;
-import data.ShapeData;
 import fileio.FileIOPanel;
 
 public class Toolbox extends JPanel 
 {
 
 	private static final long serialVersionUID = 1L;
-	ShapeData shapeData;
 	JButton btnNewObject = new JButton("New Object");
+	JButton btnSelectObject = new JButton("Move Object");
+	ShapeList shapeList = null;
 	/**
 	 * Create the panel.
 	 */
-	public Toolbox(final ShapeData shapeData, ActionListener changeColor,
+	public Toolbox(ActionListener changeColor,
 			 ActionListener newFile, ActionListener save, ActionListener load) 
 	{		
-		this.shapeData = shapeData;
 		this.setPreferredSize(new Dimension(200,600));
 
 		setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
-		ShapeList shapeList = new ShapeList(shapeData);
+		shapeList = new ShapeList(God.shapeData);
 		JScrollPane scrollPane = new JScrollPane(shapeList);
 		
 //		JList list = new JList(new String[]{"lol","lol2"}); //data has type Object[]
@@ -48,35 +47,46 @@ public class Toolbox extends JPanel
 			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
-				if (shapeData.getShapes().size() != 0) {
-					shapeData.endShape(shapeData.getIndex());
+				
+				
+				if (God.shapeData.getShapes().size() != 0) {
+					God.shapeData.endShape(God.shapeData.getIndex());
+					Shape lastShape = God.shapeData.endShape(God.shapeData.getIndex());
+
+					if (lastShape != null) {
+						// screenshot
+						BufferedImage screenshot = God.imagePanel.getScreenshot();
+						
+						Rectangle r = lastShape.getBoundingBox();
+						lastShape.setThumbnail(screenshot.getSubimage(r.x,r.y,r.width,r.height));
+						System.out.println("r.x: " + r.x + "r.y: " + r.y);
+						God.imagePanel.drawLine(lastShape.get(lastShape.size() - 2), lastShape.get(0), lastShape.getColor());
+						God.mainWindow.repaint();
+					}
 				}
-				shapeData.addShape(new Shape());
+				God.shapeData.addShape(new Shape());
 			}
 		});
 		add(btnNewObject);
 
-		JButton btnSelectObject = new JButton("Move Object");
+		btnSelectObject = new JButton("Move Object");		
+		btnSelectObject.addActionListener(new ActionListener() 
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) 
+			{
+				
+			}
+		});
 		add(btnSelectObject);
 
-		ColorPalette colourPalette = new ColorPalette(shapeData, changeColor);
+		ColorPalette colourPalette = new ColorPalette(changeColor);
 		add(colourPalette);
 		add(scrollPane);
 		
 		FileIOPanel fileIO = new FileIOPanel(newFile, save, load);
 		add(fileIO);
-	}
-	
-	public void changeShapeData(final ShapeData shapeData)
-	{
-		btnNewObject.addActionListener(new ActionListener() 
-		{
-			@Override
-			public void actionPerformed(ActionEvent e) 
-			{
-				shapeData.addShape(new Shape());
-			}
-		});
+		God.setFileIOPanel(fileIO);
 	}
 
 }

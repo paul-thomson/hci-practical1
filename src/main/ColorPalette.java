@@ -7,8 +7,6 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import data.ShapeData;
-
 public class ColorPalette extends JPanel {
 	
 	/**
@@ -20,7 +18,7 @@ public class ColorPalette extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public ColorPalette(final ShapeData shapeData, ActionListener changeColor) {
+	public ColorPalette(ActionListener changeColor) {
 		
 		setLayout(new GridLayout(2,6));		
 

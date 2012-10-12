@@ -21,7 +21,6 @@ import javax.swing.JPanel;
 
 import data.Shape;
 import data.ShapeData;
-import fileio.FileIOPanel;
 import fileio.ImagePreview;
 import fileio.TypeFilter;
 import fileio.ViewFile;
@@ -35,8 +34,7 @@ public class MainWindow extends JFrame
 	ImagePanel imagePanel;
 	Toolbox toolbox;
 	Dimension minimumSize = new Dimension(1000,600);
-	String imageName = "res/kirby.jpg";
-	ShapeData shapeData = new ShapeData();
+	String imageName = "res/a.jpg";
 	JFileChooser fc;
 
 	/**
@@ -63,9 +61,12 @@ public class MainWindow extends JFrame
 		this.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
 		this.setContentPane(mainPanel);
 
+		God.setMainWindow(this);
+		God.setShapeData(new ShapeData());
+		
 		try 
 		{
-			imagePanel = new ImagePanel(imageName, shapeData);
+			imagePanel = new ImagePanel(imageName);
 		} 
 		catch (IOException e) 
 		{
@@ -74,12 +75,12 @@ public class MainWindow extends JFrame
 		}
 		imagePanel.setOpaque(true); //content panes must be opaque
 
-		toolbox = new Toolbox(shapeData, 
+		toolbox = new Toolbox( 
 				// changeColor
 				new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				shapeData.setColor(ColorEnum.getColor(arg0.getActionCommand()));
+				God.shapeData.setColor(ColorEnum.getColor(arg0.getActionCommand()));
 				repaint();
 			}},
 			
@@ -112,9 +113,9 @@ public class MainWindow extends JFrame
 						
 						try {
 							// TODO SAVE BEFORE NEW PROJECT
-							shapeData = new ShapeData();
-							imagePanel.newImage(file, shapeData);
-							toolbox.changeShapeData(shapeData);
+							ShapeData shapeData = new ShapeData();
+							God.shapeData = shapeData;
+							God.imagePanel.newImage(file);
 						} catch (IOException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -200,6 +201,9 @@ public class MainWindow extends JFrame
 			e.printStackTrace();
 		}
 
+		God.setImagePanel(imagePanel);
+		God.setToolBox(toolbox);
+
 		mainPanel.add(imagePanel);
 		mainPanel.add(toolbox);
 
@@ -223,7 +227,8 @@ public class MainWindow extends JFrame
 		try 
 		{
 			//creates a window and display the image
-			MainWindow window = new MainWindow();
+			//MainWindow window = new MainWindow();
+			new MainWindow();
 		} 
 		catch (Exception e) 
 		{
@@ -238,9 +243,9 @@ public class MainWindow extends JFrame
 		{
 			if (e.getID() == KeyEvent.KEY_TYPED) 
 			{
-				if (e.getKeyChar() == KeyEvent.VK_ENTER) 
+				if (e.getKeyChar() == KeyEvent.VK_ENTER ) 
 				{
-					Shape lastShape = shapeData.endShape(shapeData.getIndex());
+					Shape lastShape = God.shapeData.endShape(God.shapeData.getIndex());
 
 					if (lastShape != null) {
 						// screenshot
@@ -250,7 +255,7 @@ public class MainWindow extends JFrame
 						lastShape.setThumbnail(screenshot.getSubimage(r.x,r.y,r.width,r.height));
 						System.out.println("r.x: " + r.x + "r.y: " + r.y);
 						imagePanel.drawLine(lastShape.get(lastShape.size() - 2), lastShape.get(0), lastShape.getColor());
-						shapeData.addShape(new Shape());	
+						God.shapeData.addShape(new Shape());	
 					}
 				}
 			}
