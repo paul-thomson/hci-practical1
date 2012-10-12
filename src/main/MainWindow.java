@@ -21,7 +21,6 @@ import javax.swing.JPanel;
 
 import data.Shape;
 import data.ShapeData;
-import fileio.FileIOPanel;
 import fileio.ImagePreview;
 import fileio.TypeFilter;
 import fileio.ViewFile;
@@ -57,7 +56,6 @@ public class MainWindow extends JFrame
 		manager.addKeyEventDispatcher(new MyDispatcher());
 
 		this.setMinimumSize(minimumSize);
-
 		mainPanel = new JPanel();
 		this.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
 		this.setContentPane(mainPanel);

@@ -57,7 +57,7 @@ public class ImagePanel extends JPanel implements MouseListener
 	@Override
 	public void paint(Graphics g) 
 	{
-		super.paint(g);
+		super.paint(this.getGraphics());
 
 		displayImage(g, false);
 		ArrayList<Shape> shapes = shapeData.getShapes();
