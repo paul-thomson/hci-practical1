@@ -6,5 +6,5 @@ Next time:
 				decide on file format
 				write/read sessions
 				exception handling (e.g. specify file types)
-4) Undo/redp
+4) Undo/redo
 5) Deal with ending a shape with only one vertex
