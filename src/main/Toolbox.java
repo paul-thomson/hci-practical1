@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.border.EmptyBorder;
 
 import data.Shape;
 import fileio.FileIOPanel;
@@ -27,6 +28,7 @@ public class Toolbox extends JPanel
 	public Toolbox(ActionListener changeColor,
 			 ActionListener newFile, ActionListener save, ActionListener load) 
 	{		
+		this.setBorder(new EmptyBorder(5,5,5,5));
 		this.setPreferredSize(new Dimension(200,600));
 
 		setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
@@ -34,11 +36,6 @@ public class Toolbox extends JPanel
 		shapeList = new ShapeList(God.shapeData);
 		JScrollPane scrollPane = new JScrollPane(shapeList);
 		
-//		JList list = new JList(new String[]{"lol","lol2"}); //data has type Object[]
-//		list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-//		list.setLayoutOrientation(JList.VERTICAL_WRAP);
-//		list.setVisibleRowCount(-1);
-//		JScrollPane scrollPane = new JScrollPane(list);
 		scrollPane.setPreferredSize(new Dimension(200, 300));
 
 		btnNewObject = new JButton("New Object");
@@ -47,8 +44,6 @@ public class Toolbox extends JPanel
 			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
-				
-				
 				if (God.shapeData.getShapes().size() != 0) {
 					God.shapeData.endShape(God.shapeData.getIndex());
 					Shape lastShape = God.shapeData.endShape(God.shapeData.getIndex());
@@ -59,7 +54,6 @@ public class Toolbox extends JPanel
 						
 						Rectangle r = lastShape.getBoundingBox();
 						lastShape.setThumbnail(screenshot.getSubimage(r.x,r.y,r.width,r.height));
-						System.out.println("r.x: " + r.x + "r.y: " + r.y);
 						God.imagePanel.drawLine(lastShape.get(lastShape.size() - 2), lastShape.get(0), lastShape.getColor());
 						God.mainWindow.repaint();
 					}
