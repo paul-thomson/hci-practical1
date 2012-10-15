@@ -4,18 +4,14 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
 import javax.swing.JPanel;
-import javax.swing.text.LayeredHighlighter;
 
 import data.MoveVertex;
 import data.Shape;
@@ -221,11 +217,13 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 	{
 		if(God.moveMode)
 		{
-			
 			// Redraw vertex
-			God.shapeData.shapes.get(God.moveVertex.getShape()).remove(God.moveVertex.getVertex());
-			God.shapeData.shapes.get(God.moveVertex.getShape()).addAt(God.moveVertex.getVertex(), new Vertex(e.getX(), e.getY()));
-			God.layeredPanel.paint(this.getGraphics());
+			if (God.image_dimension[0] > e.getX() && God.image_dimension[1] > e.getY())
+			{
+				God.shapeData.shapes.get(God.moveVertex.getShape()).remove(God.moveVertex.getVertex());
+				God.shapeData.shapes.get(God.moveVertex.getShape()).addAt(God.moveVertex.getVertex(), new Vertex(e.getX(), e.getY()));
+				God.layeredPanel.paint(this.getGraphics());
+			}
 		}
 	}
 

@@ -25,8 +25,7 @@ public class Toolbox extends JPanel
 	/**
 	 * Create the panel.
 	 */
-	public Toolbox(ActionListener changeColor,
-			 ActionListener newFile, ActionListener save, ActionListener load) 
+	public Toolbox(ActionListener changeColor) 
 	{		
 		this.setBorder(new EmptyBorder(5,5,5,5));
 		this.setPreferredSize(new Dimension(200,600));
@@ -35,7 +34,7 @@ public class Toolbox extends JPanel
 
 		shapeList = new ShapeList(God.shapeData);
 		JScrollPane scrollPane = new JScrollPane(shapeList);
-		
+
 		scrollPane.setPreferredSize(new Dimension(200, 300));
 
 		btnNewObject = new JButton("New Object");
@@ -52,7 +51,7 @@ public class Toolbox extends JPanel
 					if (lastShape != null) {
 						// screenshot
 						BufferedImage screenshot = God.imagePanel.getScreenshot();
-						
+
 						Rectangle r = lastShape.getBoundingBox();
 						lastShape.setThumbnail(screenshot.getSubimage(r.x,r.y,r.width,r.height));
 						God.vertexPanel.drawLine(lastShape.get(lastShape.size() - 2), lastShape.get(0), lastShape.getColor());
@@ -70,7 +69,7 @@ public class Toolbox extends JPanel
 			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
-					God.moveMode = true;
+				God.moveMode = true;
 			}
 		});
 		add(btnSelectObject);
@@ -78,8 +77,8 @@ public class Toolbox extends JPanel
 		ColorPalette colourPalette = new ColorPalette(changeColor);
 		add(colourPalette);
 		add(scrollPane);
-		
-		FileIOPanel fileIO = new FileIOPanel(newFile, save, load);
+
+		FileIOPanel fileIO = new FileIOPanel();
 		add(fileIO);
 		God.fileIOPanel = fileIO;
 	}

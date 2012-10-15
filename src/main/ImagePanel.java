@@ -3,9 +3,6 @@ package main;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -13,11 +10,9 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-public class ImagePanel extends JPanel implements MouseListener, MouseMotionListener
+public class ImagePanel extends JPanel
 {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	/** The image to display in this panel */
 	BufferedImage image;
@@ -28,7 +23,6 @@ public class ImagePanel extends JPanel implements MouseListener, MouseMotionList
 	{
 		this.setVisible(true);
 		this.setPreferredSize(size);
-
 	}
 
 	public ImagePanel(String imageName) throws IOException
@@ -36,13 +30,13 @@ public class ImagePanel extends JPanel implements MouseListener, MouseMotionList
 		this();
 		setImage(imageName);
 	}
-	
+
 	public void newImage(String imageName) throws IOException
 	{
 		setImage(imageName);
-		this.repaint();
+		this.paintComponent(this.getGraphics());
 	}
-	
+
 	@Override
 	public void paintComponent(Graphics g) 
 	{
@@ -55,12 +49,6 @@ public class ImagePanel extends JPanel implements MouseListener, MouseMotionList
 	 */
 	private void displayImage(Graphics g, boolean screenshot)
 	{
-		
-//		if (!screenshot) {
-//			
-//			g = this.getGraphics();
-//		}
-
 		if (image != null) 
 		{
 			g.drawImage(
@@ -76,11 +64,17 @@ public class ImagePanel extends JPanel implements MouseListener, MouseMotionList
 	 */
 	public void setImage(String path) throws IOException
 	{
-
+		// Set image to file path
 		image = ImageIO.read(new File(path));
 		int width = (int) size.getWidth();
 		int height = (int) size.getHeight();
-		if (image.getWidth() > width || image.getHeight() > height) 
+
+		// Get image dimenions and store statically
+		God.image_dimension[0] = image.getWidth();
+		God.image_dimension[1] = image.getHeight();
+
+		// Scaling image
+		if (God.image_dimension[0] > width || God.image_dimension[1] > height) 
 		{
 			int newWidth = image.getWidth() > width ? 
 					width : 
@@ -96,6 +90,7 @@ public class ImagePanel extends JPanel implements MouseListener, MouseMotionList
 			image.getGraphics().drawImage(scaledImage, 0, 0, this);
 		}
 	}
+
 	public BufferedImage getScreenshot() {
 		BufferedImage image = new BufferedImage(
 				this.image.getWidth(),
@@ -108,43 +103,4 @@ public class ImagePanel extends JPanel implements MouseListener, MouseMotionList
 
 		return image;
 	}
-
-	@Override
-	public void mouseDragged(MouseEvent arg0) {
-		God.vertexPanel.mouseDragged(arg0);
-		
-	}
-
-	@Override
-	public void mouseMoved(MouseEvent arg0) {
-		God.vertexPanel.mouseMoved(arg0);		
-	}
-
-	@Override
-	public void mouseClicked(MouseEvent arg0) {
-		God.vertexPanel.mouseClicked(arg0);		
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent arg0) {
-		God.vertexPanel.mouseEntered(arg0);		
-	}
-
-	@Override
-	public void mouseExited(MouseEvent arg0) {
-		God.vertexPanel.mouseExited(arg0);		
-	}
-
-	@Override
-	public void mousePressed(MouseEvent arg0) {
-		God.vertexPanel.mousePressed(arg0);		
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent arg0) {
-		God.vertexPanel.mouseReleased(arg0);		
-	}
-	
-	
-
 }
