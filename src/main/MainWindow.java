@@ -1,5 +1,5 @@
 package main;
-import java.awt.Color;
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.KeyEventDispatcher;
@@ -8,6 +8,9 @@ import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
@@ -55,13 +58,17 @@ public class MainWindow extends JFrame
 		manager.addKeyEventDispatcher(new MyDispatcher());
 
 		this.setMinimumSize(minimumSize);
+
+
+
 		mainPanel = new JPanel();
+
 		this.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
 		this.setContentPane(mainPanel);
 
-		God.setMainWindow(this);
-		God.setShapeData(new ShapeData());
-		
+		God.mainWindow = this;
+		God.shapeData = new ShapeData();
+
 		try 
 		{
 			imagePanel = new ImagePanel(imageName);
@@ -76,87 +83,13 @@ public class MainWindow extends JFrame
 		toolbox = new Toolbox( 
 				// changeColor
 				new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				God.shapeData.setColor(ColorEnum.getColor(arg0.getActionCommand()));
-				repaint();
-			}},
-			
-			// NEW IMAGE
-			new ActionListener(){
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					if (fc == null) {
-						fc = new JFileChooser();
-
-						//Add a custom file filter
-						fc.addChoosableFileFilter(new TypeFilter(1));
-						fc.addChoosableFileFilter(new TypeFilter(0));
-						fc.setAcceptAllFileFilterUsed(true);
-
-						//Add custom icons for file types.
-						fc.setFileView(new ViewFile());
-
-						//Add the preview pane.
-						fc.setAccessory(new ImagePreview(fc));
-					}
-
-					//Show it.
-					int returnVal = fc.showDialog(MainWindow.this,
-							"Opening New Image");
-
-					//Process the results.
-					if (returnVal == JFileChooser.APPROVE_OPTION) {
-						String file = fc.getSelectedFile().getPath();
-						
-						try {
-							// TODO SAVE BEFORE NEW PROJECT
-							ShapeData shapeData = new ShapeData();
-							God.shapeData = shapeData;
-							God.imagePanel.newImage(file);
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-					//Reset the file chooser for the next time it's shown.
-					fc.setSelectedFile(null);
-				}},
-				
-				// SAVE SESSION
-				new ActionListener(){
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
-						if (fc == null) {
-							fc = new JFileChooser();
-
-							//Add a custom file filter
-							fc.addChoosableFileFilter(new TypeFilter(1));
-							fc.addChoosableFileFilter(new TypeFilter(0));
-							fc.setAcceptAllFileFilterUsed(false);
-
-							//Add custom icons for file types.
-							fc.setFileView(new ViewFile());
-
-							//Add the preview pane.
-							fc.setAccessory(new ImagePreview(fc));
-						}
-
-						//Show it.
-						int returnVal = fc.showDialog(MainWindow.this,
-								"Saving Session");
-
-						//Process the results.
-						if (returnVal == JFileChooser.APPROVE_OPTION) {
-							// TODO FUNCTIONALITY
-							File file = fc.getSelectedFile();
-						} else {
-						}
-						//Reset the file chooser for the next time it's shown.
-						fc.setSelectedFile(null);
+						God.shapeData.setColor(ColorEnum.getColor(arg0.getActionCommand()));
+						repaint();
 					}},
-					
-					// LOAD SESSION
+
+					// NEW IMAGE
 					new ActionListener(){
 						@Override
 						public void actionPerformed(ActionEvent arg0) {
@@ -166,7 +99,7 @@ public class MainWindow extends JFrame
 								//Add a custom file filter
 								fc.addChoosableFileFilter(new TypeFilter(1));
 								fc.addChoosableFileFilter(new TypeFilter(0));
-								fc.setAcceptAllFileFilterUsed(false);
+								fc.setAcceptAllFileFilterUsed(true);
 
 								//Add custom icons for file types.
 								fc.setFileView(new ViewFile());
@@ -177,17 +110,91 @@ public class MainWindow extends JFrame
 
 							//Show it.
 							int returnVal = fc.showDialog(MainWindow.this,
-									"Loading Session");
+									"Opening New Image");
 
 							//Process the results.
 							if (returnVal == JFileChooser.APPROVE_OPTION) {
-								// TODO FUNCTIONALITY
-								File file = fc.getSelectedFile();
-							} else {
+								String file = fc.getSelectedFile().getPath();
+
+								try {
+									// TODO SAVE BEFORE NEW PROJECT
+									ShapeData shapeData = new ShapeData();
+									God.shapeData = shapeData;
+									God.imagePanel.newImage(file);
+								} catch (IOException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
 							}
 							//Reset the file chooser for the next time it's shown.
 							fc.setSelectedFile(null);
-						}});
+						}},
+
+						// SAVE SESSION
+						new ActionListener(){
+							@Override
+							public void actionPerformed(ActionEvent arg0) {
+								if (fc == null) {
+									fc = new JFileChooser();
+
+									//Add a custom file filter
+									fc.addChoosableFileFilter(new TypeFilter(1));
+									fc.addChoosableFileFilter(new TypeFilter(0));
+									fc.setAcceptAllFileFilterUsed(false);
+
+									//Add custom icons for file types.
+									fc.setFileView(new ViewFile());
+
+									//Add the preview pane.
+									fc.setAccessory(new ImagePreview(fc));
+								}
+
+								//Show it.
+								int returnVal = fc.showDialog(MainWindow.this,
+										"Saving Session");
+
+								//Process the results.
+								if (returnVal == JFileChooser.APPROVE_OPTION) {
+									// TODO FUNCTIONALITY
+									File file = fc.getSelectedFile();
+								} else {
+								}
+								//Reset the file chooser for the next time it's shown.
+								fc.setSelectedFile(null);
+							}},
+
+							// LOAD SESSION
+							new ActionListener(){
+								@Override
+								public void actionPerformed(ActionEvent arg0) {
+									if (fc == null) {
+										fc = new JFileChooser();
+
+										//Add a custom file filter
+										fc.addChoosableFileFilter(new TypeFilter(1));
+										fc.addChoosableFileFilter(new TypeFilter(0));
+										fc.setAcceptAllFileFilterUsed(false);
+
+										//Add custom icons for file types.
+										fc.setFileView(new ViewFile());
+
+										//Add the preview pane.
+										fc.setAccessory(new ImagePreview(fc));
+									}
+
+									//Show it.
+									int returnVal = fc.showDialog(MainWindow.this,
+											"Loading Session");
+
+									//Process the results.
+									if (returnVal == JFileChooser.APPROVE_OPTION) {
+										// TODO FUNCTIONALITY
+										File file = fc.getSelectedFile();
+									} else {
+									}
+									//Reset the file chooser for the next time it's shown.
+									fc.setSelectedFile(null);
+								}});
 
 		try
 		{
@@ -199,22 +206,74 @@ public class MainWindow extends JFrame
 			e.printStackTrace();
 		}
 
-		God.setImagePanel(imagePanel);
-		God.setToolBox(toolbox);
+		God.imagePanel = imagePanel;
+		God.toolBox = toolbox;
 
-		mainPanel.add(imagePanel);
-		mainPanel.add(toolbox);
+		mainPanel.setLayout(new BorderLayout());
+		mainPanel.add(toolbox,BorderLayout.EAST);
+		VertexPanel vPanel = new VertexPanel();
+		God.vertexPanel = vPanel;
+		MyLayeredPane layeredPanel = new MyLayeredPane(new BorderLayout());
+		layeredPanel.imagePanel = imagePanel;
+		layeredPanel.vertexPanel = vPanel;
+		layeredPanel.add(imagePanel,BorderLayout.CENTER);
+		layeredPanel.add(vPanel,BorderLayout.CENTER);
+		God.layeredPanel = layeredPanel;
+		mainPanel.add(layeredPanel,BorderLayout.CENTER);
+		layeredPanel.addMouseListener(new MouseListener(){
 
+
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				God.vertexPanel.mouseClicked(arg0);		
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				God.vertexPanel.mouseEntered(arg0);		
+			}
+
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+				God.vertexPanel.mouseExited(arg0);		
+			}
+
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				God.vertexPanel.mousePressed(arg0);		
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+				God.vertexPanel.mouseReleased(arg0);		
+			}});
+		
+		layeredPanel.addMouseMotionListener(new MouseMotionListener(){
+
+			@Override
+			public void mouseDragged(MouseEvent arg0) {
+				God.vertexPanel.mouseDragged(arg0);
+			}
+
+			@Override
+			public void mouseMoved(MouseEvent arg0) {
+				God.vertexPanel.mouseMoved(arg0);		
+			}
+		});
 		this.pack();
 		this.setVisible(true);
-
 	}
 
 	@Override
 	public void paint(Graphics g) 
 	{
 		super.paint(g);
-		imagePanel.paint(g); //update image panel
+		if (imagePanel == null) {
+			System.out.println("SOIDJSIODJ");
+		}
+//				God.imagePanel.paintComponent(g); //update image panel
+//				God.vertexPanel.paintComponent(g);
+//		God.layeredPanel.paint(God.layeredPanel.getGraphics());
 	}
 
 	/**
@@ -248,10 +307,10 @@ public class MainWindow extends JFrame
 					if (lastShape != null) {
 						// screenshot
 						BufferedImage screenshot = imagePanel.getScreenshot();
-						
+
 						Rectangle r = lastShape.getBoundingBox();
 						lastShape.setThumbnail(screenshot.getSubimage(r.x,r.y,r.width,r.height));
-						imagePanel.drawLine(lastShape.get(lastShape.size() - 2), lastShape.get(0), lastShape.getColor());
+						God.vertexPanel.drawLine(lastShape.get(lastShape.size() - 2), lastShape.get(0), lastShape.getColor());
 						God.shapeData.addShape(new Shape());	
 					}
 				}

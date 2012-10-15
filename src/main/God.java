@@ -1,5 +1,8 @@
 package main;
 
+import javax.swing.JPanel;
+
+import data.MoveVertex;
 import data.ShapeData;
 import fileio.FileIOPanel;
 
@@ -10,31 +13,11 @@ public class God {
 	static Toolbox toolBox;
 	static FileIOPanel fileIOPanel;
 	static ShapeData shapeData;
-	
-	public static void setMainWindow(MainWindow mWindow)
-	{
-		mainWindow = mWindow;
-	}
-	
-	public static void setImagePanel(ImagePanel iPanel)
-	{
-		imagePanel = iPanel;
-	}
-	
-	public static void setToolBox(Toolbox tBox)
-	{
-		toolBox = tBox;
-	}
-
-	public static void setFileIOPanel(FileIOPanel fIOPanel)
-	{
-		fileIOPanel = fIOPanel;
-	}
-	
-	public static void setShapeData(ShapeData sData)
-	{
-		shapeData = sData;
-	}
+	static boolean moveMode = false;
+	static MoveVertex moveVertex;
+	static boolean release;
+	static VertexPanel vertexPanel;
+	static JPanel layeredPanel;
 	
 	public void reset()
 	{
@@ -43,6 +26,13 @@ public class God {
 		toolBox = null;
 		fileIOPanel = null;
 		shapeData = null;
+		moveVertex = null;
+		vertexPanel = null;
+	}
+	
+	public void resetMoveVertex()
+	{
+		moveVertex = null;
 	}
 
 

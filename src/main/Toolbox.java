@@ -44,6 +44,7 @@ public class Toolbox extends JPanel
 			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
+				God.moveMode = false;
 				if (God.shapeData.getShapes().size() != 0) {
 					God.shapeData.endShape(God.shapeData.getIndex());
 					Shape lastShape = God.shapeData.endShape(God.shapeData.getIndex());
@@ -54,7 +55,7 @@ public class Toolbox extends JPanel
 						
 						Rectangle r = lastShape.getBoundingBox();
 						lastShape.setThumbnail(screenshot.getSubimage(r.x,r.y,r.width,r.height));
-						God.imagePanel.drawLine(lastShape.get(lastShape.size() - 2), lastShape.get(0), lastShape.getColor());
+						God.vertexPanel.drawLine(lastShape.get(lastShape.size() - 2), lastShape.get(0), lastShape.getColor());
 						God.mainWindow.repaint();
 					}
 				}
@@ -69,7 +70,7 @@ public class Toolbox extends JPanel
 			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
-				
+					God.moveMode = true;
 			}
 		});
 		add(btnSelectObject);
@@ -80,7 +81,7 @@ public class Toolbox extends JPanel
 		
 		FileIOPanel fileIO = new FileIOPanel(newFile, save, load);
 		add(fileIO);
-		God.setFileIOPanel(fileIO);
+		God.fileIOPanel = fileIO;
 	}
 
 }

@@ -3,6 +3,7 @@ package data;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ public class Shape
 	{
 		this.vertices = vertices;
 	}
-	
+
 	public Rectangle getBoundingBox() 
 	{
 		int xMax = 0;
@@ -55,7 +56,7 @@ public class Shape
 			xMin = Math.min(xMin, vertex.getX());
 			yMax = Math.max(yMax, vertex.getY());
 			yMin = Math.min(yMin, vertex.getY());
-			
+
 		}
 		System.out.println("xMin: " + xMin + "yMin: " + yMin + "xMax: " + xMax + "yMax: " + yMax);
 		return  new Rectangle(xMin, yMin, xMax - xMin, yMax - yMin);
@@ -80,12 +81,12 @@ public class Shape
 	{
 		this.label = label;
 	}
-	
+
 	public Image getThumbnail()
 	{
 		return thumbnail;
 	}
-	
+
 	public void setThumbnail(BufferedImage thumbnail) 
 	{
 
@@ -93,7 +94,7 @@ public class Shape
 		Image scaledImage = thumbnail.getScaledInstance((int)((thumbnail.getWidth()/max) * THUMB_SIZE), 
 				(int)((thumbnail.getHeight()/max) * THUMB_SIZE), 
 				Image.SCALE_FAST);
-		
+
 		BufferedImage newImage = new BufferedImage(THUMB_SIZE,THUMB_SIZE,BufferedImage.TYPE_INT_ARGB);
 
 		Graphics g = newImage.getGraphics();
@@ -103,7 +104,7 @@ public class Shape
 		int startY = (int) (THUMB_SIZE - ((thumbnail.getHeight()/max) * THUMB_SIZE))/2;
 		g.drawImage(scaledImage, startX, startY, null);
 		g.dispose();
-		
+
 		this.thumbnail = newImage;
 	}
 
@@ -121,6 +122,24 @@ public class Shape
 	public int size() 
 	{
 		return vertices.size();
+	}
+
+	public void remove(int index)
+	{
+		vertices.remove(index);
+	}
+
+	public void addAt(int index, Vertex vertex)
+	{
+		vertices.add(index, vertex);
+	}
+	
+	public boolean contains(Vertex vertex) {
+		Polygon p = new Polygon();
+		for (Vertex v : vertices) { 
+			p.addPoint(v.getX(),v.getY());
+		}
+		return p.contains(vertex.getX(), vertex.getY());
 	}
 
 }
