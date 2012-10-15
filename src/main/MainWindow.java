@@ -20,6 +20,7 @@ import java.io.IOException;
 import javax.swing.BoxLayout;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import data.Shape;
@@ -311,6 +312,8 @@ public class MainWindow extends JFrame
 						Rectangle r = lastShape.getBoundingBox();
 						lastShape.setThumbnail(screenshot.getSubimage(r.x,r.y,r.width,r.height));
 						God.vertexPanel.drawLine(lastShape.get(lastShape.size() - 2), lastShape.get(0), lastShape.getColor());
+						String s = (String) JOptionPane.showInputDialog("Please enter label");
+						lastShape.setLabel(s);
 						God.shapeData.addShape(new Shape());	
 					}
 				}
