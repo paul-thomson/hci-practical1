@@ -19,7 +19,7 @@ public class God {
 	public static VertexPanel vertexPanel;
 	public static JPanel layeredPanel;
 	public static int[] image_dimension = new int[2];
-	
+
 	public void resetMoveVertex()
 	{
 		moveVertex = null;

@@ -14,6 +14,7 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -25,6 +26,9 @@ import javax.swing.JPanel;
 
 import data.Shape;
 import data.ShapeData;
+import fileio.ImagePreview;
+import fileio.TypeFilter;
+import fileio.ViewFile;
 
 
 public class MainWindow extends JFrame
@@ -208,7 +212,7 @@ public class MainWindow extends JFrame
 			return false;
 		}
 	}
-
+	
 	public void requestLabel() {
 		String s = (String) JOptionPane.showInputDialog("Please enter label");
 		ArrayList<Shape> shapes = God.shapeData.getShapes();

@@ -45,7 +45,6 @@ public class Toolbox extends JPanel
 			{
 				God.moveMode = false;
 				if (God.shapeData.getShapes().size() != 0) {
-					God.shapeData.endShape(God.shapeData.getIndex());
 					Shape lastShape = God.shapeData.endShape(God.shapeData.getIndex());
 
 					if (lastShape != null) {
