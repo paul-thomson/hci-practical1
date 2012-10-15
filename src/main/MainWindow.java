@@ -16,6 +16,7 @@ import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 import javax.swing.JFileChooser;
@@ -312,13 +313,19 @@ public class MainWindow extends JFrame
 						Rectangle r = lastShape.getBoundingBox();
 						lastShape.setThumbnail(screenshot.getSubimage(r.x,r.y,r.width,r.height));
 						God.vertexPanel.drawLine(lastShape.get(lastShape.size() - 2), lastShape.get(0), lastShape.getColor());
-						String s = (String) JOptionPane.showInputDialog("Please enter label");
-						lastShape.setLabel(s);
 						God.shapeData.addShape(new Shape());	
 					}
 				}
 			}
 			return false;
+		}
+	}
+	
+	public void requestLabel() {
+		String s = (String) JOptionPane.showInputDialog("Please enter label");
+		ArrayList<Shape> shapes = God.shapeData.getShapes();
+		if (s != null) {
+			shapes.get(shapes.size()-1).setLabel(s);
 		}
 	}
 }

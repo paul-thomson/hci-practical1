@@ -8,7 +8,7 @@ import fileio.FileIOPanel;
 
 public class God {
 	
-	static MainWindow mainWindow;
+	public static MainWindow mainWindow;
 	static ImagePanel imagePanel; 
 	static Toolbox toolBox;
 	static FileIOPanel fileIOPanel;
