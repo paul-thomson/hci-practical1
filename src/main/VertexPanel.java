@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Polygon;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -53,7 +54,7 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 	@Override
 	public void paintComponent(Graphics g) 
 	{
-		System.out.println("call2");
+		//	System.out.println("call2");
 		super.paintComponent(g);
 		ArrayList<Shape> shapes = God.shapeData.getShapes();
 		for (Shape shape : shapes) 
@@ -122,7 +123,7 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 	@Override
 	public void mouseClicked(MouseEvent arg0) 
 	{
-		if (!God.moveMode)
+		if (God.moveMode == 0)
 		{
 			ArrayList<Shape> shapes = God.shapeData.getShapes();
 			Vertex vertex = new Vertex(arg0.getX(), arg0.getY());
@@ -130,8 +131,9 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 			{
 				// TODO: Check necessary?
 			}
-			else if (arg0.getX() < God.image_dimension[0] - vertex.getRadius()  && arg0.getY() < God.image_dimension[1] - vertex.getRadius()) 
+			else if (arg0.getX() < God.imageDimension[0] - vertex.getRadius()  && arg0.getY() < God.imageDimension[1] - vertex.getRadius()) 
 			{
+				System.out.println("Point at : "+ arg0.getX() + " " + arg0.getY());
 				Shape lastShape = shapes.get(shapes.size() - 1);
 				drawVertex(vertex, lastShape.getColor());
 				if (lastShape.size() != 0) 
@@ -140,10 +142,6 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 				}
 				lastShape.add(vertex);
 			}
-		}
-		else
-		{
-			
 		}
 	}
 
@@ -162,16 +160,16 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 	@Override
 	public void mousePressed(MouseEvent arg0) 
 	{	
-		if(God.moveMode)
+		if(God.moveMode == 1)
 		{
-			Vertex Mouse = new Vertex(arg0.getX(), arg0.getY());
+			Vertex mouse = new Vertex(arg0.getX(), arg0.getY());
 
 			// stores closest vertex and shape index (0 vertex, 1 shape, 2 head vertex)
 			int [] candidate_vertex = new int[2];
 			int distance = Integer.MAX_VALUE;
 
 			// TODO Polygon moving 
-			if (Mouse.getX() < God.image_dimension[0] && Mouse.getY()< God.image_dimension[1]) 
+			if (mouse.getX() < God.imageDimension[0] && mouse.getY()< God.imageDimension[1]) 
 			{
 				/*** Finding vertex closest to mouse click ***/
 				ShapeData shapeData = God.shapeData;
@@ -182,26 +180,45 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 					for (int vertexIndex = 0; vertexIndex < shape.size(); vertexIndex++)
 					{
 						Vertex v = shape.get(vertexIndex);
-						if((EuclideanDistance(Mouse, v) < distance) 
-								&& (EuclideanDistance(Mouse, v) <= v.getRadius()))
+						if((EuclideanDistance(mouse, v) < distance) 
+								&& (EuclideanDistance(mouse, v) <= v.getRadius()))
 						{
 							candidate_vertex[0]= vertexIndex;
 							candidate_vertex[1]= shapeIndex;
-							distance = (int) EuclideanDistance(Mouse, v);
+							distance = (int) EuclideanDistance(mouse, v);
 						}
 					}
 				}
-				
+
 				// Vertex is start (and end) vertex, force vertex to be head
 				if(shapeData.getShape(candidate_vertex[1]).get(candidate_vertex[0]).
 						equals(shapeData.getShape(candidate_vertex[1]).getHead()))
 				{
 					candidate_vertex[0] = 0;
 				}
-				
+
 				if(distance == Integer.MAX_VALUE)
 				{
 					System.out.println("no candidate vertex found near mouse");
+					/*
+					// Check if mouse is within (contained) a polygon (first one to appear in list)
+					ArrayList<Shape> shapes = God.shapeData.getShapes();
+					for (int shapeIndex = 0; shapeIndex < shapes.size(); shapeIndex++)
+					{
+						Shape shape = shapes.get(shapeIndex);
+						if(shape.contains(Mouse))
+						{
+							// Move entire polygon 
+							God.moveMode = 2;
+							God.shapeIndex = shapeIndex;
+							God.polygonTranslation [0] = Mouse.getX();
+							God.polygonTranslation [1] = Mouse.getY();
+							System.out.println("moving entire polygon, mouse @ " + Mouse.getX() + " " + Mouse.getY());
+							break;
+
+						}
+					}
+					 */
 					return;
 				}
 				else
@@ -215,16 +232,23 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 	@Override
 	public void mouseReleased(MouseEvent arg0) 
 	{
-
+		/*
+		if(God.moveMode == 2)
+		{
+			System.out.println("no more moving");
+			God.moveMode = 1;
+		}
+		 */
 	}
 
 	@Override
 	public void mouseDragged(MouseEvent e) 
 	{
-		if(God.moveMode)
+		// Drag and move individual vertices
+		if(God.moveMode == 1 && God.moveVertex != null)
 		{
 			// If mouse is within image boundaries
-			if (God.image_dimension[0] > e.getX() && God.image_dimension[1] > e.getY())
+			if (God.imageDimension[0] > e.getX() && God.imageDimension[1] > e.getY())
 			{
 				// Redraw vertex
 				God.shapeData.shapes.get(God.moveVertex.getShape()).remove(God.moveVertex.getVertex());
@@ -238,12 +262,44 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 				God.layeredPanel.paint(this.getGraphics());
 			}
 		}
+		// Drag and move entire polygons DOESNT WORK
+		/*
+		else if(God.moveMode == 2)
+		{
+			System.out.println("moving porygon");
+			int xTranslate = e.getX() - God.polygonTranslation[0];
+			int yTranslate = e.getY() - God.polygonTranslation[1];
+			System.out.println("translation @ " + xTranslate + " " + yTranslate);
+			Shape shape = God.shapeData.getShape(God.shapeIndex);
+			for (int i = 0; i < shape.size(); i++)
+			{
+				int newX = shape.get(i).getX() + xTranslate;
+				int newY = shape.get(i).getY() + yTranslate;
+				System.out.println(newX + " " + newY);
+				shape.get(i).set(new Vertex(newX, newY));
+			}
+			God.polygonTranslation[0] = e.getX();
+			God.polygonTranslation[1] = e.getY();
+			God.layeredPanel.paint(this.getGraphics());
+		}
+		 */
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent e) 
 	{
-		// TODO Auto-generated method stub
+		/*
+		Vertex mouse = new Vertex(e.getX(), e.getY());
+		ArrayList<Shape> shapes = God.shapeData.getShapes();
+		for (int shapeIndex = 0; shapeIndex < shapes.size(); shapeIndex++)
+		{
+			Shape shape = shapes.get(shapeIndex);
+			if(shape.contains(mouse))
+			{
+				//Polygon poly = new Polygon(xpoints, ypoints, npoints)
+			}
+		}
+		*/
 	}
 
 }

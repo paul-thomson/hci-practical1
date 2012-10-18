@@ -75,11 +75,11 @@ public class ImagePanel extends JPanel
 		int height = (int) size.getHeight();
 
 		// Get image dimensions and store statically
-		God.image_dimension[0] = image.getWidth();
-		God.image_dimension[1] = image.getHeight();
+		God.imageDimension[0] = image.getWidth();
+		God.imageDimension[1] = image.getHeight();
 
 		// Scaling image
-		if (God.image_dimension[0] > width || God.image_dimension[1] > height) 
+		if (God.imageDimension[0] > width || God.imageDimension[1] > height) 
 		{
 			int newWidth = image.getWidth() > width ? 
 					width : 

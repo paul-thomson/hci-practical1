@@ -33,7 +33,8 @@ public class MainWindow extends JFrame
 	ImagePanel imagePanel;
 	Toolbox toolbox;
 	Dimension minimumSize = new Dimension(1000,600);
-	String imageName = "res/kirby.jpg";
+	//String imageName = "res/kirby.jpg";
+	String imageName = "res/a.jpg";
 	JFileChooser fc;
 
 	/**
@@ -177,7 +178,7 @@ public class MainWindow extends JFrame
 				// Delete vertex
 				if (e.getKeyChar() == KeyEvent.VK_DELETE || e.getKeyChar() == KeyEvent.VK_BACK_SPACE ) 
 				{
-					if (God.moveMode)
+					if (God.moveMode == 1)
 					{
 						if(God.moveVertex != null)
 						{

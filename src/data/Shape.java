@@ -116,7 +116,6 @@ public class Shape
 	public void add(Vertex vertex) 
 	{
 		vertices.add(vertex);
-
 	}
 
 	public int size() 

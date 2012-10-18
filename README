@@ -1,6 +1,10 @@
 Next time:
 
 1) Move command - Deleting vertices?
+		TODO: 	This is fine except the repainting part 
+				deleting vertices causes repaint to go wild
+				Moving entire polygons? Should we?
+				Highlighting polygons
 2) Labelling
 3) Finish FileIO:
 				decide on file format

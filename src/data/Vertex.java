@@ -25,6 +25,12 @@ public class Vertex
 	{
 		this.y = y;
 	}
+	
+	public void set(Vertex v) 
+	{
+		this.x = v.getX();
+		this.x = v.getY();
+	}
 
 	public int getX() 
 	{

@@ -67,11 +67,15 @@ public class ShapeData {
 	public Shape endShape(int index) 
 	{
 		if (shapes.size() > 0) {
-			if (shapes.get(index).size() > 0) {
+			if (shapes.get(index).size() > 2) {
 				Shape lastShape = shapes.get(index);
 				lastShape.add(lastShape.get(0));
 				God.requestLabel();
 				return lastShape;
+			}	
+			else
+			{
+				System.out.println("Need at least 3 vertices to make a shape polygon!");
 			}
 		}
 		return null;

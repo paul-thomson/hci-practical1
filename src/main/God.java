@@ -22,9 +22,17 @@ public class God {
 
 	// Data structure stuff
 	public static ShapeData shapeData;
-	public static boolean moveMode = false;
+	/**
+	 *  moveMode 	0 - STANDBY
+	 *  			1 - Move individual vertex
+	 *  			2 - Move entire polygons - Unnecessary?
+	 */			
+	public static int moveMode;
 	public static MoveVertex moveVertex;
-	public static int[] image_dimension = new int[2];
+	
+	//public static int shapeIndex;
+	//public static int[] polygonTranslation = new int[2];
+	public static int[] imageDimension = new int[2];
 
 	public static void resetMoveVertex()
 	{

@@ -46,7 +46,7 @@ public class Toolbox extends JPanel
 			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
-				God.moveMode = false;
+				God.moveMode = 0;
 				God.moveVertex = null;
 				if (God.shapeData.getShapes().size() != 0) {
 					Shape lastShape = God.shapeData.endShape(God.shapeData.getIndex());
@@ -74,7 +74,7 @@ public class Toolbox extends JPanel
 			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
-				God.moveMode = true;
+				God.moveMode = 1;
 			}
 		});
 		add(btnSelectObject);
