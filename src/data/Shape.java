@@ -141,5 +141,15 @@ public class Shape
 		}
 		return p.contains(vertex.getX(), vertex.getY());
 	}
+	
+	public Vertex getHead()
+	{
+		return vertices.get(0);
+	}
+	
+	public Vertex getTail()
+	{
+		return vertices.get(vertices.size() - 1);
+	}
 
 }

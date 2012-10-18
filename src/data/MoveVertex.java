@@ -15,7 +15,7 @@ public class MoveVertex
 	public MoveVertex(int[] index)
 	{
 		this.vertexIndex = index[0];
-		this.shapeIndex = index[1];
+		this.shapeIndex = index[1];		
 	}
 	
 	public int getVertex()

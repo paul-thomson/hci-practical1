@@ -19,8 +19,8 @@ public class Toolbox extends JPanel
 {
 
 	private static final long serialVersionUID = 1L;
-	JButton btnNewObject = new JButton("New Object");
-	JButton btnSelectObject = new JButton("Move Object");
+	JButton btnNewObject = new JButton("New Label");
+	JButton btnSelectObject = new JButton("Move");
 	ShapeList shapeList = null;
 	/**
 	 * Create the panel.
@@ -36,23 +36,26 @@ public class Toolbox extends JPanel
 		JScrollPane scrollPane = new JScrollPane(shapeList);
 
 		scrollPane.setPreferredSize(new Dimension(200, 300));
-
-		btnNewObject = new JButton("New Object");
+		
+		/***
+		 * New Label
+		 */ 
+		btnNewObject = new JButton("New Label");
 		btnNewObject.addActionListener(new ActionListener() 
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
 				God.moveMode = false;
+				God.moveVertex = null;
 				if (God.shapeData.getShapes().size() != 0) {
 					Shape lastShape = God.shapeData.endShape(God.shapeData.getIndex());
 
 					if (lastShape != null) {
-						// screenshot
 						BufferedImage screenshot = God.imagePanel.getScreenshot();
-
 						Rectangle r = lastShape.getBoundingBox();
 						lastShape.setThumbnail(screenshot.getSubimage(r.x,r.y,r.width,r.height));
+						
 						God.vertexPanel.drawLine(lastShape.get(lastShape.size() - 2), lastShape.get(0), lastShape.getColor());
 						God.mainWindow.repaint();
 					}
@@ -62,7 +65,10 @@ public class Toolbox extends JPanel
 		});
 		add(btnNewObject);
 
-		btnSelectObject = new JButton("Move Object");		
+		/***
+		 * Move
+		 */
+		btnSelectObject = new JButton("Move");
 		btnSelectObject.addActionListener(new ActionListener() 
 		{
 			@Override
@@ -72,7 +78,7 @@ public class Toolbox extends JPanel
 			}
 		});
 		add(btnSelectObject);
-
+		
 		ColorPalette colourPalette = new ColorPalette(changeColor);
 		add(colourPalette);
 		add(scrollPane);

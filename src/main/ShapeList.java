@@ -14,6 +14,7 @@ import data.ShapeData;
 
 public class ShapeList extends JPanel {
 
+	private static final long serialVersionUID = 1L;
 	static DefaultListModel listModel = new DefaultListModel();
 	JList list;
 	

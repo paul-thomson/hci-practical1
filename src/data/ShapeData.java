@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 import main.God;
-import main.MainWindow;
 import main.ShapeList;
 
 public class ShapeData {
@@ -71,7 +70,7 @@ public class ShapeData {
 			if (shapes.get(index).size() > 0) {
 				Shape lastShape = shapes.get(index);
 				lastShape.add(lastShape.get(0));
-				God.mainWindow.requestLabel();
+				God.requestLabel();
 				return lastShape;
 			}
 		}
@@ -81,4 +80,5 @@ public class ShapeData {
 	public Shape getShape(int index) {
 		return shapes.get(index);
 	}
+	
 }

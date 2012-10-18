@@ -31,10 +31,15 @@ public class ImagePanel extends JPanel
 		setImage(imageName);
 	}
 
+	/***
+	 * When loading a new image into system, set new image and repaint with new image.
+	 * @param imageName
+	 * @throws IOException
+	 */
 	public void newImage(String imageName) throws IOException
 	{
 		setImage(imageName);
-		this.paintComponent(this.getGraphics());
+		God.mainWindow.repaint();
 	}
 
 	@Override
@@ -69,7 +74,7 @@ public class ImagePanel extends JPanel
 		int width = (int) size.getWidth();
 		int height = (int) size.getHeight();
 
-		// Get image dimenions and store statically
+		// Get image dimensions and store statically
 		God.image_dimension[0] = image.getWidth();
 		God.image_dimension[1] = image.getHeight();
 

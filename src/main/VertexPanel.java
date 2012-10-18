@@ -44,14 +44,16 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 				);
 	}
 
-	public VertexPanel(ShapeData shapes) throws IOException //TODO redraw blah ask gerald
+	public VertexPanel(ShapeData shapes) throws IOException 
 	{
+		//TODO Loading a session with vertices already
 		this();
 	}
 
 	@Override
 	public void paintComponent(Graphics g) 
 	{
+		System.out.println("call2");
 		super.paintComponent(g);
 		ArrayList<Shape> shapes = God.shapeData.getShapes();
 		for (Shape shape : shapes) 
@@ -120,7 +122,6 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 	@Override
 	public void mouseClicked(MouseEvent arg0) 
 	{
-		System.out.println(God.moveMode);
 		if (!God.moveMode)
 		{
 			ArrayList<Shape> shapes = God.shapeData.getShapes();
@@ -129,7 +130,7 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 			{
 				// TODO: Check necessary?
 			}
-			else if (arg0.getX() < image.getWidth() - vertex.getRadius()  && arg0.getY() < image.getWidth() - vertex.getRadius()) 
+			else if (arg0.getX() < God.image_dimension[0] - vertex.getRadius()  && arg0.getY() < God.image_dimension[1] - vertex.getRadius()) 
 			{
 				Shape lastShape = shapes.get(shapes.size() - 1);
 				drawVertex(vertex, lastShape.getColor());
@@ -139,6 +140,10 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 				}
 				lastShape.add(vertex);
 			}
+		}
+		else
+		{
+			
 		}
 	}
 
@@ -161,12 +166,12 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 		{
 			Vertex Mouse = new Vertex(arg0.getX(), arg0.getY());
 
-			// stores closest vertex and shape index (0 vertex, 1 shape)
+			// stores closest vertex and shape index (0 vertex, 1 shape, 2 head vertex)
 			int [] candidate_vertex = new int[2];
 			int distance = Integer.MAX_VALUE;
 
 			// TODO Polygon moving 
-			if (Mouse.getX() < image.getWidth() && Mouse.getY()< image.getWidth()) 
+			if (Mouse.getX() < God.image_dimension[0] && Mouse.getY()< God.image_dimension[1]) 
 			{
 				/*** Finding vertex closest to mouse click ***/
 				ShapeData shapeData = God.shapeData;
@@ -180,13 +185,20 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 						if((EuclideanDistance(Mouse, v) < distance) 
 								&& (EuclideanDistance(Mouse, v) <= v.getRadius()))
 						{
-
 							candidate_vertex[0]= vertexIndex;
 							candidate_vertex[1]= shapeIndex;
 							distance = (int) EuclideanDistance(Mouse, v);
 						}
 					}
 				}
+				
+				// Vertex is start (and end) vertex, force vertex to be head
+				if(shapeData.getShape(candidate_vertex[1]).get(candidate_vertex[0]).
+						equals(shapeData.getShape(candidate_vertex[1]).getHead()))
+				{
+					candidate_vertex[0] = 0;
+				}
+				
 				if(distance == Integer.MAX_VALUE)
 				{
 					System.out.println("no candidate vertex found near mouse");
@@ -196,8 +208,6 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 				{
 					God.moveVertex = new MoveVertex(candidate_vertex);
 				}
-
-				God.release = false;
 			}
 		}
 	}
@@ -205,11 +215,7 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 	@Override
 	public void mouseReleased(MouseEvent arg0) 
 	{
-		if(God.moveMode)
-		{
-			God.release = true;
-			// Place vertex here
-		}
+
 	}
 
 	@Override
@@ -217,11 +223,18 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 	{
 		if(God.moveMode)
 		{
-			// Redraw vertex
+			// If mouse is within image boundaries
 			if (God.image_dimension[0] > e.getX() && God.image_dimension[1] > e.getY())
 			{
+				// Redraw vertex
 				God.shapeData.shapes.get(God.moveVertex.getShape()).remove(God.moveVertex.getVertex());
 				God.shapeData.shapes.get(God.moveVertex.getShape()).addAt(God.moveVertex.getVertex(), new Vertex(e.getX(), e.getY()));
+				// If vertex is head, must move tail too
+				if(God.moveVertex.getVertex() == 0)
+				{
+					God.shapeData.shapes.get(God.moveVertex.getShape()).remove(God.shapeData.shapes.get(God.moveVertex.getShape()).size() - 1);
+					God.shapeData.shapes.get(God.moveVertex.getShape()).add(new Vertex(e.getX(), e.getY()));
+				}
 				God.layeredPanel.paint(this.getGraphics());
 			}
 		}
@@ -231,7 +244,6 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 	public void mouseMoved(MouseEvent e) 
 	{
 		// TODO Auto-generated method stub
-
 	}
 
 }
