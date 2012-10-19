@@ -1,1 +1,1 @@
-main.ColorEnum.getColor("YELLOW");
+"test".split(".");

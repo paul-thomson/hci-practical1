@@ -3,7 +3,9 @@ package fileio;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 
 import javax.swing.BoxLayout;
@@ -13,7 +15,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 import main.God;
+import data.Shape;
 import data.ShapeData;
+import data.Vertex;
 
 public class FileIOPanel extends JPanel
 {
@@ -126,11 +130,47 @@ public class FileIOPanel extends JPanel
 				}
 
 				int returnVal = fc.showDialog(FileIOPanel.this, "Save Session");
-				
+
 				if (returnVal == JFileChooser.APPROVE_OPTION) 
 				{
-					String file = fc.getSelectedFile().getPath();
-					// TODO SAVE
+					FileWriter fw = null;
+					BufferedWriter bw = null;
+					try {
+						String filePath = fc.getSelectedFile().getPath();
+						String[] fileArray = filePath.split("."); // want to make sure we only take name, not extension
+						if (fileArray.length > 0) {
+							filePath = fileArray[0];
+						}
+						File file = new File(fileArray + ".csv");
+						if (!file.exists()) {
+							file.createNewFile();
+						}
+
+						fw = new FileWriter(file.getAbsoluteFile());
+						bw = new BufferedWriter(fw);
+						for (Shape shape : God.shapeData.getShapes()) {
+							bw.write(shape.getLabel());
+							bw.write(',' + String.valueOf(shape.getColor().getRed()));
+							bw.write(',' + String.valueOf(shape.getColor().getGreen()));
+							bw.write(',' + String.valueOf(shape.getColor().getBlue()));
+							for (Vertex v : shape.getVertices()) {
+								bw.write(',' + String.valueOf(v.getX()));
+								bw.write(',' + String.valueOf(v.getY()));
+
+							}
+							bw.newLine();
+
+						}
+						bw.close();
+						System.out.println("Done");
+
+
+
+					} catch (IOException e) {
+						System.out.println("Error when writing to file");
+						e.printStackTrace();
+						System.out.println(e.getMessage());
+					} 
 				}
 				//Reset the file chooser for the next time it's shown.
 				fc.setSelectedFile(null);

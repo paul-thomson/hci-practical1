@@ -19,8 +19,8 @@ public class Toolbox extends JPanel
 {
 
 	private static final long serialVersionUID = 1L;
-	JButton btnNewObject = new JButton("New Label");
-	JButton btnSelectObject = new JButton("Move");
+	JButton newLabelButton = new JButton("New Label");
+	JButton moveButton = new JButton("Move");
 	ShapeList shapeList = null;
 	/**
 	 * Create the panel.
@@ -40,8 +40,8 @@ public class Toolbox extends JPanel
 		/***
 		 * New Label
 		 */ 
-		btnNewObject = new JButton("New Label");
-		btnNewObject.addActionListener(new ActionListener() 
+		newLabelButton = new JButton("New Label");
+		newLabelButton.addActionListener(new ActionListener() 
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) 
@@ -63,13 +63,13 @@ public class Toolbox extends JPanel
 				God.shapeData.addShape(new Shape());
 			}
 		});
-		add(btnNewObject);
+		add(newLabelButton);
 
 		/***
 		 * Move
 		 */
-		btnSelectObject = new JButton("Move");
-		btnSelectObject.addActionListener(new ActionListener() 
+		moveButton = new JButton("Move");
+		moveButton.addActionListener(new ActionListener() 
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) 
@@ -77,7 +77,7 @@ public class Toolbox extends JPanel
 				God.moveMode = 1;
 			}
 		});
-		add(btnSelectObject);
+		add(moveButton);
 		
 		ColorPalette colourPalette = new ColorPalette(changeColor);
 		add(colourPalette);
