@@ -1,12 +1,19 @@
 package fileio;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -15,6 +22,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 import main.God;
+import main.ShapeList;
 import data.Shape;
 import data.ShapeData;
 import data.Vertex;
@@ -141,7 +149,7 @@ public class FileIOPanel extends JPanel
 						if (fileArray.length > 0) {
 							filePath = fileArray[0];
 						}
-						File file = new File(fileArray + ".csv");
+						File file = new File(filePath + ".csv");
 						if (!file.exists()) {
 							file.createNewFile();
 						}
@@ -156,15 +164,12 @@ public class FileIOPanel extends JPanel
 							for (Vertex v : shape.getVertices()) {
 								bw.write(',' + String.valueOf(v.getX()));
 								bw.write(',' + String.valueOf(v.getY()));
-
 							}
 							bw.newLine();
 
 						}
 						bw.close();
 						System.out.println("Done");
-
-
 
 					} catch (IOException e) {
 						System.out.println("Error when writing to file");
@@ -211,8 +216,52 @@ public class FileIOPanel extends JPanel
 				//Process the results.
 				if (returnVal == JFileChooser.APPROVE_OPTION) 
 				{
-					// TODO FUNCTIONALITY
-					File file = fc.getSelectedFile();
+					try {
+						
+						// TODO FUNCTIONALITY
+						File file = fc.getSelectedFile();
+						FileInputStream fis = new FileInputStream(file);
+						DataInputStream in = new DataInputStream(fis);
+						BufferedReader br = new BufferedReader(new InputStreamReader(in));
+						ArrayList<String> shapeInfo = new ArrayList<String>();
+						String strLine;
+						while ((strLine = br.readLine()) != null) {
+							shapeInfo.add(strLine);
+						}
+						//remove old shape data
+						for (Shape s : God.shapeData.getShapes()) {
+							ShapeList.removeShape(0);
+						}
+						ShapeData shapeData = new ShapeData();
+						for (String info : shapeInfo) {
+							if (!info.contains(",")) {
+								//PROBLEM, continue for now
+								continue;
+							}
+							String[] infoArray = info.split(",");
+							//create shape object from data
+							Shape shape = new Shape();
+							shape.setLabel(infoArray[0]);
+							Color color = new Color(Integer.parseInt(infoArray[1]),
+													Integer.parseInt(infoArray[2]),
+													Integer.parseInt(infoArray[3])
+							);
+							shape.setColor(color);
+							for (int i = 4; i < infoArray.length; i+=2) {
+								Vertex v = new Vertex(	Integer.parseInt(infoArray[i]),
+														Integer.parseInt(infoArray[i+1])
+								);
+								shape.add(v);
+							}
+							shapeData.addShape(shape);
+						}
+						God.shapeData = shapeData;
+					} catch(FileNotFoundException e) {
+						
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				} 
 				else 
 				{
