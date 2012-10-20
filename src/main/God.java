@@ -19,6 +19,7 @@ public class God {
 	public static FileIOPanel fileIOPanel;
 	public static VertexPanel vertexPanel;
 	public static JPanel layeredPanel;
+	public static ShapeList shapeList;
 
 	// Data structure stuff
 	public static ShapeData shapeData;

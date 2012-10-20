@@ -23,9 +23,6 @@ import javax.swing.JTextArea;
 
 import main.God;
 import main.ShapeList;
-
-import com.sun.xml.internal.ws.util.StringUtils;
-
 import data.Shape;
 import data.ShapeData;
 import data.Vertex;
@@ -102,6 +99,8 @@ public class FileIOPanel extends JPanel
 						God.shapeData = shapeData;
 						God.imagePanel.newImage(file);
 						God.vertexPanel.repaint();
+						// Empty thumbnail list to the right
+						God.shapeList.emptyList();
 					} 
 					catch (IOException e) 
 					{

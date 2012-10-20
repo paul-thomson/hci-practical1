@@ -34,6 +34,7 @@ public class Toolbox extends JPanel
 
 		shapeList = new ShapeList(God.shapeData);
 		JScrollPane scrollPane = new JScrollPane(shapeList);
+		God.shapeList = shapeList;
 
 		scrollPane.setPreferredSize(new Dimension(200, 300));
 		
