@@ -145,7 +145,7 @@ public class FileIOPanel extends JPanel
 					BufferedWriter bw = null;
 					try {
 						String filePath = fc.getSelectedFile().getPath();
-						String[] fileArray = filePath.split("."); // want to make sure we only take name, not extension
+						String[] fileArray = filePath.split("\\."); // want to make sure we only take name, not extension
 						if (fileArray.length > 0) {
 							filePath = fileArray[0];
 						}

@@ -1,1 +1,1 @@
-"label,colours".split(",");
+"test.csv".split("\\.");
