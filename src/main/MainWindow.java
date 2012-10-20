@@ -212,7 +212,7 @@ public class MainWindow extends JFrame
 			{
 				God.shapeData.setColor(ColorEnum.getColor(arg0.getActionCommand()));
 				// TODO Should this repaint?
-				//repaint();
+				repaint();
 			}};
 	}
 }

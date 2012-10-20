@@ -68,7 +68,7 @@ public class Toolbox extends JPanel
 		/***
 		 * Move
 		 */
-		moveButton = new JButton("Move");
+		moveButton = new JButton("Move Vertice");
 		moveButton.addActionListener(new ActionListener() 
 		{
 			@Override

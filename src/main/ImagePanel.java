@@ -77,6 +77,7 @@ public class ImagePanel extends JPanel
 		// Get image dimensions and store statically
 		God.imageDimension[0] = image.getWidth();
 		God.imageDimension[1] = image.getHeight();
+		
 
 		// Scaling image
 		if (God.imageDimension[0] > width || God.imageDimension[1] > height) 
@@ -88,12 +89,16 @@ public class ImagePanel extends JPanel
 					height : 
 						(image.getHeight() * width)/image.getWidth();
 
+			// New image dimensions
+			God.imageDimension[0] = newWidth;
+			God.imageDimension[1] = newHeight;
 			System.out.println("SCALING TO " + newWidth + "x" + newHeight );
 
 			Image scaledImage = image.getScaledInstance(newWidth, newHeight, Image.SCALE_FAST);
 			image = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_RGB);
 			image.getGraphics().drawImage(scaledImage, 0, 0, this);
 		}
+		System.out.println(God.imageDimension[0]  + " " + God.imageDimension[1]);
 	}
 
 	public BufferedImage getScreenshot() {

@@ -98,6 +98,7 @@ public class FileIOPanel extends JPanel
 						ShapeData shapeData = new ShapeData();
 						God.shapeData = shapeData;
 						God.imagePanel.newImage(file);
+						God.vertexPanel.repaint();
 					} 
 					catch (IOException e) 
 					{
@@ -145,15 +146,17 @@ public class FileIOPanel extends JPanel
 					BufferedWriter bw = null;
 					try {
 						String filePath = fc.getSelectedFile().getPath();
+						System.out.println(filePath);
 						String[] fileArray = filePath.split("\\."); // want to make sure we only take name, not extension
 						if (fileArray.length > 0) {
 							filePath = fileArray[0];
 						}
 						File file = new File(filePath + ".csv");
+						System.out.println("file: " + file.getAbsolutePath());
+						System.out.println("file: " + file.getCanonicalPath());
 						if (!file.exists()) {
 							file.createNewFile();
 						}
-
 						fw = new FileWriter(file.getAbsoluteFile());
 						bw = new BufferedWriter(fw);
 						for (Shape shape : God.shapeData.getShapes()) {
