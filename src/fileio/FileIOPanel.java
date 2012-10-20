@@ -149,12 +149,22 @@ public class FileIOPanel extends JPanel
 					try {
 						String filePath = fc.getSelectedFile().getPath();
 						System.out.println(filePath);
-						String[] fileArray = filePath.split("\\."); // want to make sure we only take name, not extension
-						if (fileArray.length > 0) {
-							filePath = "";
-							for (int i = 0; i < fileArray.length - 1; i++) {
-								filePath += fileArray[i];
+						String[] fileArray = filePath.split("\\" + File.separator); // want to make sure we only take name, not extension
+//						if (fileArray.length > 0) {
+//							String[] fileExtension = fileArray[1].split(".");
+//							if (fileExtension.length > 0) {
+//								filePath
+//							}
+//						}
+						int pathLength = filePath.length() - 1;
+						for (int i = pathLength; i >= 0; i--) {
+							if (filePath.charAt(i) == File.separatorChar) {
+								break;
+							} 
+							if (filePath.charAt(i) == '.') {
+								filePath = filePath.substring(0, i);
 							}
+							
 						}
 						File file = new File(filePath + ".csv");
 						System.out.println("file: " + file.getAbsolutePath());
@@ -174,7 +184,6 @@ public class FileIOPanel extends JPanel
 								bw.write(',' + String.valueOf(v.getY()));
 							}
 							bw.newLine();
-
 						}
 						bw.close();
 						System.out.println("Done");
