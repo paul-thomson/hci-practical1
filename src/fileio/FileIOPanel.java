@@ -23,6 +23,9 @@ import javax.swing.JTextArea;
 
 import main.God;
 import main.ShapeList;
+
+import com.sun.xml.internal.ws.util.StringUtils;
+
 import data.Shape;
 import data.ShapeData;
 import data.Vertex;
@@ -147,7 +150,10 @@ public class FileIOPanel extends JPanel
 						String filePath = fc.getSelectedFile().getPath();
 						String[] fileArray = filePath.split("\\."); // want to make sure we only take name, not extension
 						if (fileArray.length > 0) {
-							filePath = fileArray[0];
+							filePath = "";
+							for (int i = 0; i < fileArray.length - 1; i++) {
+								filePath += fileArray[i];
+							}
 						}
 						File file = new File(filePath + ".csv");
 						if (!file.exists()) {
