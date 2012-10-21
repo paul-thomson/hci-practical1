@@ -98,7 +98,6 @@ public class ImagePanel extends JPanel
 			image = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_RGB);
 			image.getGraphics().drawImage(scaledImage, 0, 0, this);
 		}
-		System.out.println(God.imageDimension[0]  + " " + God.imageDimension[1]);
 	}
 
 	public BufferedImage getScreenshot() {

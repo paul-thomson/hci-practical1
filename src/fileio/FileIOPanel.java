@@ -174,7 +174,8 @@ public class FileIOPanel extends JPanel
 						fw = new FileWriter(file.getAbsoluteFile());
 						bw = new BufferedWriter(fw);
 						// Specify image dimensions this label is for
-						bw.write(String.valueOf(God.imageDimension[0]) + ',' + String.valueOf(God.imageDimension[1] + ','));
+						bw.write(String.valueOf(God.imageDimension[0]) + ',' + String.valueOf(God.imageDimension[1]));
+						System.out.println(String.valueOf(God.imageDimension[0]) + ',' + String.valueOf(God.imageDimension[1] + ','));
 						bw.newLine();
 						for (Shape shape : God.shapeData.getShapes()) {
 							// Only write shapes that are complete!
@@ -251,7 +252,13 @@ public class FileIOPanel extends JPanel
 						BufferedReader br = new BufferedReader(new InputStreamReader(in));
 						ArrayList<String> shapeInfo = new ArrayList<String>();
 						String strLine;
-						while((strLine = br.readLine()) != null)
+
+						/***
+						 * Checks if the annotation file was for an larger image than the current one on display
+						 * (draws vertices out of bounds of the current image)
+						 * If so, show error message to user
+						 */
+						if((strLine = br.readLine()) != null)
 						{
 							String[] infoArray = strLine.split(",");
 							int[] fileDimension = new int[2];
@@ -259,11 +266,11 @@ public class FileIOPanel extends JPanel
 							fileDimension[1] = Integer.parseInt(infoArray[1]);
 							if (fileDimension[0] > God.imageDimension[0] || fileDimension[1] > God.imageDimension[1])
 							{
-
 								JOptionPane.showMessageDialog(null, "Annotation dimensions are too large for the current image!");		
 								return;
 							}
 						}
+
 						while ((strLine = br.readLine()) != null) {
 							shapeInfo.add(strLine);
 						}
@@ -272,7 +279,7 @@ public class FileIOPanel extends JPanel
 							ShapeList.removeShape(0);
 						}
 						ShapeData shapeData = new ShapeData();
-						
+
 						// Loading shape function
 						for (String info : shapeInfo) {
 							if (!info.contains(",")) {
@@ -287,7 +294,6 @@ public class FileIOPanel extends JPanel
 									Integer.parseInt(infoArray[2]),
 									Integer.parseInt(infoArray[3])
 									);
-							System.out.println(color.getRed() + " " + color.getGreen() + " " + color.getBlue() + " ");
 							shape.setColor(color);
 							for (int i = 4; i < infoArray.length; i+=2) {
 								Vertex v = new Vertex(	Integer.parseInt(infoArray[i]),

@@ -43,7 +43,6 @@ public class ShapeData {
 	 */
 	public void addShape(Shape shape) 
 	{
-		shape.setColor(shapeColor);
 		shapes.add(shape);
 		selectShape(shapes.size() - 1);
 		ShapeList.addShape(shape);
