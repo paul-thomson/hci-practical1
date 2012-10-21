@@ -239,6 +239,7 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 			God.moveMode = 1;
 		}
 		 */
+		God.moveVertex = null;
 	}
 
 	@Override

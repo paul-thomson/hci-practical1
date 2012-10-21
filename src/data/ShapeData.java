@@ -70,7 +70,7 @@ public class ShapeData {
 			if (shapes.get(index).size() > 2) {
 				Shape lastShape = shapes.get(index);
 				lastShape.add(lastShape.get(0));
-				God.requestLabel();
+				//God.requestLabel();
 				return lastShape;
 			}	
 			else

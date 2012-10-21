@@ -16,7 +16,8 @@ public class Shape
 
 	private ArrayList<Vertex> vertices;
 	private Color color;
-	private String label = "Default Label";
+	//private String label = "Default Label";
+	private String label;
 	private int THUMB_SIZE = 50;
 	private Image thumbnail = new BufferedImage(THUMB_SIZE,THUMB_SIZE,BufferedImage.TYPE_INT_ARGB);
 
@@ -24,7 +25,8 @@ public class Shape
 	{
 		vertices = new ArrayList<Vertex>();
 		color = Color.WHITE;
-		label = "Default shape label";
+		//label = "Default shape label";
+		label = "";
 	}
 
 	public Shape(ArrayList<Vertex> vertices, Color color, String label) 

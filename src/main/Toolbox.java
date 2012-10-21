@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
@@ -37,7 +38,7 @@ public class Toolbox extends JPanel
 		God.shapeList = shapeList;
 
 		scrollPane.setPreferredSize(new Dimension(200, 300));
-		
+
 		/***
 		 * New Label
 		 */ 
@@ -50,16 +51,34 @@ public class Toolbox extends JPanel
 				God.moveMode = 0;
 				God.moveVertex = null;
 				if (God.shapeData.getShapes().size() != 0) {
-					Shape lastShape = God.shapeData.endShape(God.shapeData.getIndex());
+					Shape lastShape = God.shapeData.getShape(God.shapeData.getIndex());
+					if(lastShape.size() > 2)
+					{
+						if(God.requestLabel())
+						{
+							lastShape = God.shapeData.endShape(God.shapeData.getIndex());
 
-					if (lastShape != null) {
-						BufferedImage screenshot = God.imagePanel.getScreenshot();
-						Rectangle r = lastShape.getBoundingBox();
-						lastShape.setThumbnail(screenshot.getSubimage(r.x,r.y,r.width,r.height));
-						
-						God.vertexPanel.drawLine(lastShape.get(lastShape.size() - 2), lastShape.get(0), lastShape.getColor());
-						God.mainWindow.repaint();
+							if (lastShape != null) {
+								BufferedImage screenshot = God.imagePanel.getScreenshot();
+								Rectangle r = lastShape.getBoundingBox();
+								lastShape.setThumbnail(screenshot.getSubimage(r.x,r.y,r.width,r.height));
+
+								God.vertexPanel.drawLine(lastShape.get(lastShape.size() - 2), lastShape.get(0), lastShape.getColor());
+								God.layeredPanel.paint(God.layeredPanel.getGraphics());
+							}
+						}
+						else
+						{
+							// cancel
+							return;
+						}
 					}
+					else
+					{			
+						JOptionPane.showMessageDialog(null, "Polygon requires at least 3 vertices!");		
+						return;
+					}
+
 				}
 				God.shapeData.addShape(new Shape());
 			}
@@ -79,7 +98,7 @@ public class Toolbox extends JPanel
 			}
 		});
 		add(moveButton);
-		
+
 		ColorPalette colourPalette = new ColorPalette(changeColor);
 		add(colourPalette);
 		add(scrollPane);

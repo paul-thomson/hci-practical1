@@ -7,6 +7,7 @@ import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -18,6 +19,7 @@ import java.io.IOException;
 import javax.swing.BoxLayout;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import data.Shape;
@@ -33,8 +35,8 @@ public class MainWindow extends JFrame
 	ImagePanel imagePanel;
 	Toolbox toolbox;
 	Dimension minimumSize = new Dimension(1000,600);
-//	String imageName = "res/kirby.jpg";
-	String imageName = "res/a.jpg";
+	//	String imageName = "res/kirby.jpg";
+	String imageName = "res/a.png";
 	JFileChooser fc;
 
 	/**
@@ -50,11 +52,14 @@ public class MainWindow extends JFrame
 			}
 		});
 
-		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
-		manager.addKeyEventDispatcher(new MyDispatcher());
+		//KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
+		//manager.addKeyEventDispatcher(new MyDispatcher());
 
 		this.setMinimumSize(minimumSize);
 		mainPanel = new JPanel();
+		mainPanel.setFocusable(true);
+		mainPanel.requestFocusInWindow();
+		mainPanel.addKeyListener(God.keyDispatcher());
 
 		this.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
 		this.setContentPane(mainPanel);
@@ -79,7 +84,7 @@ public class MainWindow extends JFrame
 
 		mainPanel.setLayout(new BorderLayout());
 		mainPanel.add(toolbox,BorderLayout.EAST);
-		
+
 		VertexPanel vPanel = new VertexPanel();
 		God.vertexPanel = vPanel;
 
@@ -90,7 +95,7 @@ public class MainWindow extends JFrame
 		layeredPanel.add(imagePanel,BorderLayout.CENTER);
 		layeredPanel.add(vPanel,BorderLayout.CENTER);
 		God.layeredPanel = layeredPanel;
-		
+
 		mainPanel.add(layeredPanel,BorderLayout.CENTER);
 
 		layeredPanel.addMouseListener(new MouseListener()
@@ -162,19 +167,35 @@ public class MainWindow extends JFrame
 			{
 				// Complete polygon
 				if (e.getKeyChar() == KeyEvent.VK_ENTER ) 
-				{
-					Shape lastShape = God.shapeData.endShape(God.shapeData.getIndex());
-
-					if (lastShape != null) 
+				{	
+					Shape lastShape = God.shapeData.getShape(God.shapeData.getIndex());
+					if(lastShape.size() > 2)
 					{
-						BufferedImage screenshot = imagePanel.getScreenshot();
-						Rectangle r = lastShape.getBoundingBox();
-						lastShape.setThumbnail(screenshot.getSubimage(r.x,r.y,r.width,r.height));
+						if(God.requestLabel())
+						{
+							lastShape = God.shapeData.endShape(God.shapeData.getIndex());
 
-						God.vertexPanel.drawLine(lastShape.get(lastShape.size() - 2), lastShape.get(0), lastShape.getColor());
-						God.shapeData.addShape(new Shape());	
+							if (lastShape != null) 
+							{
+								BufferedImage screenshot = imagePanel.getScreenshot();
+								Rectangle r = lastShape.getBoundingBox();
+								lastShape.setThumbnail(screenshot.getSubimage(r.x,r.y,r.width,r.height));
+
+								God.vertexPanel.drawLine(lastShape.get(lastShape.size() - 2), lastShape.get(0), lastShape.getColor());
+								God.shapeData.addShape(new Shape());	
+							}
+						}
+						else
+						{
+							return false;
+						}
+					}
+					else
+					{
+						JOptionPane.showMessageDialog(null, "Polygon requires at least 3 vertices!");
 					}
 				}
+
 				// Delete vertex
 				if (e.getKeyChar() == KeyEvent.VK_DELETE || e.getKeyChar() == KeyEvent.VK_BACK_SPACE ) 
 				{
@@ -211,8 +232,9 @@ public class MainWindow extends JFrame
 			public void actionPerformed(ActionEvent arg0) 
 			{
 				God.shapeData.setColor(ColorEnum.getColor(arg0.getActionCommand()));
-				// TODO Should this repaint?
-				repaint();
+				// TODO Should this repaint?					
+				God.layeredPanel.paint(God.layeredPanel.getGraphics());
 			}};
 	}
+
 }

@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
@@ -44,11 +45,11 @@ public class FileIOPanel extends JPanel
 		newButton.addActionListener(newImage());
 		add(newButton);
 
-		saveButton = new JButton("Save Session");	
+		saveButton = new JButton("Save Annotations");	
 		saveButton.addActionListener(saveSession());
 		add(saveButton);
 
-		loadButton = new JButton("Load Session");
+		loadButton = new JButton("Load Annotations");
 		loadButton.addActionListener(loadSession());
 		add(loadButton);
 	}
@@ -140,7 +141,7 @@ public class FileIOPanel extends JPanel
 					fc.setAccessory(new ImagePreview(fc));
 				}
 
-				int returnVal = fc.showDialog(FileIOPanel.this, "Save Session");
+				int returnVal = fc.showDialog(FileIOPanel.this, "Save Annotations");
 
 				if (returnVal == JFileChooser.APPROVE_OPTION) 
 				{
@@ -150,12 +151,12 @@ public class FileIOPanel extends JPanel
 						String filePath = fc.getSelectedFile().getPath();
 						System.out.println(filePath);
 						String[] fileArray = filePath.split("\\" + File.separator); // want to make sure we only take name, not extension
-//						if (fileArray.length > 0) {
-//							String[] fileExtension = fileArray[1].split(".");
-//							if (fileExtension.length > 0) {
-//								filePath
-//							}
-//						}
+						//						if (fileArray.length > 0) {
+						//							String[] fileExtension = fileArray[1].split(".");
+						//							if (fileExtension.length > 0) {
+						//								filePath
+						//							}
+						//						}
 						int pathLength = filePath.length() - 1;
 						for (int i = pathLength; i >= 0; i--) {
 							if (filePath.charAt(i) == File.separatorChar) {
@@ -164,26 +165,34 @@ public class FileIOPanel extends JPanel
 							if (filePath.charAt(i) == '.') {
 								filePath = filePath.substring(0, i);
 							}
-							
+
 						}
 						File file = new File(filePath + ".csv");
-						System.out.println("file: " + file.getAbsolutePath());
-						System.out.println("file: " + file.getCanonicalPath());
 						if (!file.exists()) {
 							file.createNewFile();
 						}
 						fw = new FileWriter(file.getAbsoluteFile());
 						bw = new BufferedWriter(fw);
+						// Specify image dimensions this label is for
+						bw.write(String.valueOf(God.imageDimension[0]) + ',' + String.valueOf(God.imageDimension[1] + ','));
+						bw.newLine();
 						for (Shape shape : God.shapeData.getShapes()) {
-							bw.write(shape.getLabel());
-							bw.write(',' + String.valueOf(shape.getColor().getRed()));
-							bw.write(',' + String.valueOf(shape.getColor().getGreen()));
-							bw.write(',' + String.valueOf(shape.getColor().getBlue()));
-							for (Vertex v : shape.getVertices()) {
-								bw.write(',' + String.valueOf(v.getX()));
-								bw.write(',' + String.valueOf(v.getY()));
-							}
-							bw.newLine();
+							// Only write shapes that are complete!
+							if(shape.size() > 2)
+								if(shape.getHead().equals(shape.getTail()))
+								{
+									{
+										bw.write(shape.getLabel());
+										bw.write(',' + String.valueOf(shape.getColor().getRed()));
+										bw.write(',' + String.valueOf(shape.getColor().getGreen()));
+										bw.write(',' + String.valueOf(shape.getColor().getBlue()));
+										for (Vertex v : shape.getVertices()) {
+											bw.write(',' + String.valueOf(v.getX()));
+											bw.write(',' + String.valueOf(v.getY()));
+										}
+										bw.newLine();
+									}
+								}
 						}
 						bw.close();
 						System.out.println("Done");
@@ -228,13 +237,13 @@ public class FileIOPanel extends JPanel
 
 				//Show it.
 				int returnVal = fc.showDialog(FileIOPanel.this,
-						"Loading Session");
+						"Loading Annotations");
 
 				//Process the results.
 				if (returnVal == JFileChooser.APPROVE_OPTION) 
 				{
 					try {
-						
+
 						// TODO FUNCTIONALITY
 						File file = fc.getSelectedFile();
 						FileInputStream fis = new FileInputStream(file);
@@ -242,6 +251,19 @@ public class FileIOPanel extends JPanel
 						BufferedReader br = new BufferedReader(new InputStreamReader(in));
 						ArrayList<String> shapeInfo = new ArrayList<String>();
 						String strLine;
+						while((strLine = br.readLine()) != null)
+						{
+							String[] infoArray = strLine.split(",");
+							int[] fileDimension = new int[2];
+							fileDimension[0] = Integer.parseInt(infoArray[0]);
+							fileDimension[1] = Integer.parseInt(infoArray[1]);
+							if (fileDimension[0] > God.imageDimension[0] || fileDimension[1] > God.imageDimension[1])
+							{
+
+								JOptionPane.showMessageDialog(null, "Annotation dimensions are too large for the current image!");		
+								return;
+							}
+						}
 						while ((strLine = br.readLine()) != null) {
 							shapeInfo.add(strLine);
 						}
@@ -250,6 +272,8 @@ public class FileIOPanel extends JPanel
 							ShapeList.removeShape(0);
 						}
 						ShapeData shapeData = new ShapeData();
+						
+						// Loading shape function
 						for (String info : shapeInfo) {
 							if (!info.contains(",")) {
 								//PROBLEM, continue for now
@@ -260,21 +284,23 @@ public class FileIOPanel extends JPanel
 							Shape shape = new Shape();
 							shape.setLabel(infoArray[0]);
 							Color color = new Color(Integer.parseInt(infoArray[1]),
-													Integer.parseInt(infoArray[2]),
-													Integer.parseInt(infoArray[3])
-							);
+									Integer.parseInt(infoArray[2]),
+									Integer.parseInt(infoArray[3])
+									);
+							System.out.println(color.getRed() + " " + color.getGreen() + " " + color.getBlue() + " ");
 							shape.setColor(color);
 							for (int i = 4; i < infoArray.length; i+=2) {
 								Vertex v = new Vertex(	Integer.parseInt(infoArray[i]),
-														Integer.parseInt(infoArray[i+1])
-								);
+										Integer.parseInt(infoArray[i+1])
+										);
 								shape.add(v);
 							}
 							shapeData.addShape(shape);
 						}
 						God.shapeData = shapeData;
+						God.layeredPanel.paint(God.layeredPanel.getGraphics());
 					} catch(FileNotFoundException e) {
-						
+
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
