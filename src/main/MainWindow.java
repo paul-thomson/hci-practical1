@@ -141,7 +141,6 @@ public class MainWindow extends JFrame
 				God.vertexPanel.mouseMoved(arg0);		
 			}
 		});
-
 		this.pack();
 		this.setVisible(true);
 	}
@@ -241,5 +240,4 @@ public class MainWindow extends JFrame
 				God.layeredPanel.paint(God.layeredPanel.getGraphics());
 			}};
 	}
-
 }

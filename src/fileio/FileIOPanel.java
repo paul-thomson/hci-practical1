@@ -326,7 +326,9 @@ public class FileIOPanel extends JPanel
 							Rectangle r = shape.getBoundingBox();
 							shape.setThumbnail(screenshot.getSubimage(r.x,r.y,r.width,r.height));
 							shapeData.addShape(shape);
+							
 						}
+						shapeData.addShape(new Shape());
 						God.shapeData = shapeData;
 						God.moveMode = 0;
 						God.dirtyFlag = false;
