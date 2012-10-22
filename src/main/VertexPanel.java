@@ -141,6 +141,7 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 					drawLine(vertex, lastShape.get(lastShape.size()-1), lastShape.getColor());
 				}
 				lastShape.add(vertex);
+				God.dirtyFlag = true;
 			}
 		}
 	}
@@ -244,6 +245,7 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 		}
 		 */
 		God.moveVertex = null;
+		God.dirtyFlag = true;
 	}
 
 	@Override

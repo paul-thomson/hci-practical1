@@ -32,7 +32,7 @@ public class FileIOPanel extends JPanel
 {
 
 	private static final long serialVersionUID = 1L;
-	JButton newButton, saveButton, loadButton;
+	JButton newButton, saveButton, loadButton, lolPaul;
 	JTextArea log;
 	JFileChooser fc;
 
@@ -52,6 +52,20 @@ public class FileIOPanel extends JPanel
 		loadButton = new JButton("Load Annotations");
 		loadButton.addActionListener(loadSession());
 		add(loadButton);
+		
+
+		lolPaul = new JButton("lolPaul lolPaul");
+		lolPaul.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				System.exit(0);
+				
+			}
+			
+		});
+		add(lolPaul);
 	}
 
 	/***
@@ -68,7 +82,12 @@ public class FileIOPanel extends JPanel
 		{
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
-			{
+			{		
+				if(God.dirtyFlag)
+				{
+					JOptionPane.showMessageDialog(null, "You have not commited your current modifications! TODO");
+					return;
+				}
 				if (fc == null) 
 				{
 					fc = new JFileChooser();
@@ -89,10 +108,11 @@ public class FileIOPanel extends JPanel
 				if (returnVal == JFileChooser.APPROVE_OPTION) 
 				{
 					String file = fc.getSelectedFile().getPath();
+
 					try 
 					{
 						// TODO SAVE BEFORE NEW PROJECT
-						
+
 						/*** Reset properties for new image ***/
 						ShapeData shapeData = new ShapeData();
 						God.shapeData = shapeData;
@@ -100,6 +120,7 @@ public class FileIOPanel extends JPanel
 						God.moveMode = 0;
 						// Empty thumbnail list
 						God.shapeList.emptyList();
+						God.dirtyFlag = false;
 						God.vertexPanel.repaint();
 					} 
 					catch (IOException e) 
@@ -172,7 +193,7 @@ public class FileIOPanel extends JPanel
 						// Avoids drawing vertices in non image space (illegal!)
 						bw.write(String.valueOf(God.imageDimension[0]) + ',' + String.valueOf(God.imageDimension[1]));
 						bw.newLine();
-						
+
 						// Write shapes and labels to file
 						for (Shape shape : God.shapeData.getShapes()) {
 							// Only write shapes that are complete (head == tail and at least 3 vertices)!
@@ -193,6 +214,7 @@ public class FileIOPanel extends JPanel
 								}
 						}
 						bw.close();
+						God.dirtyFlag = false;
 						System.out.println("Done");
 
 					} catch (IOException e) {
@@ -271,7 +293,7 @@ public class FileIOPanel extends JPanel
 						while ((strLine = br.readLine()) != null) {
 							shapeInfo.add(strLine);
 						}
-						//remove old shape data
+						//remove old shape data ????
 						for (Shape s : God.shapeData.getShapes()) {
 							ShapeList.removeShape(0);
 						}
@@ -302,6 +324,7 @@ public class FileIOPanel extends JPanel
 						}
 						God.shapeData = shapeData;
 						God.moveMode = 0;
+						God.dirtyFlag = false;
 						God.layeredPanel.paint(God.layeredPanel.getGraphics());
 					} 
 					catch(FileNotFoundException e) 

@@ -34,6 +34,7 @@ public class God {
 	 */			
 	public static int moveMode;
 	public static MoveVertex moveVertex;
+	public static boolean dirtyFlag;
 	
 	//public static int shapeIndex;
 	//public static int[] polygonTranslation = new int[2];

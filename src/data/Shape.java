@@ -71,7 +71,6 @@ public class Shape
 
 	public void setColor(Color color) 
 	{
-		System.out.println("setcolor: " + color.getRed() + " " + color.getGreen() + " " + color.getBlue() + " ");
 		this.color = color;
 	}
 
