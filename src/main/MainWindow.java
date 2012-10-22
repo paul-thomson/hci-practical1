@@ -2,6 +2,7 @@ package main;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.KeyEventDispatcher;
+import java.awt.KeyboardFocusManager;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -32,8 +33,8 @@ public class MainWindow extends JFrame
 	ImagePanel imagePanel;
 	Toolbox toolbox;
 	Dimension minimumSize = new Dimension(1000,600);
-	//	String imageName = "res/kirby.jpg";
-	String imageName = "res/a.jpg";
+	String imageName = "res/kirby.jpg";
+//	String imageName = "res/a.jpg";
 	JFileChooser fc;
 
 	/**
@@ -50,14 +51,12 @@ public class MainWindow extends JFrame
 		});
 
 		//TODO Keyboard!!!
-		//KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
-		//manager.addKeyEventDispatcher(new MyDispatcher());
+		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
+		manager.addKeyEventDispatcher(new MyDispatcher());
 
 		this.setMinimumSize(minimumSize);
 		mainPanel = new JPanel();
 		mainPanel.setFocusable(true);
-		mainPanel.requestFocusInWindow();
-		mainPanel.addKeyListener(God.keyDispatcher());
 
 		this.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
 		this.setContentPane(mainPanel);
@@ -172,7 +171,7 @@ public class MainWindow extends JFrame
 			if (e.getID() == KeyEvent.KEY_TYPED) 
 			{
 				// Complete polygon
-				if (e.getKeyChar() == KeyEvent.VK_ENTER ) 
+				if (e.getKeyChar() == KeyEvent.VK_ENTER & God.mainWindow.isFocused() ) 
 				{	
 					Shape lastShape = God.shapeData.getShape(God.shapeData.getIndex());
 					if(lastShape.size() > 2)
@@ -221,7 +220,7 @@ public class MainWindow extends JFrame
 								add(God.shapeData.shapes.get(God.moveVertex.getShape()).getHead());
 							}
 							God.moveVertex = null;
-							God.vertexPanel.repaint();
+							God.layeredPanel.paint(God.layeredPanel.getGraphics());
 						}
 					}
 				}

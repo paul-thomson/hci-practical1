@@ -2,8 +2,10 @@ package fileio;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.DataInputStream;
@@ -320,6 +322,9 @@ public class FileIOPanel extends JPanel
 										);
 								shape.add(v);
 							}
+							BufferedImage screenshot = God.imagePanel.getScreenshot();
+							Rectangle r = shape.getBoundingBox();
+							shape.setThumbnail(screenshot.getSubimage(r.x,r.y,r.width,r.height));
 							shapeData.addShape(shape);
 						}
 						God.shapeData = shapeData;
@@ -347,6 +352,4 @@ public class FileIOPanel extends JPanel
 				fc.setSelectedFile(null);
 			}};
 	}
-
-
 }

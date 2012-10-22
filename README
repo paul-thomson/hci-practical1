@@ -1,15 +1,6 @@
 Next time:
 
-1) Move command - Deleting vertices?
-		TODO: 	This is fine except the repainting part 
-				deleting vertices causes repaint to go wild
-				Moving entire polygons? Should we?
-				Highlighting polygons
-2) Labelling
-3) Finish FileIO:
-				decide on file format
-				write/read sessions
-				exception handling (e.g. specify file types)
-4) Undo/redo
-5) Deal with ending a shape with only one vertex
-6) Saving before loading new image!
+Fix keyboard stuff
+Highlighting polygons
+Undo/redo
+
