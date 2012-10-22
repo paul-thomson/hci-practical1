@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -244,6 +245,16 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 			God.moveMode = 1;
 		}
 		 */
+		
+		if (God.moveVertex != null) {
+			
+			Shape shape = God.shapeData.getShape(God.moveVertex.getShape());
+			BufferedImage screenshot = God.imagePanel.getScreenshot();
+			Rectangle r = shape.getBoundingBox();
+			shape.setThumbnail(screenshot.getSubimage(r.x,r.y,r.width,r.height));
+			God.layeredPanel.paint(God.layeredPanel.getGraphics());
+		}
+		
 		God.moveVertex = null;
 		God.dirtyFlag = true;
 	}
