@@ -2,12 +2,10 @@ package main;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.KeyEventDispatcher;
-import java.awt.KeyboardFocusManager;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -24,7 +22,6 @@ import javax.swing.JPanel;
 
 import data.Shape;
 import data.ShapeData;
-import data.Vertex;
 
 
 public class MainWindow extends JFrame
@@ -36,7 +33,7 @@ public class MainWindow extends JFrame
 	Toolbox toolbox;
 	Dimension minimumSize = new Dimension(1000,600);
 	//	String imageName = "res/kirby.jpg";
-	String imageName = "res/a.png";
+	String imageName = "res/a.jpg";
 	JFileChooser fc;
 
 	/**
@@ -52,6 +49,7 @@ public class MainWindow extends JFrame
 			}
 		});
 
+		//TODO Keyboard!!!
 		//KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
 		//manager.addKeyEventDispatcher(new MyDispatcher());
 
@@ -75,6 +73,7 @@ public class MainWindow extends JFrame
 		{
 			e.printStackTrace();
 		}
+		
 		imagePanel.setOpaque(true); //content panes must be opaque
 
 		toolbox = new Toolbox(color());
@@ -95,45 +94,51 @@ public class MainWindow extends JFrame
 		layeredPanel.add(imagePanel,BorderLayout.CENTER);
 		layeredPanel.add(vPanel,BorderLayout.CENTER);
 		God.layeredPanel = layeredPanel;
-
 		mainPanel.add(layeredPanel,BorderLayout.CENTER);
 
 		layeredPanel.addMouseListener(new MouseListener()
 		{
 			@Override
-			public void mouseClicked(MouseEvent arg0) {
+			public void mouseClicked(MouseEvent arg0) 
+			{
 				God.vertexPanel.mouseClicked(arg0);		
 			}
 
 			@Override
-			public void mouseEntered(MouseEvent arg0) {
+			public void mouseEntered(MouseEvent arg0) 
+			{
 				God.vertexPanel.mouseEntered(arg0);		
 			}
 
 			@Override
-			public void mouseExited(MouseEvent arg0) {
+			public void mouseExited(MouseEvent arg0) 
+			{
 				God.vertexPanel.mouseExited(arg0);		
 			}
 
 			@Override
-			public void mousePressed(MouseEvent arg0) {
+			public void mousePressed(MouseEvent arg0) 
+			{
 				God.vertexPanel.mousePressed(arg0);		
 			}
 
 			@Override
-			public void mouseReleased(MouseEvent arg0) {
+			public void mouseReleased(MouseEvent arg0) 
+			{
 				God.vertexPanel.mouseReleased(arg0);		
 			}});
 
 		layeredPanel.addMouseMotionListener(new MouseMotionListener()
 		{
 			@Override
-			public void mouseDragged(MouseEvent arg0) {
+			public void mouseDragged(MouseEvent arg0)
+			{
 				God.vertexPanel.mouseDragged(arg0);
 			}
 
 			@Override
-			public void mouseMoved(MouseEvent arg0) {
+			public void mouseMoved(MouseEvent arg0)
+			{
 				God.vertexPanel.mouseMoved(arg0);		
 			}
 		});
@@ -146,10 +151,11 @@ public class MainWindow extends JFrame
 	 * Runs the program
 	 * @param argv path to an image
 	 */
-	public static void main(String argv[]) {
+	public static void main(String argv[]) 
+	{
+		//creates a window and display the image
 		try 
 		{
-			//creates a window and display the image
 			new MainWindow();
 		} 
 		catch (Exception e) 

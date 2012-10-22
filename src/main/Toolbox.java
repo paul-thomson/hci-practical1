@@ -30,14 +30,13 @@ public class Toolbox extends JPanel
 	{		
 		this.setBorder(new EmptyBorder(5,5,5,5));
 		this.setPreferredSize(new Dimension(200,600));
-
 		setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
+		// Set up thumbnail shape list
 		shapeList = new ShapeList(God.shapeData);
 		JScrollPane scrollPane = new JScrollPane(shapeList);
-		God.shapeList = shapeList;
-
 		scrollPane.setPreferredSize(new Dimension(200, 300));
+		God.shapeList = shapeList;
 
 		/***
 		 * New Label
@@ -48,16 +47,19 @@ public class Toolbox extends JPanel
 			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
+				// Reset move modes
 				God.moveMode = 0;
 				God.moveVertex = null;
-				if (God.shapeData.getShapes().size() != 0) {
+				if (God.shapeData.getShapes().size() != 0) 
+				{
 					Shape lastShape = God.shapeData.getShape(God.shapeData.getIndex());
+					// If the current shape has at least 3 vertices, possible to complete
 					if(lastShape.size() > 2)
 					{
+						// Ask for a label before completing the shape (they can cancel)
 						if(God.requestLabel())
 						{
 							lastShape = God.shapeData.endShape(God.shapeData.getIndex());
-
 							if (lastShape != null) {
 								BufferedImage screenshot = God.imagePanel.getScreenshot();
 								Rectangle r = lastShape.getBoundingBox();
@@ -69,12 +71,13 @@ public class Toolbox extends JPanel
 						}
 						else
 						{
-							// cancel
+							// User cancelled label, exit
 							return;
 						}
 					}
 					else
 					{			
+						// User tried to end an illegal shape, show warning
 						JOptionPane.showMessageDialog(null, "Polygon requires at least 3 vertices!");		
 						return;
 					}
@@ -88,7 +91,7 @@ public class Toolbox extends JPanel
 		/***
 		 * Move
 		 */
-		moveButton = new JButton("Move Vertice");
+		moveButton = new JButton("Move Vertice TODO?");
 		moveButton.addActionListener(new ActionListener() 
 		{
 			@Override

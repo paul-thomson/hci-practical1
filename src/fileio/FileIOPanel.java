@@ -72,40 +72,38 @@ public class FileIOPanel extends JPanel
 				if (fc == null) 
 				{
 					fc = new JFileChooser();
-
 					//Add a custom file filter
 					fc.addChoosableFileFilter(new TypeFilter(1));
 					fc.addChoosableFileFilter(new TypeFilter(0));
 					fc.setAcceptAllFileFilterUsed(true);
-
 					//Add custom icons for file types.
 					fc.setFileView(new ViewFile());
-
 					//Add the preview pane.
 					fc.setAccessory(new ImagePreview(fc));
 				}
 
-				// Show it
+				// Show window dialog
 				int returnVal = fc.showDialog(FileIOPanel.this, "Opening New Image");
 
 				// Process the results
 				if (returnVal == JFileChooser.APPROVE_OPTION) 
 				{
 					String file = fc.getSelectedFile().getPath();
-
 					try 
 					{
 						// TODO SAVE BEFORE NEW PROJECT
+						
+						/*** Reset properties for new image ***/
 						ShapeData shapeData = new ShapeData();
 						God.shapeData = shapeData;
 						God.imagePanel.newImage(file);
-						God.vertexPanel.repaint();
-						// Empty thumbnail list to the right
+						God.moveMode = 0;
+						// Empty thumbnail list
 						God.shapeList.emptyList();
+						God.vertexPanel.repaint();
 					} 
 					catch (IOException e) 
 					{
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -128,15 +126,12 @@ public class FileIOPanel extends JPanel
 				if (fc == null) 
 				{
 					fc = new JFileChooser();
-
 					//Add a custom file filter
 					fc.addChoosableFileFilter(new TypeFilter(1));
 					fc.addChoosableFileFilter(new TypeFilter(0));
 					fc.setAcceptAllFileFilterUsed(true);
-
 					//Add custom icons for file types.
 					fc.setFileView(new ViewFile());
-
 					//Add the preview pane.
 					fc.setAccessory(new ImagePreview(fc));
 				}
@@ -173,12 +168,14 @@ public class FileIOPanel extends JPanel
 						}
 						fw = new FileWriter(file.getAbsoluteFile());
 						bw = new BufferedWriter(fw);
-						// Specify image dimensions this label is for
+						// Write the image dimension this label is for 
+						// Avoids drawing vertices in non image space (illegal!)
 						bw.write(String.valueOf(God.imageDimension[0]) + ',' + String.valueOf(God.imageDimension[1]));
-						System.out.println(String.valueOf(God.imageDimension[0]) + ',' + String.valueOf(God.imageDimension[1] + ','));
 						bw.newLine();
+						
+						// Write shapes and labels to file
 						for (Shape shape : God.shapeData.getShapes()) {
-							// Only write shapes that are complete!
+							// Only write shapes that are complete (head == tail and at least 3 vertices)!
 							if(shape.size() > 2)
 								if(shape.getHead().equals(shape.getTail()))
 								{
@@ -304,12 +301,20 @@ public class FileIOPanel extends JPanel
 							shapeData.addShape(shape);
 						}
 						God.shapeData = shapeData;
+						God.moveMode = 0;
 						God.layeredPanel.paint(God.layeredPanel.getGraphics());
-					} catch(FileNotFoundException e) {
-
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
+					} 
+					catch(FileNotFoundException e) 
+					{
 						e.printStackTrace();
+					} 
+					catch(IOException e) 
+					{	
+						e.printStackTrace();
+					} 
+					catch(Exception e)
+					{
+						JOptionPane.showMessageDialog(null, "This file is not a valid annotation file!\n Please try another file.");
 					}
 				} 
 				else 

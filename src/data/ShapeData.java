@@ -3,7 +3,6 @@ package data;
 import java.awt.Color;
 import java.util.ArrayList;
 
-import main.God;
 import main.ShapeList;
 
 public class ShapeData {

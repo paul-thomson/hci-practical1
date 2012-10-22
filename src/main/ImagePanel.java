@@ -78,8 +78,7 @@ public class ImagePanel extends JPanel
 		God.imageDimension[0] = image.getWidth();
 		God.imageDimension[1] = image.getHeight();
 		
-
-		// Scaling image
+		// Scale image if necessary
 		if (God.imageDimension[0] > width || God.imageDimension[1] > height) 
 		{
 			int newWidth = image.getWidth() > width ? 
@@ -89,7 +88,7 @@ public class ImagePanel extends JPanel
 					height : 
 						(image.getHeight() * width)/image.getWidth();
 
-			// New image dimensions
+			// Set image dimensions
 			God.imageDimension[0] = newWidth;
 			God.imageDimension[1] = newHeight;
 			System.out.println("SCALING TO " + newWidth + "x" + newHeight );

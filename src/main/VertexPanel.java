@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Polygon;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -21,11 +20,7 @@ import data.Vertex;
 
 public class VertexPanel extends JPanel implements MouseListener, MouseMotionListener
 {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-	/** The image to display in this panel */
 	BufferedImage image;
 	/** The maximum size of the panel */
 	Dimension size = new Dimension(800,600);
@@ -36,7 +31,6 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 		addMouseMotionListener(this);
 		this.setVisible(true);
 		this.setOpaque(false);
-		//		this.setBackground(Color.BLACK);
 		this.setPreferredSize(size);
 		image = new BufferedImage(
 				(int)ImagePanel.size.getWidth(),
@@ -47,14 +41,12 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 
 	public VertexPanel(ShapeData shapes) throws IOException 
 	{
-		//TODO Loading a session with vertices already
 		this();
 	}
 
 	@Override
 	public void paintComponent(Graphics g) 
 	{
-		//	System.out.println("call2");
 		super.paintComponent(g);
 		ArrayList<Shape> shapes = God.shapeData.getShapes();
 		for (Shape shape : shapes) 
@@ -111,6 +103,12 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 	}
 
 
+	/***
+	 * Finds the Euclidean distance between two vertices
+	 * @param a
+	 * @param b
+	 * @return
+	 */
 	public double EuclideanDistance(Vertex a, Vertex b)
 	{
 		double x1 = a.getX();
@@ -123,6 +121,7 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 	@Override
 	public void mouseClicked(MouseEvent arg0) 
 	{
+		// New shape, adding vertices to shape
 		if (God.moveMode == 0)
 		{
 			ArrayList<Shape> shapes = God.shapeData.getShapes();
@@ -131,6 +130,7 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 			{
 				// TODO: Check necessary?
 			}
+			// Check mouse is within image boundaries
 			else if (arg0.getX() < God.imageDimension[0] - vertex.getRadius()  && arg0.getY() < God.imageDimension[1] - vertex.getRadius()) 
 			{
 				System.out.println("Point at : "+ arg0.getX() + " " + arg0.getY());
@@ -160,44 +160,48 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 	@Override
 	public void mousePressed(MouseEvent arg0) 
 	{	
+		// Moving vertices of existing shapes / polygons
 		if(God.moveMode == 1)
 		{
 			Vertex mouse = new Vertex(arg0.getX(), arg0.getY());
 
-			// stores closest vertex and shape index (0 vertex, 1 shape, 2 head vertex)
+			// Stores closest vertex and shape index (0 vertex, 1 shape)
 			int [] candidate_vertex = new int[2];
-			int distance = Integer.MAX_VALUE;
+			double distance = Double.MAX_VALUE;
 
-			// TODO Polygon moving 
+			// Check mouse is within image boundaries 
 			if (mouse.getX() < God.imageDimension[0] && mouse.getY()< God.imageDimension[1]) 
 			{
 				/*** Finding vertex closest to mouse click ***/
 				ShapeData shapeData = God.shapeData;
-				// For each shape
+				// For each shape, fetch each vertex and compare to mouse click
 				for (int shapeIndex = 0; shapeIndex < shapeData.shapes.size(); shapeIndex++)
 				{
 					Shape shape = shapeData.getShape(shapeIndex);
 					for (int vertexIndex = 0; vertexIndex < shape.size(); vertexIndex++)
 					{
 						Vertex v = shape.get(vertexIndex);
+						// If distance between new vertex and mouse is shorter than current shortest distance, swap
 						if((EuclideanDistance(mouse, v) < distance) 
 								&& (EuclideanDistance(mouse, v) <= v.getRadius()))
 						{
 							candidate_vertex[0]= vertexIndex;
 							candidate_vertex[1]= shapeIndex;
-							distance = (int) EuclideanDistance(mouse, v);
+							distance = EuclideanDistance(mouse, v);
 						}
 					}
 				}
 
 				// Vertex is start (and end) vertex, force vertex to be head
+				// This is for moving the start and end vertices together (seemless to user)
 				if(shapeData.getShape(candidate_vertex[1]).get(candidate_vertex[0]).
 						equals(shapeData.getShape(candidate_vertex[1]).getHead()))
 				{
 					candidate_vertex[0] = 0;
 				}
 
-				if(distance == Integer.MAX_VALUE)
+				// If no vertex found, move on
+				if(distance == Double.MAX_VALUE)
 				{
 					System.out.println("no candidate vertex found near mouse");
 					/*
@@ -245,13 +249,13 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 	@Override
 	public void mouseDragged(MouseEvent e) 
 	{
-		// Drag and move individual vertices
+		// Drag and move individual vertex
 		if(God.moveMode == 1 && God.moveVertex != null)
 		{
 			// If mouse is within image boundaries
 			if (God.imageDimension[0] > e.getX() && God.imageDimension[1] > e.getY())
 			{
-				// Redraw vertex
+				// Remove vertex from shape and add new one with current mouse location
 				God.shapeData.shapes.get(God.moveVertex.getShape()).remove(God.moveVertex.getVertex());
 				God.shapeData.shapes.get(God.moveVertex.getShape()).addAt(God.moveVertex.getVertex(), new Vertex(e.getX(), e.getY()));
 				// If vertex is head, must move tail too
@@ -300,7 +304,7 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 				//Polygon poly = new Polygon(xpoints, ypoints, npoints)
 			}
 		}
-		*/
+		 */
 	}
 
 }

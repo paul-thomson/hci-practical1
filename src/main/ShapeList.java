@@ -41,7 +41,7 @@ public class ShapeList extends JPanel {
 		listModel.addElement(shape);
 	}
 	
-	public static void emptyList()
+	public void emptyList()
 	{
 		listModel.removeAllElements();
 	}
