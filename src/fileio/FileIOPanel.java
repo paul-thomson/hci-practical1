@@ -93,9 +93,8 @@ public class FileIOPanel extends JPanel
 				if (fc == null) 
 				{
 					fc = new JFileChooser();
-					//Add a custom file filter
+					//Add a custom file filter for images
 					fc.addChoosableFileFilter(new TypeFilter(1));
-					fc.addChoosableFileFilter(new TypeFilter(0));
 					fc.setAcceptAllFileFilterUsed(true);
 					//Add custom icons for file types.
 					fc.setFileView(new ViewFile());
@@ -132,6 +131,7 @@ public class FileIOPanel extends JPanel
 				}
 				//Reset the file chooser for the next time it's shown.
 				fc.setSelectedFile(null);
+				fc = null;
 			}};
 	}
 
@@ -149,9 +149,6 @@ public class FileIOPanel extends JPanel
 				if (fc == null) 
 				{
 					fc = new JFileChooser();
-					//Add a custom file filter
-					fc.addChoosableFileFilter(new TypeFilter(1));
-					fc.addChoosableFileFilter(new TypeFilter(0));
 					fc.setAcceptAllFileFilterUsed(true);
 					//Add custom icons for file types.
 					fc.setFileView(new ViewFile());
@@ -227,6 +224,7 @@ public class FileIOPanel extends JPanel
 				}
 				//Reset the file chooser for the next time it's shown.
 				fc.setSelectedFile(null);
+				fc = null;
 			}};
 	}
 
@@ -245,10 +243,9 @@ public class FileIOPanel extends JPanel
 				if (fc == null) {
 					fc = new JFileChooser();
 
-					//Add a custom file filter
-					fc.addChoosableFileFilter(new TypeFilter(1));
+					//Add a custom file filter for annotation csv
 					fc.addChoosableFileFilter(new TypeFilter(0));
-					fc.setAcceptAllFileFilterUsed(false);
+					fc.setAcceptAllFileFilterUsed(true);
 
 					//Add custom icons for file types.
 					fc.setFileView(new ViewFile());
@@ -352,6 +349,7 @@ public class FileIOPanel extends JPanel
 				}
 				//Reset the file chooser for the next time it's shown.
 				fc.setSelectedFile(null);
+				fc = null;
 			}};
 	}
 }

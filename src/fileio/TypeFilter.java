@@ -19,6 +19,7 @@ public class TypeFilter extends FileFilter {
 
 		String extension = Utils.getExtension(f);
 
+		// Images
 		if (type == 1)
 		{
 			if (extension != null) {
@@ -27,7 +28,8 @@ public class TypeFilter extends FileFilter {
 						extension.equals(Utils.gif) ||
 						extension.equals(Utils.jpeg) ||
 						extension.equals(Utils.jpg) ||
-						extension.equals(Utils.png)) {
+						extension.equals(Utils.png)) 
+				{
 					return true;
 				} else {
 					return false;
@@ -36,12 +38,14 @@ public class TypeFilter extends FileFilter {
 		} 
 		else
 		{	
+			// Vertice
 			if (extension != null) {
-				/*if (extension.equals(Utils.tiff)) {
+				if (extension.equals(Utils.csv)) 
+				{
 					return true;
 				} else {
 					return false;
-				}*/
+				}
 			}
 		}
 		return false;
@@ -55,7 +59,7 @@ public class TypeFilter extends FileFilter {
 		} 
 		else
 		{
-			return "Just vertice lists and labels";
+			return "Annotation (CSV) Format";
 		}
 
 	}
