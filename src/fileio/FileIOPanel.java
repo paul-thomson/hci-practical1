@@ -54,7 +54,7 @@ public class FileIOPanel extends JPanel
 		loadButton = new JButton("Load Annotations");
 		loadButton.addActionListener(loadSession());
 		add(loadButton);
-		
+
 
 		lolPaul = new JButton("lolPaul lolPaul");
 		lolPaul.addActionListener(new ActionListener()
@@ -63,9 +63,9 @@ public class FileIOPanel extends JPanel
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				System.exit(0);
-				
+
 			}
-			
+
 		});
 		add(lolPaul);
 	}
@@ -323,7 +323,7 @@ public class FileIOPanel extends JPanel
 							Rectangle r = shape.getBoundingBox();
 							shape.setThumbnail(screenshot.getSubimage(r.x,r.y,r.width,r.height));
 							shapeData.addShape(shape);
-							
+
 						}
 						shapeData.addShape(new Shape());
 						God.shapeData = shapeData;

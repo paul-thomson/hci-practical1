@@ -8,6 +8,8 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import main.God;
+
 /**
  * Stores the colour, label and  a list of vertices which make up the shape.
  */
@@ -16,7 +18,6 @@ public class Shape
 
 	private ArrayList<Vertex> vertices;
 	private Color color;
-	//private String label = "Default Label";
 	private String label;
 	private int THUMB_SIZE = 50;
 	private Image thumbnail = new BufferedImage(THUMB_SIZE,THUMB_SIZE,BufferedImage.TYPE_INT_ARGB);
@@ -24,8 +25,7 @@ public class Shape
 	public Shape() 
 	{
 		vertices = new ArrayList<Vertex>();
-		color = Color.WHITE;
-		//label = "Default shape label";
+		color = God.color;
 		label = "";
 	}
 
