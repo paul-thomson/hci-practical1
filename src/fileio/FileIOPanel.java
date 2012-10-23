@@ -292,10 +292,7 @@ public class FileIOPanel extends JPanel
 						while ((strLine = br.readLine()) != null) {
 							shapeInfo.add(strLine);
 						}
-						//remove old shape data ????
-						for (Shape s : God.shapeData.getShapes()) {
-							ShapeList.removeShape(0);
-						}
+						God.shapeList.emptyList();
 						ShapeData shapeData = new ShapeData();
 
 						// Loading shape function

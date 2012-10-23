@@ -172,7 +172,7 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 			double distance = Double.MAX_VALUE;
 
 			// Check mouse is within image boundaries 
-			if (mouse.getX() < God.imageDimension[0] && mouse.getY()< God.imageDimension[1]) 
+			if (mouse.getX() < (God.imageDimension[0] - mouse.getRadius()) && mouse.getY() < (God.imageDimension[1] - mouse.getRadius())) 
 			{
 				/*** Finding vertex closest to mouse click ***/
 				ShapeData shapeData = God.shapeData;
@@ -220,14 +220,14 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 	public void mouseReleased(MouseEvent arg0) 
 	{
 		if (God.moveVertex != null) {
-			
+
 			Shape shape = God.shapeData.getShape(God.moveVertex.getShape());
 			BufferedImage screenshot = God.imagePanel.getScreenshot();
 			Rectangle r = shape.getBoundingBox();
 			shape.setThumbnail(screenshot.getSubimage(r.x,r.y,r.width,r.height));
 			God.layeredPanel.paint(God.layeredPanel.getGraphics());
 		}
-		
+
 		God.moveVertex = null;
 		God.dirtyFlag = true;
 	}
@@ -238,17 +238,17 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 		// Drag and move individual vertex
 		if(God.moveMode == 1 && God.moveVertex != null)
 		{
-			// If mouse is within image boundaries
-			if (God.imageDimension[0] > e.getX() && God.imageDimension[1] > e.getY())
+			Vertex mouse = new Vertex(e.getX(), e.getY());
+			if (mouse.getX() < (God.imageDimension[0] - mouse.getRadius()) && mouse.getY() < (God.imageDimension[1] - mouse.getRadius())) 
 			{
 				// Remove vertex from shape and add new one with current mouse location
 				God.shapeData.shapes.get(God.moveVertex.getShape()).remove(God.moveVertex.getVertex());
-				God.shapeData.shapes.get(God.moveVertex.getShape()).addAt(God.moveVertex.getVertex(), new Vertex(e.getX(), e.getY()));
+				God.shapeData.shapes.get(God.moveVertex.getShape()).addAt(God.moveVertex.getVertex(), mouse);
 				// If vertex is head, must move tail too
 				if(God.moveVertex.getVertex() == 0)
 				{
 					God.shapeData.shapes.get(God.moveVertex.getShape()).remove(God.shapeData.shapes.get(God.moveVertex.getShape()).size() - 1);
-					God.shapeData.shapes.get(God.moveVertex.getShape()).add(new Vertex(e.getX(), e.getY()));
+					God.shapeData.shapes.get(God.moveVertex.getShape()).add(mouse);
 				}
 				God.layeredPanel.paint(this.getGraphics());
 			}

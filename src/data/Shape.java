@@ -60,7 +60,7 @@ public class Shape
 			yMin = Math.min(yMin, vertex.getY());
 
 		}
-		System.out.println("xMin: " + xMin + "yMin: " + yMin + "xMax: " + xMax + "yMax: " + yMax);
+		System.out.println("xMin: " + xMin + " yMin: " + yMin + " xMax: " + xMax + " yMax: " + yMax);
 		return  new Rectangle(xMin, yMin, xMax - xMin, yMax - yMin);
 	}
 
