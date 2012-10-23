@@ -23,6 +23,7 @@ public class Toolbox extends JPanel
 	JButton newLabelButton = new JButton("New Label");
 	JButton moveButton = new JButton("Move");
 	ShapeList shapeList = null;
+	
 	/**
 	 * Create the panel.
 	 */
@@ -105,10 +106,28 @@ public class Toolbox extends JPanel
 		ColorPalette colourPalette = new ColorPalette(changeColor);
 		add(colourPalette);
 		add(scrollPane);
+		
+		JPanel buttons = new JPanel();
+		JButton editLabel = new JButton("edit");
+		editLabel.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String s = (String) JOptionPane.showInputDialog("Please enter new label");
+				if (s != null) {
+					God.shapeData.getShape(God.shapeData.listSelection).setLabel(s);
+					God.shapeList.repaint();
+				}
+			}
+		});
+		
+		JButton delLabel = new JButton("del");
+		buttons.add(editLabel);
+		buttons.add(delLabel);
+		add(buttons);
 
 		FileIOPanel fileIO = new FileIOPanel();
 		add(fileIO);
 		God.fileIOPanel = fileIO;
 	}
-
 }

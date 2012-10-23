@@ -1,9 +1,9 @@
 package main;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -31,6 +31,9 @@ public class MyCellRenderer extends JPanel implements ListCellRenderer {
 		}
 		JLabel label = new JLabel();
 		label.setBackground(new Color(0,0,0,0));
+		if (cellHasFocus) {
+			label.setBackground(new Color(0,0,0,20));
+		}
 		label.setText(text);
 		label.setOpaque(true);
 			
@@ -39,9 +42,9 @@ public class MyCellRenderer extends JPanel implements ListCellRenderer {
 		// had weird errors if this.add(label) was used, so just created panel instead
 		JPanel jp = new JPanel();
 		jp.setBackground(new Color(0,0,0,0));
-		jp.setLayout(new BoxLayout(jp,BoxLayout.X_AXIS));
-		jp.setBorder(new EmptyBorder(5,5,5,5));
-		jp.add(label);
+		jp.setLayout(new BorderLayout());
+		label.setBorder(new EmptyBorder(5,5,5,5));
+		jp.add(label, BorderLayout.CENTER);
 		
 		return jp;
 	}

@@ -24,7 +24,7 @@ public class Shape
 	public Shape() 
 	{
 		vertices = new ArrayList<Vertex>();
-		color = Color.WHITE;
+		color = Color.RED;
 		//label = "Default shape label";
 		label = "";
 	}
@@ -151,6 +151,14 @@ public class Shape
 	public Vertex getTail()
 	{
 		return vertices.get(vertices.size() - 1);
+	}
+
+	public Polygon getPolygon() {
+		Polygon p = new Polygon();
+		for (Vertex v : vertices) { 
+			p.addPoint(v.getX(),v.getY());
+		}
+		return p;
 	}
 
 }

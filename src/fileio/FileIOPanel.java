@@ -293,9 +293,7 @@ public class FileIOPanel extends JPanel
 							shapeInfo.add(strLine);
 						}
 						//remove old shape data ????
-						for (Shape s : God.shapeData.getShapes()) {
-							ShapeList.removeShape(0);
-						}
+						God.shapeList.emptyList();
 						ShapeData shapeData = new ShapeData();
 
 						// Loading shape function
@@ -329,7 +327,7 @@ public class FileIOPanel extends JPanel
 						God.shapeData = shapeData;
 						God.moveMode = 0;
 						God.dirtyFlag = false;
-						God.layeredPanel.paint(God.layeredPanel.getGraphics());
+//						God.layeredPanel.paint(God.layeredPanel.getGraphics());
 					} 
 					catch(FileNotFoundException e) 
 					{
