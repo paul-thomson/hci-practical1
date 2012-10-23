@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import data.MoveVertex;
 import data.Shape;
@@ -24,6 +25,7 @@ public class God {
 	public static VertexPanel vertexPanel;
 	public static JPanel layeredPanel;
 	public static ShapeList shapeList;
+	public static JScrollPane scrollPane;
 
 	// Data structure stuff
 	public static ShapeData shapeData;
@@ -78,12 +80,12 @@ public class God {
 					// Complete polygon
 					if (e.getKeyChar() == KeyEvent.VK_ENTER ) 
 					{	
-						Shape lastShape = God.shapeData.getShape(God.shapeData.getIndex());
+						Shape lastShape = God.shapeData.getLastShape();
 						if(lastShape.size() > 2)
 						{
 							if(God.requestLabel())
 							{
-								lastShape = God.shapeData.endShape(God.shapeData.getIndex());
+								lastShape = God.shapeData.endShape();
 
 								if (lastShape != null) 
 								{

@@ -38,6 +38,7 @@ public class Toolbox extends JPanel
 		JScrollPane scrollPane = new JScrollPane(shapeList);
 		scrollPane.setPreferredSize(new Dimension(200, 300));
 		God.shapeList = shapeList;
+		God.scrollPane = scrollPane;
 
 		/***
 		 * New Label
@@ -53,14 +54,14 @@ public class Toolbox extends JPanel
 				God.moveVertex = null;
 				if (God.shapeData.getShapes().size() != 0) 
 				{
-					Shape lastShape = God.shapeData.getShape(God.shapeData.getIndex());
+					Shape lastShape = God.shapeData.getLastShape();
 					// If the current shape has at least 3 vertices, possible to complete
 					if(lastShape.size() > 2)
 					{
 						// Ask for a label before completing the shape (they can cancel)
 						if(God.requestLabel())
 						{
-							lastShape = God.shapeData.endShape(God.shapeData.getIndex());
+							lastShape = God.shapeData.endShape();
 							if (lastShape != null) {
 								BufferedImage screenshot = God.imagePanel.getScreenshot();
 								Rectangle r = lastShape.getBoundingBox();
@@ -122,6 +123,17 @@ public class Toolbox extends JPanel
 		});
 		
 		JButton delLabel = new JButton("del");
+		delLabel.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int index = God.shapeData.listSelection;
+				God.shapeData.removeShape(index);
+				God.shapeList.removeShape(index);
+				God.layeredPanel.repaint();
+				God.scrollPane.repaint();
+			}
+		});
 		buttons.add(editLabel);
 		buttons.add(delLabel);
 		add(buttons);

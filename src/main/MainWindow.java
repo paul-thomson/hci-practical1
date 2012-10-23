@@ -174,12 +174,12 @@ public class MainWindow extends JFrame
 				// Complete polygon
 				if (e.getKeyChar() == KeyEvent.VK_ENTER & God.mainWindow.isFocused() ) 
 				{	
-					Shape lastShape = God.shapeData.getShape(God.shapeData.getIndex());
+					Shape lastShape = God.shapeData.getLastShape();
 					if(lastShape.size() > 2)
 					{
 						if(God.requestLabel())
 						{
-							lastShape = God.shapeData.endShape(God.shapeData.getIndex());
+							lastShape = God.shapeData.endShape();
 
 							if (lastShape != null) 
 							{

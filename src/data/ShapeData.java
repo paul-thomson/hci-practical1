@@ -8,18 +8,9 @@ import main.ShapeList;
 public class ShapeData {
 	
 	/** Tells us which shape is currently selected */
-	public int index = -1;
 	public ArrayList<Shape> shapes = new ArrayList<Shape>();
 	public Color shapeColor = new Color(0,0,0);
 	public int listSelection = -1;
-	
-	public int getIndex() {
-		return index;
-	}
-
-	public void setIndex(int index) {
-		this.index = index;
-	}
 
 	public ArrayList<Shape> getShapes() {
 		return shapes;
@@ -44,18 +35,24 @@ public class ShapeData {
 	public void addShape(Shape shape) 
 	{
 		shapes.add(shape);
-		selectShape(shapes.size() - 1);
 		ShapeList.addShape(shape);
 	}
 	
-	public void selectShape(int newIndex) {
-		index = newIndex;
+	public void removeShape(int index) {
+		shapes.remove(listSelection);
+		listSelection = -1;
+		index--;
 	}
+	
+	public Shape getLastShape() {
+		return shapes.get(shapes.size()-1);
+	}
+	
 	
 	public void setColor(Color newColor) {
 		shapeColor = newColor;
 		if (shapes.size() != 0) {
-			shapes.get(index).setColor(newColor);
+			shapes.get(shapes.size()-1).setColor(newColor);
 		}
 	}
 
@@ -63,11 +60,11 @@ public class ShapeData {
 	 * Ends the current shape (which is last in the list of shapes) by 
 	 * adding the first vertex to the end
 	 */
-	public Shape endShape(int index) 
+	public Shape endShape() 
 	{
 		if (shapes.size() > 0) {
-			if (shapes.get(index).size() > 2) {
-				Shape lastShape = shapes.get(index);
+			if (shapes.get(shapes.size()-1).size() > 2) {
+				Shape lastShape = shapes.get(shapes.size()-1);
 				lastShape.add(lastShape.get(0));
 				//God.requestLabel();
 				return lastShape;
