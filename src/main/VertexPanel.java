@@ -61,7 +61,7 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 						shape.getColor().getGreen(),
 						shape.getColor().getBlue(),
 						60));
-				g2.fillPolygon(shape.getPolygon()); // UNCOMMENT TO HIGHLIGHT TODO
+//				g2.fillPolygon(shape.getPolygon()); // UNCOMMENT TO HIGHLIGHT TODO
 			}
 		}
 	}
