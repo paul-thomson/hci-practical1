@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.Color;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -26,14 +27,10 @@ public class God {
 	public static JPanel layeredPanel;
 	public static ShapeList shapeList;
 	public static JScrollPane scrollPane;
+	public static Color color = Color.red;
 
 	// Data structure stuff
 	public static ShapeData shapeData;
-	/**
-	 *  moveMode 	0 - STANDBY
-	 *  			1 - Move individual vertex
-	 *  			2 - Move entire polygons - Unnecessary?
-	 */			
 	public static int moveMode;
 	public static MoveVertex moveVertex;
 	public static boolean dirtyFlag;

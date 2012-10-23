@@ -34,8 +34,8 @@ public class MainWindow extends JFrame
 	ImagePanel imagePanel;
 	Toolbox toolbox;
 	Dimension minimumSize = new Dimension(1000,600);
-	String imageName = "res/kirby.jpg";
-	//	String imageName = "res/a.jpg";
+	//String imageName = "res/kirby.jpg";
+	String imageName = "res/a.png";
 	JFileChooser fc;
 
 	/**
@@ -143,6 +143,7 @@ public class MainWindow extends JFrame
 				God.vertexPanel.mouseMoved(arg0);		
 			}
 		});
+		
 		this.pack();
 		this.setVisible(true);
 	}
@@ -246,7 +247,7 @@ public class MainWindow extends JFrame
 			public void actionPerformed(ActionEvent arg0) 
 			{
 				God.shapeData.setColor(ColorEnum.getColor(arg0.getActionCommand()));
-				// TODO Should this repaint?					
+				God.color = ColorEnum.getColor(arg0.getActionCommand());
 				God.layeredPanel.paint(God.layeredPanel.getGraphics());
 			}};
 	}

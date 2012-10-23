@@ -50,8 +50,6 @@ public class Toolbox extends JPanel
 			public void actionPerformed(ActionEvent e) 
 			{
 				// Reset move modes
-				God.moveMode = 0;
-				God.moveVertex = null;
 				if (God.shapeData.getShapes().size() != 0) 
 				{
 					Shape lastShape = God.shapeData.getLastShape();
@@ -79,12 +77,24 @@ public class Toolbox extends JPanel
 					}
 					else
 					{			
-						// User tried to end an illegal shape, show warning
-						JOptionPane.showMessageDialog(null, "Polygon requires at least 3 vertices!");		
-						return;
+						if(God.moveMode == 1)
+						{
+							God.moveMode = 0; 
+							God.moveVertex = null;
+						}
+						else
+						{
+							// User tried to end an illegal shape, show warning
+							JOptionPane.showMessageDialog(null, "Polygon requires at least 3 vertices!");	
+							God.moveVertex = null;
+							God.moveMode = 0;	
+							return;
+						}
 					}
 
 				}
+				God.moveVertex = null;
+				God.moveMode = 0;
 				God.shapeData.addShape(new Shape());
 			}
 		});

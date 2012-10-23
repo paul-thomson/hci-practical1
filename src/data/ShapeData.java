@@ -66,7 +66,6 @@ public class ShapeData {
 			if (shapes.get(shapes.size()-1).size() > 2) {
 				Shape lastShape = shapes.get(shapes.size()-1);
 				lastShape.add(lastShape.get(0));
-				//God.requestLabel();
 				return lastShape;
 			}	
 			else
