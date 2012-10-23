@@ -12,6 +12,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -48,6 +49,7 @@ public class MainWindow extends JFrame
 			{
 				System.exit(0);
 			}
+			
 		});
 
 		//TODO Keyboard!!!
@@ -249,4 +251,5 @@ public class MainWindow extends JFrame
 				God.layeredPanel.paint(God.layeredPanel.getGraphics());
 			}};
 	}
+
 }

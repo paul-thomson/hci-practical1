@@ -153,4 +153,12 @@ public class Shape
 		return vertices.get(vertices.size() - 1);
 	}
 
+	public Polygon getPolygon() {
+		Polygon p = new Polygon();
+		for (Vertex v : vertices) { 
+			p.addPoint(v.getX(),v.getY());
+		}
+		return p;
+	}
+
 }

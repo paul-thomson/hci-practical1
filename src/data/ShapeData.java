@@ -11,6 +11,7 @@ public class ShapeData {
 	public int index = -1;
 	public ArrayList<Shape> shapes = new ArrayList<Shape>();
 	public Color shapeColor = new Color(0,0,0);
+	public int listSelection = -1;
 	
 	public int getIndex() {
 		return index;

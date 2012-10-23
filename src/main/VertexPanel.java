@@ -48,11 +48,21 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 	@Override
 	public void paintComponent(Graphics g) 
 	{
-		super.paintComponent(g);
+//		super.paintComponent(g);
 		ArrayList<Shape> shapes = God.shapeData.getShapes();
-		for (Shape shape : shapes) 
-		{ 
-			drawShape(God.imagePanel.getGraphics(), shape);
+		for (int i = 0; i < shapes.size(); i++) 
+		{
+			Shape shape = shapes.get(i);
+			drawShape(this.getGraphics(), shape);
+			if (God.shapeData.listSelection == i) {
+				System.out.println("polygonning");
+				Graphics2D g2 = (Graphics2D) this.getGraphics();
+				g2.setColor(new Color(shape.getColor().getRed(),
+						shape.getColor().getGreen(),
+						shape.getColor().getBlue(),
+						60));
+//				g2.fillPolygon(shape.getPolygon()); // UNCOMMENT TO HIGHLIGHT TODO
+			}
 		}
 	}
 
@@ -102,7 +112,6 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 		g.setColor(color);
 		g.fillOval(v.getX() - v.getRadius(), v.getY() - v.getRadius(), v.getRadius()*2, v.getRadius()*2);
 	}
-
 
 	/***
 	 * Finds the Euclidean distance between two vertices
@@ -226,6 +235,7 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 			Rectangle r = shape.getBoundingBox();
 			shape.setThumbnail(screenshot.getSubimage(r.x,r.y,r.width,r.height));
 			God.layeredPanel.paint(God.layeredPanel.getGraphics());
+			God.shapeList.repaint();
 		}
 
 		God.moveVertex = null;
