@@ -34,7 +34,7 @@ public class MainWindow extends JFrame
 	Toolbox toolbox;
 	Dimension minimumSize = new Dimension(1000,600);
 	String imageName = "res/kirby.jpg";
-//	String imageName = "res/a.jpg";
+	//	String imageName = "res/a.jpg";
 	JFileChooser fc;
 
 	/**
@@ -72,7 +72,7 @@ public class MainWindow extends JFrame
 		{
 			e.printStackTrace();
 		}
-		
+
 		imagePanel.setOpaque(true); //content panes must be opaque
 
 		toolbox = new Toolbox(color());
@@ -207,19 +207,27 @@ public class MainWindow extends JFrame
 					{
 						if(God.moveVertex != null)
 						{
-							// delete vertex
-							God.shapeData.shapes.get(God.moveVertex.getShape()).remove(God.moveVertex.getVertex());
-							// If vertex is head, must remove tail
-							if(God.moveVertex.getVertex() == 0)
+							// Must account for head being twice
+							if(God.shapeData.getShape(God.moveVertex.getShape()).size() > 4)
 							{
-								God.shapeData.shapes.get(God.moveVertex.getShape()).
-								remove(God.shapeData.shapes.get(God.moveVertex.getShape()).size() - 1);
-								// Push new head to tail
-								God.shapeData.shapes.get(God.moveVertex.getShape()).
-								add(God.shapeData.shapes.get(God.moveVertex.getShape()).getHead());
+								// delete vertex
+								God.shapeData.shapes.get(God.moveVertex.getShape()).remove(God.moveVertex.getVertex());
+								// If vertex is head, must remove tail
+								if(God.moveVertex.getVertex() == 0)
+								{
+									God.shapeData.shapes.get(God.moveVertex.getShape()).
+									remove(God.shapeData.shapes.get(God.moveVertex.getShape()).size() - 1);
+									// Push new head to tail
+									God.shapeData.shapes.get(God.moveVertex.getShape()).
+									add(God.shapeData.shapes.get(God.moveVertex.getShape()).getHead());
+								}
+								God.moveVertex = null;
+								God.layeredPanel.paint(God.layeredPanel.getGraphics());
 							}
-							God.moveVertex = null;
-							God.layeredPanel.paint(God.layeredPanel.getGraphics());
+							else
+							{
+								JOptionPane.showMessageDialog(null, "A label must be at least 3 vertices! TODO Delete entire label?");
+							}
 						}
 					}
 				}

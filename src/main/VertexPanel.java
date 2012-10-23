@@ -206,25 +206,6 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 				if(distance == Double.MAX_VALUE)
 				{
 					System.out.println("no candidate vertex found near mouse");
-					/*
-					// Check if mouse is within (contained) a polygon (first one to appear in list)
-					ArrayList<Shape> shapes = God.shapeData.getShapes();
-					for (int shapeIndex = 0; shapeIndex < shapes.size(); shapeIndex++)
-					{
-						Shape shape = shapes.get(shapeIndex);
-						if(shape.contains(Mouse))
-						{
-							// Move entire polygon 
-							God.moveMode = 2;
-							God.shapeIndex = shapeIndex;
-							God.polygonTranslation [0] = Mouse.getX();
-							God.polygonTranslation [1] = Mouse.getY();
-							System.out.println("moving entire polygon, mouse @ " + Mouse.getX() + " " + Mouse.getY());
-							break;
-
-						}
-					}
-					 */
 					return;
 				}
 				else
@@ -238,14 +219,6 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 	@Override
 	public void mouseReleased(MouseEvent arg0) 
 	{
-		/*
-		if(God.moveMode == 2)
-		{
-			System.out.println("no more moving");
-			God.moveMode = 1;
-		}
-		 */
-		
 		if (God.moveVertex != null) {
 			
 			Shape shape = God.shapeData.getShape(God.moveVertex.getShape());
@@ -280,44 +253,11 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 				God.layeredPanel.paint(this.getGraphics());
 			}
 		}
-		// Drag and move entire polygons DOESNT WORK
-		/*
-		else if(God.moveMode == 2)
-		{
-			System.out.println("moving porygon");
-			int xTranslate = e.getX() - God.polygonTranslation[0];
-			int yTranslate = e.getY() - God.polygonTranslation[1];
-			System.out.println("translation @ " + xTranslate + " " + yTranslate);
-			Shape shape = God.shapeData.getShape(God.shapeIndex);
-			for (int i = 0; i < shape.size(); i++)
-			{
-				int newX = shape.get(i).getX() + xTranslate;
-				int newY = shape.get(i).getY() + yTranslate;
-				System.out.println(newX + " " + newY);
-				shape.get(i).set(new Vertex(newX, newY));
-			}
-			God.polygonTranslation[0] = e.getX();
-			God.polygonTranslation[1] = e.getY();
-			God.layeredPanel.paint(this.getGraphics());
-		}
-		 */
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent e) 
 	{
-		/*
-		Vertex mouse = new Vertex(e.getX(), e.getY());
-		ArrayList<Shape> shapes = God.shapeData.getShapes();
-		for (int shapeIndex = 0; shapeIndex < shapes.size(); shapeIndex++)
-		{
-			Shape shape = shapes.get(shapeIndex);
-			if(shape.contains(mouse))
-			{
-				//Polygon poly = new Polygon(xpoints, ypoints, npoints)
-			}
-		}
-		 */
 	}
 
 }
