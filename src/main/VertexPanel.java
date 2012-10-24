@@ -148,6 +148,9 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 	{	
 		// Convert mouse click into a vertex
 		Vertex mouse = new Vertex(arg0.getX(), arg0.getY());
+		
+		// Focus is now on current polygon
+		God.shapeData.listSelection = -1;
 
 		// Stores closest vertex and shape index (0 vertex, 1 shape)
 		int [] candidate_vertex = new int[2];
@@ -233,7 +236,6 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 	@Override
 	public void mouseDragged(MouseEvent e) 
 	{
-		System.out.println("DRAG");
 		// Drag and move individual vertex
 		if(God.moveVertex != null)
 		{

@@ -21,7 +21,7 @@ public class Toolbox extends JPanel
 
 	private static final long serialVersionUID = 1L;
 	ShapeList shapeList = null;
-	
+
 	/**
 	 * Create the panel.
 	 */
@@ -96,7 +96,7 @@ public class Toolbox extends JPanel
 		});
 		add(newLabelButton);
 
-		 
+
 		moveButton = new JButton("Move Vertice TODO?");
 		moveButton.addActionListener(new ActionListener() 
 		{
@@ -107,37 +107,41 @@ public class Toolbox extends JPanel
 			}
 		});
 		add(moveButton);
-		*/
-		
-		
+		 */
+
+
 		ColorPalette colourPalette = new ColorPalette(changeColor);
 		add(colourPalette);
 		add(scrollPane);
-		
+
 		JPanel buttons = new JPanel();
 		JButton editLabel = new JButton("edit");
 		editLabel.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String s = (String) JOptionPane.showInputDialog("Please enter new label");
+				String s = (String) JOptionPane.showInputDialog("Please enter new label", 
+						God.shapeData.getShape(God.shapeData.listSelection).getLabel());
 				if (s != null) {
 					God.shapeData.getShape(God.shapeData.listSelection).setLabel(s);
 					God.shapeList.repaint();
 				}
 			}
 		});
-		
+
 		JButton delLabel = new JButton("del");
 		delLabel.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int index = God.shapeData.listSelection;
-				God.shapeData.removeShape(index);
-				God.shapeList.removeShape(index);								
-				God.layeredPanel.paint(God.layeredPanel.getGraphics());
-				God.scrollPane.repaint();
+				if (index >= 0)
+				{
+					God.shapeData.removeShape(index);
+					God.shapeList.removeShape(index);								
+					God.layeredPanel.paint(God.layeredPanel.getGraphics());
+					God.scrollPane.repaint();
+				}
 			}
 		});
 		buttons.add(editLabel);

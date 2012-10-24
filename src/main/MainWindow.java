@@ -246,9 +246,19 @@ public class MainWindow extends JFrame
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				God.shapeData.setColor(ColorEnum.getColor(arg0.getActionCommand()));
-				God.color = ColorEnum.getColor(arg0.getActionCommand());
-				God.layeredPanel.paint(God.layeredPanel.getGraphics());
+				System.out.println("Colour Hatsudo!");
+				if(God.shapeData.listSelection >= 0)
+				{
+					System.out.println("Changing colour of existing polygon: " + God.shapeData.listSelection );
+					God.shapeData.getShape(God.shapeData.listSelection).setColor(ColorEnum.getColor(arg0.getActionCommand()));
+					God.layeredPanel.paint(God.layeredPanel.getGraphics());
+				}
+				else
+				{
+					God.shapeData.setColor(ColorEnum.getColor(arg0.getActionCommand()));
+					God.color = ColorEnum.getColor(arg0.getActionCommand());
+					God.layeredPanel.paint(God.layeredPanel.getGraphics());
+				}
 			}};
 	}
 
