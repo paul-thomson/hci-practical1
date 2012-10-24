@@ -17,8 +17,8 @@ import data.ShapeData;
 public class ShapeList extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	static DefaultListModel<Shape> listModel = new DefaultListModel<Shape>();
-	JList<Shape> list;
+	static DefaultListModel listModel = new DefaultListModel();
+	JList list;
 	
 	public ShapeList(ShapeData shapeData) {
 		
@@ -27,7 +27,7 @@ public class ShapeList extends JPanel {
 			listModel.addElement(shape);
 	    }
 	    this.setLayout(new GridLayout(1,1));
-		list = new JList<Shape>(listModel);
+		list = new JList(listModel);
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		list.addListSelectionListener(new MyListSelectionListener());
 		
