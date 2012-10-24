@@ -12,7 +12,6 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -35,7 +34,7 @@ public class MainWindow extends JFrame
 	Toolbox toolbox;
 	Dimension minimumSize = new Dimension(1000,600);
 	//String imageName = "res/kirby.jpg";
-	String imageName = "res/a.png";
+	String imageName = "res/a.jpg";
 	JFileChooser fc;
 
 	/**
@@ -49,7 +48,7 @@ public class MainWindow extends JFrame
 			{
 				System.exit(0);
 			}
-			
+
 		});
 
 		//TODO Keyboard!!!
@@ -143,7 +142,7 @@ public class MainWindow extends JFrame
 				God.vertexPanel.mouseMoved(arg0);		
 			}
 		});
-		
+
 		this.pack();
 		this.setVisible(true);
 	}
@@ -174,66 +173,67 @@ public class MainWindow extends JFrame
 			{
 				// Complete polygon
 				if (e.getKeyChar() == KeyEvent.VK_ENTER & God.mainWindow.isFocused() ) 
-				{	
-					Shape lastShape = God.shapeData.getLastShape();
-					if(lastShape.size() > 2)
+				{			
+					if(God.shapeData.getShapes().size() != 0)
 					{
-						if(God.requestLabel())
+						Shape lastShape = God.shapeData.getLastShape();
+						if(lastShape.size() > 2)
 						{
-							lastShape = God.shapeData.endShape();
-
-							if (lastShape != null) 
+							if(God.requestLabel())
 							{
-								BufferedImage screenshot = imagePanel.getScreenshot();
-								Rectangle r = lastShape.getBoundingBox();
-								lastShape.setThumbnail(screenshot.getSubimage(r.x,r.y,r.width,r.height));
+								lastShape = God.shapeData.endShape();
 
-								God.vertexPanel.drawLine(lastShape.get(lastShape.size() - 2), lastShape.get(0), lastShape.getColor());
-								God.shapeData.addShape(new Shape());	
+								if (lastShape != null) 
+								{
+									BufferedImage screenshot = imagePanel.getScreenshot();
+									Rectangle r = lastShape.getBoundingBox();
+									lastShape.setThumbnail(screenshot.getSubimage(r.x,r.y,r.width,r.height));
+
+									God.vertexPanel.drawLine(lastShape.get(lastShape.size() - 2), lastShape.get(0), lastShape.getColor());
+									God.shapeData.addShape(new Shape());	
+								}
+							}
+							else
+							{
+								return false;
 							}
 						}
 						else
 						{
-							return false;
+							JOptionPane.showMessageDialog(null, "Polygon requires at least 3 vertices!");
 						}
-					}
-					else
-					{
-						JOptionPane.showMessageDialog(null, "Polygon requires at least 3 vertices!");
 					}
 				}
 
 				// Delete vertex
 				if (e.getKeyChar() == KeyEvent.VK_DELETE || e.getKeyChar() == KeyEvent.VK_BACK_SPACE ) 
 				{
-					if (God.moveMode == 1)
+					if(God.moveVertex != null)
 					{
-						if(God.moveVertex != null)
+						// Must account for head being twice
+						if(God.shapeData.getShape(God.moveVertex.getShape()).size() > 4)
 						{
-							// Must account for head being twice
-							if(God.shapeData.getShape(God.moveVertex.getShape()).size() > 4)
+							// delete vertex
+							God.shapeData.shapes.get(God.moveVertex.getShape()).remove(God.moveVertex.getVertex());
+							// If vertex is head, must remove tail
+							if(God.moveVertex.getVertex() == 0)
 							{
-								// delete vertex
-								God.shapeData.shapes.get(God.moveVertex.getShape()).remove(God.moveVertex.getVertex());
-								// If vertex is head, must remove tail
-								if(God.moveVertex.getVertex() == 0)
-								{
-									God.shapeData.shapes.get(God.moveVertex.getShape()).
-									remove(God.shapeData.shapes.get(God.moveVertex.getShape()).size() - 1);
-									// Push new head to tail
-									God.shapeData.shapes.get(God.moveVertex.getShape()).
-									add(God.shapeData.shapes.get(God.moveVertex.getShape()).getHead());
-								}
-								God.moveVertex = null;
-								God.layeredPanel.paint(God.layeredPanel.getGraphics());
+								God.shapeData.shapes.get(God.moveVertex.getShape()).
+								remove(God.shapeData.shapes.get(God.moveVertex.getShape()).size() - 1);
+								// Push new head to tail
+								God.shapeData.shapes.get(God.moveVertex.getShape()).
+								add(God.shapeData.shapes.get(God.moveVertex.getShape()).getHead());
 							}
-							else
-							{
-								JOptionPane.showMessageDialog(null, "A label must be at least 3 vertices! TODO Delete entire label?");
-							}
+							God.moveVertex = null;
+							God.layeredPanel.paint(God.layeredPanel.getGraphics());
+						}
+						else
+						{
+							JOptionPane.showMessageDialog(null, "A label must be at least 3 vertices! TODO Delete entire label?");
 						}
 					}
 				}
+
 			}
 			return false;
 		}

@@ -1,10 +1,6 @@
 package main;
 
 import java.awt.Color;
-import java.awt.Rectangle;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
@@ -31,7 +27,6 @@ public class God {
 
 	// Data structure stuff
 	public static ShapeData shapeData;
-	public static int moveMode;
 	public static MoveVertex moveVertex;
 	public static boolean dirtyFlag;
 	
@@ -62,91 +57,5 @@ public class God {
 			shapes.get(shapes.size()-1).setLabel(s);
 		}
 		return true;
-	}
-	
-	static KeyListener keyDispatcher()
-	{
-		return new KeyListener()
-		{
-			@Override
-			public void keyPressed(KeyEvent e) 
-			{
-				System.out.println("hahshdah");
-				if (e.getID() == KeyEvent.KEY_TYPED) 
-				{
-					// Complete polygon
-					if (e.getKeyChar() == KeyEvent.VK_ENTER ) 
-					{	
-						Shape lastShape = God.shapeData.getLastShape();
-						if(lastShape.size() > 2)
-						{
-							if(God.requestLabel())
-							{
-								lastShape = God.shapeData.endShape();
-
-								if (lastShape != null) 
-								{
-									BufferedImage screenshot = imagePanel.getScreenshot();
-									Rectangle r = lastShape.getBoundingBox();
-									lastShape.setThumbnail(screenshot.getSubimage(r.x,r.y,r.width,r.height));
-
-									God.vertexPanel.drawLine(lastShape.get(lastShape.size() - 2), lastShape.get(0), lastShape.getColor());
-									God.shapeData.addShape(new Shape());	
-								}
-							}
-							else
-							{
-								return;
-							}
-						}
-						else
-						{
-							JOptionPane.showMessageDialog(null, "Polygon requires at least 3 vertices!");
-						}
-					}
-
-					// Delete vertex
-					if (e.getKeyChar() == KeyEvent.VK_DELETE || e.getKeyChar() == KeyEvent.VK_BACK_SPACE ) 
-					{
-						if (God.moveMode == 1)
-						{
-							if(God.moveVertex != null)
-							{
-								// delete vertex
-								God.shapeData.shapes.get(God.moveVertex.getShape()).remove(God.moveVertex.getVertex());
-								// If vertex is head, must remove tail
-								if(God.moveVertex.getVertex() == 0)
-								{
-									God.shapeData.shapes.get(God.moveVertex.getShape()).
-									remove(God.shapeData.shapes.get(God.moveVertex.getShape()).size() - 1);
-									// Push new head to tail
-									God.shapeData.shapes.get(God.moveVertex.getShape()).
-									add(God.shapeData.shapes.get(God.moveVertex.getShape()).getHead());
-								}
-								God.moveVertex = null;
-								God.vertexPanel.repaint();
-							}
-						}
-					}
-				}
-				return ;
-
-			}
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				System.out.println("xd");
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void keyTyped(KeyEvent e) {
-				System.out.println("dx");
-				// TODO Auto-generated method stub
-
-			}
-
-		};
 	}
 }

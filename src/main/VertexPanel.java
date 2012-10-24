@@ -48,7 +48,7 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 	@Override
 	public void paintComponent(Graphics g) 
 	{
-//		super.paintComponent(g);
+		//		super.paintComponent(g);
 		ArrayList<Shape> shapes = God.shapeData.getShapes();
 		for (int i = 0; i < shapes.size(); i++) 
 		{
@@ -61,7 +61,7 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 						shape.getColor().getGreen(),
 						shape.getColor().getBlue(),
 						60));
-//				g2.fillPolygon(shape.getPolygon()); // UNCOMMENT TO HIGHLIGHT TODO
+				//				g2.fillPolygon(shape.getPolygon()); // UNCOMMENT TO HIGHLIGHT TODO
 			}
 		}
 	}
@@ -131,98 +131,86 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 	@Override
 	public void mouseClicked(MouseEvent arg0) 
 	{
-		// New shape, adding vertices to shape
-		if (God.moveMode == 0)
-		{
-			ArrayList<Shape> shapes = God.shapeData.getShapes();
-			Vertex vertex = new Vertex(arg0.getX(), arg0.getY());
-			if (shapes.size() == 0)
-			{
-				// TODO: Check necessary?
-			}
-			// Check mouse is within image boundaries
-			else if (arg0.getX() < God.imageDimension[0] - vertex.getRadius()  && arg0.getY() < God.imageDimension[1] - vertex.getRadius()) 
-			{
-				System.out.println("Point at : "+ arg0.getX() + " " + arg0.getY());
-				Shape lastShape = shapes.get(shapes.size() - 1);
-				drawVertex(vertex, lastShape.getColor());
-				if (lastShape.size() != 0) 
-				{
-					drawLine(vertex, lastShape.get(lastShape.size()-1), lastShape.getColor());
-				}
-				lastShape.add(vertex);
-				God.dirtyFlag = true;
-			}
-		}
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent arg0) 
 	{
-		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void mouseExited(MouseEvent arg0) 
 	{
-		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void mousePressed(MouseEvent arg0) 
 	{	
-		// Moving vertices of existing shapes / polygons
-		if(God.moveMode == 1)
+		// Convert mouse click into a vertex
+		Vertex mouse = new Vertex(arg0.getX(), arg0.getY());
+
+		// Stores closest vertex and shape index (0 vertex, 1 shape)
+		int [] candidate_vertex = new int[2];
+		double distance = Double.MAX_VALUE;
+
+		// Check mouse is within image boundaries 
+		if (mouse.getX() < (God.imageDimension[0] - mouse.getRadius()) && mouse.getY() < (God.imageDimension[1] - mouse.getRadius())) 
 		{
-			Vertex mouse = new Vertex(arg0.getX(), arg0.getY());
-
-			// Stores closest vertex and shape index (0 vertex, 1 shape)
-			int [] candidate_vertex = new int[2];
-			double distance = Double.MAX_VALUE;
-
-			// Check mouse is within image boundaries 
-			if (mouse.getX() < (God.imageDimension[0] - mouse.getRadius()) && mouse.getY() < (God.imageDimension[1] - mouse.getRadius())) 
+			// For each shape, fetch each vertex and compare to mouse click
+			ShapeData shapeData = God.shapeData;
+			for (int shapeIndex = 0; shapeIndex < shapeData.shapes.size(); shapeIndex++)
 			{
-				/*** Finding vertex closest to mouse click ***/
-				ShapeData shapeData = God.shapeData;
-				// For each shape, fetch each vertex and compare to mouse click
-				for (int shapeIndex = 0; shapeIndex < shapeData.shapes.size(); shapeIndex++)
+				Shape shape = shapeData.getShape(shapeIndex);
+				for (int vertexIndex = 0; vertexIndex < shape.size(); vertexIndex++)
 				{
-					Shape shape = shapeData.getShape(shapeIndex);
-					for (int vertexIndex = 0; vertexIndex < shape.size(); vertexIndex++)
+					Vertex v = shape.get(vertexIndex);
+					// If distance between new vertex and mouse is shorter than current shortest distance, swap
+					if((EuclideanDistance(mouse, v) < distance) 
+							&& (EuclideanDistance(mouse, v) <= v.getRadius()))
 					{
-						Vertex v = shape.get(vertexIndex);
-						// If distance between new vertex and mouse is shorter than current shortest distance, swap
-						if((EuclideanDistance(mouse, v) < distance) 
-								&& (EuclideanDistance(mouse, v) <= v.getRadius()))
-						{
-							candidate_vertex[0]= vertexIndex;
-							candidate_vertex[1]= shapeIndex;
-							distance = EuclideanDistance(mouse, v);
-						}
+						candidate_vertex[0]= vertexIndex;
+						candidate_vertex[1]= shapeIndex;
+						distance = EuclideanDistance(mouse, v);
 					}
 				}
-
-				// Vertex is start (and end) vertex, force vertex to be head
-				// This is for moving the start and end vertices together (seemless to user)
-				if(shapeData.getShape(candidate_vertex[1]).get(candidate_vertex[0]).
-						equals(shapeData.getShape(candidate_vertex[1]).getHead()))
-				{
-					candidate_vertex[0] = 0;
-				}
-
-				// If no vertex found, move on
-				if(distance == Double.MAX_VALUE)
-				{
-					System.out.println("no candidate vertex found near mouse");
-					return;
-				}
-				else
-				{
-					God.moveVertex = new MoveVertex(candidate_vertex);
-				}
 			}
+
+
+			// If no vertex found, must be a new vertex for current polygon 
+			if(distance == Double.MAX_VALUE)
+			{
+				System.out.println("no candidate vertex found near mouse");	
+				ArrayList<Shape> shapes = God.shapeData.getShapes();
+
+				System.out.println("Point at : "+ mouse.getX() + " " + mouse.getY());
+				if(shapes.size() == 0)
+				{
+					shapeData.addShape(new Shape());
+				}
+				Shape lastShape = shapes.get(shapes.size() - 1);
+				drawVertex(mouse, lastShape.getColor());
+				if (lastShape.size() != 0) 
+				{
+					drawLine(mouse, lastShape.get(lastShape.size()-1), lastShape.getColor());
+				}
+				lastShape.add(mouse);
+				God.dirtyFlag = true;
+				return;
+			}
+
+
+			// Vertex is start (and end) vertex, force vertex to be head
+			// This is for moving the start and end vertices together (seemless to user)
+			if(shapeData.getShape(candidate_vertex[1]).get(candidate_vertex[0]).
+					equals(shapeData.getShape(candidate_vertex[1]).getHead()))
+			{
+				candidate_vertex[0] = 0;
+			}
+
+			God.moveVertex = new MoveVertex(candidate_vertex);
+
 		}
+
 	}
 
 	@Override
@@ -245,8 +233,9 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 	@Override
 	public void mouseDragged(MouseEvent e) 
 	{
+		System.out.println("DRAG");
 		// Drag and move individual vertex
-		if(God.moveMode == 1 && God.moveVertex != null)
+		if(God.moveVertex != null)
 		{
 			Vertex mouse = new Vertex(e.getX(), e.getY());
 			if (mouse.getX() < (God.imageDimension[0] - mouse.getRadius()) && mouse.getY() < (God.imageDimension[1] - mouse.getRadius())) 

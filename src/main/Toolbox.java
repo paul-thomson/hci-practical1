@@ -20,8 +20,6 @@ public class Toolbox extends JPanel
 {
 
 	private static final long serialVersionUID = 1L;
-	JButton newLabelButton = new JButton("New Label");
-	JButton moveButton = new JButton("Move");
 	ShapeList shapeList = null;
 	
 	/**
@@ -39,81 +37,7 @@ public class Toolbox extends JPanel
 		scrollPane.setPreferredSize(new Dimension(200, 300));
 		God.shapeList = shapeList;
 		God.scrollPane = scrollPane;
-
-		/***
-		 * New Label
-		 */ 
-		newLabelButton = new JButton("New Label");
-		newLabelButton.addActionListener(new ActionListener() 
-		{
-			@Override
-			public void actionPerformed(ActionEvent e) 
-			{
-				// Reset move modes
-				if (God.shapeData.getShapes().size() != 0) 
-				{
-					Shape lastShape = God.shapeData.getLastShape();
-					// If the current shape has at least 3 vertices, possible to complete
-					if(lastShape.size() > 2)
-					{
-						// Ask for a label before completing the shape (they can cancel)
-						if(God.requestLabel())
-						{
-							lastShape = God.shapeData.endShape();
-							if (lastShape != null) {
-								BufferedImage screenshot = God.imagePanel.getScreenshot();
-								Rectangle r = lastShape.getBoundingBox();
-								lastShape.setThumbnail(screenshot.getSubimage(r.x,r.y,r.width,r.height));
-
-								God.vertexPanel.drawLine(lastShape.get(lastShape.size() - 2), lastShape.get(0), lastShape.getColor());
-								God.layeredPanel.paint(God.layeredPanel.getGraphics());
-							}
-						}
-						else
-						{
-							// User cancelled label, exit
-							return;
-						}
-					}
-					else
-					{			
-						if(God.moveMode == 1)
-						{
-							God.moveMode = 0; 
-							God.moveVertex = null;
-						}
-						else
-						{
-							// User tried to end an illegal shape, show warning
-							JOptionPane.showMessageDialog(null, "Polygon requires at least 3 vertices!");	
-							God.moveVertex = null;
-							God.moveMode = 0;	
-							return;
-						}
-					}
-
-				}
-				God.moveVertex = null;
-				God.moveMode = 0;
-				God.shapeData.addShape(new Shape());
-			}
-		});
-		add(newLabelButton);
-
-		/***
-		 * Move
-		 */
-		moveButton = new JButton("Move Vertice TODO?");
-		moveButton.addActionListener(new ActionListener() 
-		{
-			@Override
-			public void actionPerformed(ActionEvent e) 
-			{
-				God.moveMode = 1;
-			}
-		});
-		add(moveButton);
-
+		
 		ColorPalette colourPalette = new ColorPalette(changeColor);
 		add(colourPalette);
 		add(scrollPane);
@@ -139,8 +63,8 @@ public class Toolbox extends JPanel
 			public void actionPerformed(ActionEvent e) {
 				int index = God.shapeData.listSelection;
 				God.shapeData.removeShape(index);
-				God.shapeList.removeShape(index);
-				God.layeredPanel.repaint();
+				God.shapeList.removeShape(index);								
+				God.layeredPanel.paint(God.layeredPanel.getGraphics());
 				God.scrollPane.repaint();
 			}
 		});
