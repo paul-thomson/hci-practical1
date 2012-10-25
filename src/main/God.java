@@ -10,6 +10,7 @@ import javax.swing.JScrollPane;
 import data.MoveVertex;
 import data.Shape;
 import data.ShapeData;
+import data.Vertex;
 import fileio.FileIOPanel;
 
 public class God {
@@ -28,16 +29,10 @@ public class God {
 	// Data structure stuff
 	public static ShapeData shapeData;
 	public static MoveVertex moveVertex;
+	public static int lastVertex;
 	public static boolean dirtyFlag;
 	
-	//public static int shapeIndex;
-	//public static int[] polygonTranslation = new int[2];
 	public static int[] imageDimension = new int[2];
-
-	public static void resetMoveVertex()
-	{
-		moveVertex = null;
-	}
 
 	public static boolean requestLabel() {
 		String s = (String) JOptionPane.showInputDialog("Please enter label");

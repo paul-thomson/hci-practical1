@@ -43,20 +43,20 @@ public class FileIOPanel extends JPanel
 		this.setPreferredSize(new Dimension(200,200));
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-		newButton = new JButton("New Image");
+		newButton = new JButton("New Image ICONS");
 		newButton.addActionListener(newImage());
 		add(newButton);
 
-		saveButton = new JButton("Save Annotations");	
+		saveButton = new JButton("Save Annotations ICONS");	
 		saveButton.addActionListener(saveSession());
 		add(saveButton);
 
-		loadButton = new JButton("Load Annotations");
+		loadButton = new JButton("Load Annotations ICONS");
 		loadButton.addActionListener(loadSession());
 		add(loadButton);
 
 
-		lolPaul = new JButton("lolPaul lolPaul");
+		lolPaul = new JButton("Exit ICONS");
 		lolPaul.addActionListener(new ActionListener()
 		{
 
@@ -118,7 +118,6 @@ public class FileIOPanel extends JPanel
 						ShapeData shapeData = new ShapeData();
 						God.shapeData = shapeData;
 						God.imagePanel.newImage(file);
-						God.moveMode = 0;
 						// Empty thumbnail list
 						God.shapeList.emptyList();
 						God.dirtyFlag = false;
@@ -324,9 +323,7 @@ public class FileIOPanel extends JPanel
 						}
 						shapeData.addShape(new Shape());
 						God.shapeData = shapeData;
-						God.moveMode = 0;
 						God.dirtyFlag = false;
-//						God.layeredPanel.paint(God.layeredPanel.getGraphics());
 					} 
 					catch(FileNotFoundException e) 
 					{

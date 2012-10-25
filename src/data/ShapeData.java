@@ -3,6 +3,7 @@ package data;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import main.God;
 import main.ShapeList;
 
 public class ShapeData {
@@ -35,7 +36,6 @@ public class ShapeData {
 	public void addShape(Shape shape) 
 	{
 		shapes.add(shape);
-		ShapeList.addShape(shape);
 	}
 	
 	public void removeShape(int index) {
@@ -66,6 +66,8 @@ public class ShapeData {
 			if (shapes.get(shapes.size()-1).size() > 2) {
 				Shape lastShape = shapes.get(shapes.size()-1);
 				lastShape.add(lastShape.get(0));
+				ShapeList.addShape(lastShape);
+				God.lastVertex = -1;
 				return lastShape;
 			}	
 			else

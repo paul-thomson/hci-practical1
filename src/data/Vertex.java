@@ -8,7 +8,7 @@ public class Vertex
 
 	private int x;
 	private int y;
-	private int radius = 5;
+	private int radius = 8;
 
 	public Vertex(int x, int y) 
 	{

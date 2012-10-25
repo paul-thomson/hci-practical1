@@ -2,10 +2,8 @@ package main;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -13,7 +11,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
-import data.Shape;
 import fileio.FileIOPanel;
 
 public class Toolbox extends JPanel 
@@ -115,7 +112,7 @@ public class Toolbox extends JPanel
 		add(scrollPane);
 
 		JPanel buttons = new JPanel();
-		JButton editLabel = new JButton("edit");
+		JButton editLabel = new JButton("Edit");
 		editLabel.addActionListener(new ActionListener()
 		{
 			@Override
@@ -129,7 +126,7 @@ public class Toolbox extends JPanel
 			}
 		});
 
-		JButton delLabel = new JButton("del");
+		JButton delLabel = new JButton("Del");
 		delLabel.addActionListener(new ActionListener()
 		{
 			@Override

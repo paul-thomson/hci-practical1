@@ -61,7 +61,7 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 						shape.getColor().getGreen(),
 						shape.getColor().getBlue(),
 						60));
-				//				g2.fillPolygon(shape.getPolygon()); // UNCOMMENT TO HIGHLIGHT TODO
+				//		g2.fillPolygon(shape.getPolygon()); // UNCOMMENT TO HIGHLIGHT TODO
 			}
 		}
 	}
@@ -197,6 +197,8 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 					drawLine(mouse, lastShape.get(lastShape.size()-1), lastShape.getColor());
 				}
 				lastShape.add(mouse);
+				God.lastVertex = lastShape.size()-1;
+				System.out.println("God.lastVertex " + God.lastVertex);
 				God.dirtyFlag = true;
 				return;
 			}
@@ -219,16 +221,16 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 	@Override
 	public void mouseReleased(MouseEvent arg0) 
 	{
-		if (God.moveVertex != null) {
-
+		if (God.moveVertex != null)
+		{
 			Shape shape = God.shapeData.getShape(God.moveVertex.getShape());
 			BufferedImage screenshot = God.imagePanel.getScreenshot();
 			Rectangle r = shape.getBoundingBox();
 			shape.setThumbnail(screenshot.getSubimage(r.x,r.y,r.width,r.height));
 			God.layeredPanel.paint(God.layeredPanel.getGraphics());
+			God.lastVertex = -1;
 			God.shapeList.repaint();
 		}
-
 		God.moveVertex = null;
 		God.dirtyFlag = true;
 	}

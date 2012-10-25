@@ -14,6 +14,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 import javax.swing.JFileChooser;
@@ -33,8 +34,8 @@ public class MainWindow extends JFrame
 	ImagePanel imagePanel;
 	Toolbox toolbox;
 	Dimension minimumSize = new Dimension(1000,600);
-	//String imageName = "res/kirby.jpg";
-	String imageName = "res/a.jpg";
+	String imageName = "res/kirby.jpg";
+	//String imageName = "res/a.jpg";
 	JFileChooser fc;
 
 	/**
@@ -210,30 +211,48 @@ public class MainWindow extends JFrame
 				{
 					if(God.moveVertex != null)
 					{
-						// Must account for head being twice
-						if(God.shapeData.getShape(God.moveVertex.getShape()).size() > 4)
+						if(God.shapeData.getShape(God.moveVertex.getShape()).size() > 0)
 						{
-							// delete vertex
-							God.shapeData.shapes.get(God.moveVertex.getShape()).remove(God.moveVertex.getVertex());
-							// If vertex is head, must remove tail
-							if(God.moveVertex.getVertex() == 0)
+							// If shape is complete
+							if(God.shapeData.getShape(God.moveVertex.getShape()).getHead().
+									equals(God.shapeData.getShape(God.moveVertex.getShape()).getTail()))
 							{
-								God.shapeData.shapes.get(God.moveVertex.getShape()).
-								remove(God.shapeData.shapes.get(God.moveVertex.getShape()).size() - 1);
-								// Push new head to tail
-								God.shapeData.shapes.get(God.moveVertex.getShape()).
-								add(God.shapeData.shapes.get(God.moveVertex.getShape()).getHead());
+								// Delete existing vertex of polygon
+								// Must account for head being twice
+								if(God.shapeData.getShape(God.moveVertex.getShape()).size() > 4)
+								{
+									// delete vertex
+									God.shapeData.shapes.get(God.moveVertex.getShape()).remove(God.moveVertex.getVertex());
+									// If vertex is head, must remove tail
+									if(God.moveVertex.getVertex() == 0)
+									{
+										God.shapeData.shapes.get(God.moveVertex.getShape()).
+										remove(God.shapeData.shapes.get(God.moveVertex.getShape()).size() - 1);
+										// Push new head to tail
+										God.shapeData.shapes.get(God.moveVertex.getShape()).
+										add(God.shapeData.shapes.get(God.moveVertex.getShape()).getHead());
+									}
+									God.moveVertex = null;
+									God.layeredPanel.paint(God.layeredPanel.getGraphics());
+								}
+								else
+								{
+									// Show error message
+									JOptionPane.showMessageDialog(null, "A label must be at least 3 vertices! TODO Delete entire label?");
+								}
 							}
-							God.moveVertex = null;
-							God.layeredPanel.paint(God.layeredPanel.getGraphics());
-						}
-						else
-						{
-							JOptionPane.showMessageDialog(null, "A label must be at least 3 vertices! TODO Delete entire label?");
 						}
 					}
-				}
+					else if (God.lastVertex >= 0)
+					{
 
+						ArrayList<Shape> shapes = God.shapeData.getShapes();
+						Shape lastShape = shapes.get(shapes.size() - 1);
+						lastShape.remove(God.lastVertex);
+						God.layeredPanel.paint(God.layeredPanel.getGraphics());
+						God.lastVertex = -1;
+					}
+				}
 			}
 			return false;
 		}
@@ -246,10 +265,8 @@ public class MainWindow extends JFrame
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				System.out.println("Colour Hatsudo!");
 				if(God.shapeData.listSelection >= 0)
 				{
-					System.out.println("Changing colour of existing polygon: " + God.shapeData.listSelection );
 					God.shapeData.getShape(God.shapeData.listSelection).setColor(ColorEnum.getColor(arg0.getActionCommand()));
 					God.layeredPanel.paint(God.layeredPanel.getGraphics());
 				}
