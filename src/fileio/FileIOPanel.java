@@ -238,13 +238,17 @@ public class FileIOPanel extends JPanel
 		{
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
-			{
+			{	
+				if(God.dirtyFlag)
+				{
+					JOptionPane.showMessageDialog(null, "You have not commited your current modifications! TODO");
+					return;
+				}
 				if (fc == null) {
 					fc = new JFileChooser();
 
 					//Add a custom file filter for annotation csv
 					fc.addChoosableFileFilter(new TypeFilter(0));
-					fc.setAcceptAllFileFilterUsed(true);
 
 					//Add custom icons for file types.
 					fc.setFileView(new ViewFile());

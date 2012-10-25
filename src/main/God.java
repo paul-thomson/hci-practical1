@@ -44,7 +44,6 @@ public class God {
 		// If they enter an invalid label (no characters, only white space)
 		if (s.trim().length() < 1)
 		{
-			System.out.println("haha");
 			return false;
 		}
 		ArrayList<Shape> shapes = God.shapeData.getShapes();
