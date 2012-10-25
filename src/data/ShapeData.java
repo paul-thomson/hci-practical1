@@ -67,7 +67,6 @@ public class ShapeData {
 				Shape lastShape = shapes.get(shapes.size()-1);
 				lastShape.add(lastShape.get(0));
 				ShapeList.addShape(lastShape);
-				God.lastVertex = -1;
 				return lastShape;
 			}	
 			else

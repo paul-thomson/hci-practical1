@@ -34,7 +34,7 @@ public class FileIOPanel extends JPanel
 {
 
 	private static final long serialVersionUID = 1L;
-	JButton newButton, saveButton, loadButton, lolPaul;
+	JButton newButton, saveButton, loadButton, exitButton;
 	JTextArea log;
 	JFileChooser fc;
 
@@ -56,18 +56,9 @@ public class FileIOPanel extends JPanel
 		add(loadButton);
 
 
-		lolPaul = new JButton("Exit ICONS");
-		lolPaul.addActionListener(new ActionListener()
-		{
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				System.exit(0);
-
-			}
-
-		});
-		add(lolPaul);
+		exitButton = new JButton("Exit ICONS");
+		exitButton.addActionListener(exitApplication());
+		add(exitButton);
 	}
 
 	/***
@@ -87,8 +78,10 @@ public class FileIOPanel extends JPanel
 			{		
 				if(God.dirtyFlag)
 				{
-					JOptionPane.showMessageDialog(null, "You have not commited your current modifications! TODO");
-					return;
+					int response = JOptionPane.showConfirmDialog(null,"You have not saved your labels. \nWould you like to continue loading a new image?"
+							,"New Image",JOptionPane.YES_NO_OPTION);
+					if(response == JOptionPane.NO_OPTION)
+						return;
 				}
 				if (fc == null) 
 				{
@@ -241,8 +234,10 @@ public class FileIOPanel extends JPanel
 			{	
 				if(God.dirtyFlag)
 				{
-					JOptionPane.showMessageDialog(null, "You have not commited your current modifications! TODO");
-					return;
+					int response = JOptionPane.showConfirmDialog(null,"You have not saved your labels. \nWould you like to continue loading an annotation file?"
+							,"Load Session",JOptionPane.YES_NO_OPTION);
+					if(response == JOptionPane.NO_OPTION)
+						return;
 				}
 				if (fc == null) {
 					fc = new JFileChooser();
@@ -349,5 +344,26 @@ public class FileIOPanel extends JPanel
 				fc.setSelectedFile(null);
 				fc = null;
 			}};
+	}
+	
+	ActionListener exitApplication()
+	{
+		return new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {				
+				if(God.dirtyFlag)
+				{
+					int response = JOptionPane.showConfirmDialog(null,"You have not saved your labels. \nWould you still like to exit this application?"
+							,"Load Session",JOptionPane.YES_NO_OPTION);
+					if(response == JOptionPane.NO_OPTION)
+						return;
+				}
+				System.exit(0);
+
+			}
+
+		};
 	}
 }

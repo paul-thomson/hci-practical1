@@ -180,6 +180,8 @@ public class MainWindow extends JFrame
 						Shape lastShape = God.shapeData.getLastShape();
 						if(lastShape.size() > 2)
 						{
+							int temp =  God.lastVertex;
+							God.lastVertex = -1;
 							if(God.requestLabel())
 							{
 								lastShape = God.shapeData.endShape();
@@ -196,6 +198,8 @@ public class MainWindow extends JFrame
 							}
 							else
 							{
+
+								God.lastVertex = temp;
 								return false;
 							}
 						}
@@ -245,7 +249,6 @@ public class MainWindow extends JFrame
 					}
 					else if (God.lastVertex >= 0)
 					{
-
 						ArrayList<Shape> shapes = God.shapeData.getShapes();
 						Shape lastShape = shapes.get(shapes.size() - 1);
 						lastShape.remove(God.lastVertex);
