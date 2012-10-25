@@ -40,26 +40,39 @@ public class FileIOPanel extends JPanel
 
 	public FileIOPanel()
 	{
-		this.setPreferredSize(new Dimension(200,200));
-		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+//		this.setPreferredSize(new Dimension(200,200));
+		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+		Dimension buttonSize = new Dimension(40,40);
 
-		newButton = new JButton("New Image");
+//		newButton = new JButton("New Image");
+		newButton = new JButton();
+		newButton.setToolTipText("Load a new image");
+		newButton.setPreferredSize(buttonSize);
 		newButton.setIcon(new ImageIcon("res/new_image.png"));
 		newButton.addActionListener(newImage());
 		add(newButton);
 
-		saveButton = new JButton("Save Labels");
+//		saveButton = new JButton("Save Labels");
+		saveButton = new JButton();
+		saveButton.setToolTipText("Save labels to disc");
+		saveButton.setPreferredSize(buttonSize);
 		saveButton.setIcon(new ImageIcon("res/save_labels.png"));
 		saveButton.addActionListener(saveSession());
 		add(saveButton);
 
-		loadButton = new JButton("Load Labels");
+//		loadButton = new JButton("Load Labels");
+		loadButton = new JButton();
+		loadButton.setToolTipText("Load labels from disc");
+		loadButton.setPreferredSize(buttonSize);
 		loadButton.setIcon(new ImageIcon("res/load_labels.png"));
 		loadButton.addActionListener(loadSession());
 		add(loadButton);
 
 
-		exitButton = new JButton("Exit");
+//		exitButton = new JButton("Exit");
+		exitButton = new JButton();
+		exitButton.setToolTipText("Exit the application");
+		exitButton.setPreferredSize(buttonSize);
 		exitButton.addActionListener(exitApplication());
 		exitButton.setIcon(new ImageIcon("res/exit.png"));
 		add(exitButton);

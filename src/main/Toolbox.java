@@ -108,9 +108,9 @@ public class Toolbox extends JPanel
 		 */
 
 
-		ColorPalette colourPalette = new ColorPalette(changeColor);
-		add(colourPalette);
-		add(scrollPane);
+		FileIOPanel fileIO = new FileIOPanel();
+		add(fileIO);
+		God.fileIOPanel = fileIO;
 
 		JPanel buttons = new JPanel();
 		JButton editLabel = new JButton();
@@ -127,6 +127,9 @@ public class Toolbox extends JPanel
 				}
 			}
 		});
+		ColorPalette colourPalette = new ColorPalette(changeColor);
+		add(colourPalette);
+		add(scrollPane);
 
 		JButton delLabel = new JButton();
 		delLabel.setIcon(new ImageIcon("res/delete.png"));
@@ -148,8 +151,5 @@ public class Toolbox extends JPanel
 		buttons.add(delLabel);
 		add(buttons);
 
-		FileIOPanel fileIO = new FileIOPanel();
-		add(fileIO);
-		God.fileIOPanel = fileIO;
 	}
 }
