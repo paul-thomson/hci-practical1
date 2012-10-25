@@ -34,8 +34,8 @@ public class MainWindow extends JFrame
 	ImagePanel imagePanel;
 	Toolbox toolbox;
 	Dimension minimumSize = new Dimension(1000,600);
-	String imageName = "res/kirby.jpg";
-	//String imageName = "res/a.jpg";
+//	String imageName = "res/kirby.jpg";
+	String imageName = "res/a.jpg";
 	JFileChooser fc;
 
 	/**
