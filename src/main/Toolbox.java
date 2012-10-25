@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -112,7 +113,8 @@ public class Toolbox extends JPanel
 		add(scrollPane);
 
 		JPanel buttons = new JPanel();
-		JButton editLabel = new JButton("Edit");
+		JButton editLabel = new JButton();
+		editLabel.setIcon(new ImageIcon("res/edit.png"));
 		editLabel.addActionListener(new ActionListener()
 		{
 			@Override
@@ -126,7 +128,8 @@ public class Toolbox extends JPanel
 			}
 		});
 
-		JButton delLabel = new JButton("Del");
+		JButton delLabel = new JButton();
+		delLabel.setIcon(new ImageIcon("res/delete.png"));
 		delLabel.addActionListener(new ActionListener()
 		{
 			@Override

@@ -18,6 +18,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -25,7 +26,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 import main.God;
-import main.ShapeList;
 import data.Shape;
 import data.ShapeData;
 import data.Vertex;
@@ -43,21 +43,25 @@ public class FileIOPanel extends JPanel
 		this.setPreferredSize(new Dimension(200,200));
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-		newButton = new JButton("New Image ICONS");
+		newButton = new JButton("New Image");
+		newButton.setIcon(new ImageIcon("res/new_image.png"));
 		newButton.addActionListener(newImage());
 		add(newButton);
 
-		saveButton = new JButton("Save Annotations ICONS");	
+		saveButton = new JButton("Save Labels");
+		saveButton.setIcon(new ImageIcon("res/save_labels.png"));
 		saveButton.addActionListener(saveSession());
 		add(saveButton);
 
-		loadButton = new JButton("Load Annotations ICONS");
+		loadButton = new JButton("Load Labels");
+		loadButton.setIcon(new ImageIcon("res/load_labels.png"));
 		loadButton.addActionListener(loadSession());
 		add(loadButton);
 
 
-		exitButton = new JButton("Exit ICONS");
+		exitButton = new JButton("Exit");
 		exitButton.addActionListener(exitApplication());
+		exitButton.setIcon(new ImageIcon("res/exit.png"));
 		add(exitButton);
 	}
 
