@@ -34,8 +34,8 @@ public class MainWindow extends JFrame
 	ImagePanel imagePanel;
 	Toolbox toolbox;
 	Dimension minimumSize = new Dimension(1000,600);
-//	String imageName = "res/kirby.jpg";
-	String imageName = "res/a.jpg";
+	//String imageName = "res/kirby.jpg";
+	String imageName = "res/a.png";
 	JFileChooser fc;
 
 	/**
@@ -198,14 +198,17 @@ public class MainWindow extends JFrame
 							}
 							else
 							{
-
 								God.lastVertex = temp;
 								return false;
 							}
 						}
 						else
 						{
-							JOptionPane.showMessageDialog(null, "Polygon requires at least 3 vertices!");
+
+							if(lastShape.size() > 0)
+							{
+								JOptionPane.showMessageDialog(null, "Polygon requires at least 3 vertices!");
+							}
 						}
 					}
 				}
@@ -218,8 +221,7 @@ public class MainWindow extends JFrame
 						if(God.shapeData.getShape(God.moveVertex.getShape()).size() > 0)
 						{
 							// If shape is complete
-							if(God.shapeData.getShape(God.moveVertex.getShape()).getHead().
-									equals(God.shapeData.getShape(God.moveVertex.getShape()).getTail()))
+							if(God.shapeData.getShape(God.moveVertex.getShape()).complete())
 							{
 								// Delete existing vertex of polygon
 								// Must account for head being twice

@@ -12,6 +12,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import data.MoveVertex;
@@ -148,7 +149,7 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 	{	
 		// Convert mouse click into a vertex
 		Vertex mouse = new Vertex(arg0.getX(), arg0.getY());
-		
+
 		// Focus is now on current polygon
 		God.shapeData.listSelection = -1;
 
@@ -182,7 +183,7 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 			// If no vertex found, must be a new vertex for current polygon 
 			if(distance == Double.MAX_VALUE)
 			{
-				System.out.println("no candidate vertex found near mouse");	
+				System.out.println("No candidate vertex found near mouse");	
 				ArrayList<Shape> shapes = God.shapeData.getShapes();
 
 				System.out.println("Point at : "+ mouse.getX() + " " + mouse.getY());
@@ -204,12 +205,56 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 			}
 
 
-			// Vertex is start (and end) vertex, force vertex to be head
-			// This is for moving the start and end vertices together (seemless to user)
-			if(shapeData.getShape(candidate_vertex[1]).get(candidate_vertex[0]).
-					equals(shapeData.getShape(candidate_vertex[1]).getHead()))
+			if (shapeData.getShape(candidate_vertex[1]).complete())
 			{
-				candidate_vertex[0] = 0;
+				System.out.println("I'm complete");
+				System.out.println(shapeData.getShape(candidate_vertex[1]).size() + " " + candidate_vertex[1]);
+				// Vertex is start (and end) vertex, force vertex to be head
+				// This is for moving the start and end vertices together (seemless to user)
+				if(shapeData.getShape(candidate_vertex[1]).get(candidate_vertex[0]).
+						equals(shapeData.getShape(candidate_vertex[1]).getHead()))
+				{
+					System.out.println("THEY ARE EQUAL");
+					candidate_vertex[0] = 0;
+				}
+			}
+			else
+			{
+				// Current shape is not complete, must complete it
+				Shape lastShape = shapeData.getShape(candidate_vertex[1]);
+
+				if(shapeData.getShape(candidate_vertex[1]).get(candidate_vertex[0]).
+						equals(lastShape.getHead()))
+				{
+					if(lastShape.size() > 2)
+					{
+						int temp =  God.lastVertex;
+						God.lastVertex = -1;
+						if(God.requestLabel())
+						{
+							lastShape = God.shapeData.endShape();
+
+							if (lastShape != null) 
+							{
+								BufferedImage screenshot = God.imagePanel.getScreenshot();
+								Rectangle r = lastShape.getBoundingBox();
+								lastShape.setThumbnail(screenshot.getSubimage(r.x,r.y,r.width,r.height));
+
+								God.vertexPanel.drawLine(lastShape.get(lastShape.size() - 2), lastShape.get(0), lastShape.getColor());
+								God.shapeData.addShape(new Shape());	
+							}
+						}
+						else
+						{
+							God.lastVertex = temp;
+							return;
+						}
+					}
+					else
+					{
+						JOptionPane.showMessageDialog(null, "Polygon requires at least 3 vertices!");
+					}
+				}
 			}
 
 			God.moveVertex = new MoveVertex(candidate_vertex);
@@ -244,14 +289,21 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 			Vertex mouse = new Vertex(e.getX(), e.getY());
 			if (mouse.getX() < (God.imageDimension[0] - mouse.getRadius()) && mouse.getY() < (God.imageDimension[1] - mouse.getRadius())) 
 			{
-				// Remove vertex from shape and add new one with current mouse location
-				God.shapeData.shapes.get(God.moveVertex.getShape()).remove(God.moveVertex.getVertex());
-				God.shapeData.shapes.get(God.moveVertex.getShape()).addAt(God.moveVertex.getVertex(), mouse);
-				// If vertex is head, must move tail too
-				if(God.moveVertex.getVertex() == 0)
+
+				// If shape is complete, and if vertex is head, must move tail too 
+				if(God.moveVertex.getVertex() == 0 && God.shapeData.getShape(God.moveVertex.getShape()).complete())
 				{
+					// Remove vertex from shape and add new one with current mouse location
+					God.shapeData.shapes.get(God.moveVertex.getShape()).remove(God.moveVertex.getVertex());
+					God.shapeData.shapes.get(God.moveVertex.getShape()).addAt(God.moveVertex.getVertex(), mouse);
 					God.shapeData.shapes.get(God.moveVertex.getShape()).remove(God.shapeData.shapes.get(God.moveVertex.getShape()).size() - 1);
 					God.shapeData.shapes.get(God.moveVertex.getShape()).add(mouse);
+				}
+				else
+				{
+					// Remove vertex from shape and add new one with current mouse location
+					God.shapeData.shapes.get(God.moveVertex.getShape()).remove(God.moveVertex.getVertex());
+					God.shapeData.shapes.get(God.moveVertex.getShape()).addAt(God.moveVertex.getVertex(), mouse);
 				}
 				God.layeredPanel.paint(this.getGraphics());
 			}

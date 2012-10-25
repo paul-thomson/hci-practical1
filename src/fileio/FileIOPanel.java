@@ -205,7 +205,7 @@ public class FileIOPanel extends JPanel
 						for (Shape shape : God.shapeData.getShapes()) {
 							// Only write shapes that are complete (head == tail and at least 3 vertices)!
 							if(shape.size() > 2)
-								if(shape.getHead().equals(shape.getTail()))
+								if(shape.complete())
 								{
 									{
 										bw.write(shape.getLabel());

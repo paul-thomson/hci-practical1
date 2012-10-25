@@ -152,6 +152,11 @@ public class Shape
 	{
 		return vertices.get(vertices.size() - 1);
 	}
+	
+	public boolean complete()
+	{
+		return getHead().equals(getTail());
+	}
 
 	public Polygon getPolygon() {
 		Polygon p = new Polygon();
