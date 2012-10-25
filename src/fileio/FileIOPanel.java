@@ -1,7 +1,6 @@
 package fileio;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,6 +25,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 import main.God;
+import main.Toolbox;
 import data.Shape;
 import data.ShapeData;
 import data.Vertex;
@@ -42,12 +42,11 @@ public class FileIOPanel extends JPanel
 	{
 //		this.setPreferredSize(new Dimension(200,200));
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-		Dimension buttonSize = new Dimension(40,40);
 
 //		newButton = new JButton("New Image");
 		newButton = new JButton();
 		newButton.setToolTipText("Load a new image");
-		newButton.setPreferredSize(buttonSize);
+		newButton.setPreferredSize(Toolbox.buttonSize);
 		newButton.setIcon(new ImageIcon("res/new_image.png"));
 		newButton.addActionListener(newImage());
 		add(newButton);
@@ -55,7 +54,7 @@ public class FileIOPanel extends JPanel
 //		saveButton = new JButton("Save Labels");
 		saveButton = new JButton();
 		saveButton.setToolTipText("Save labels to disc");
-		saveButton.setPreferredSize(buttonSize);
+		saveButton.setPreferredSize(Toolbox.buttonSize);
 		saveButton.setIcon(new ImageIcon("res/save_labels.png"));
 		saveButton.addActionListener(saveSession());
 		add(saveButton);
@@ -63,7 +62,7 @@ public class FileIOPanel extends JPanel
 //		loadButton = new JButton("Load Labels");
 		loadButton = new JButton();
 		loadButton.setToolTipText("Load labels from disc");
-		loadButton.setPreferredSize(buttonSize);
+		loadButton.setPreferredSize(Toolbox.buttonSize);
 		loadButton.setIcon(new ImageIcon("res/load_labels.png"));
 		loadButton.addActionListener(loadSession());
 		add(loadButton);
@@ -72,7 +71,7 @@ public class FileIOPanel extends JPanel
 //		exitButton = new JButton("Exit");
 		exitButton = new JButton();
 		exitButton.setToolTipText("Exit the application");
-		exitButton.setPreferredSize(buttonSize);
+		exitButton.setPreferredSize(Toolbox.buttonSize);
 		exitButton.addActionListener(exitApplication());
 		exitButton.setIcon(new ImageIcon("res/exit.png"));
 		add(exitButton);

@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -18,6 +19,7 @@ public class Toolbox extends JPanel
 {
 
 	private static final long serialVersionUID = 1L;
+	public static Dimension buttonSize = new Dimension(40,40);
 	ShapeList shapeList = null;
 
 	/**
@@ -112,9 +114,13 @@ public class Toolbox extends JPanel
 		add(fileIO);
 		God.fileIOPanel = fileIO;
 
-		JPanel buttons = new JPanel();
+
+		add(scrollPane);
+		
+		
 		JButton editLabel = new JButton();
 		editLabel.setIcon(new ImageIcon("res/edit.png"));
+		editLabel.setPreferredSize(buttonSize);
 		editLabel.addActionListener(new ActionListener()
 		{
 			@Override
@@ -127,12 +133,9 @@ public class Toolbox extends JPanel
 				}
 			}
 		});
-		ColorPalette colourPalette = new ColorPalette(changeColor);
-		add(colourPalette);
-		add(scrollPane);
-
 		JButton delLabel = new JButton();
 		delLabel.setIcon(new ImageIcon("res/delete.png"));
+		delLabel.setPreferredSize(buttonSize);
 		delLabel.addActionListener(new ActionListener()
 		{
 			@Override
@@ -147,9 +150,17 @@ public class Toolbox extends JPanel
 				}
 			}
 		});
+		JPanel buttons = new JPanel();
+		buttons.setLayout(new BoxLayout(buttons,BoxLayout.Y_AXIS));
 		buttons.add(editLabel);
 		buttons.add(delLabel);
-		add(buttons);
+		ColorPalette colourPalette = new ColorPalette(changeColor);
+		JPanel listTools = new JPanel();
+		listTools.add(buttons);
+		listTools.add(colourPalette);
+		
+		
+		add(listTools);
 
 	}
 }
