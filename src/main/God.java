@@ -3,10 +3,12 @@ package main;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import data.AutoFileChooser;
 import data.MoveVertex;
 import data.Shape;
 import data.ShapeData;
@@ -24,6 +26,8 @@ public class God {
 	public static ShapeList shapeList;
 	public static JScrollPane scrollPane;
 	public static Color color = Color.red;
+	public static AutoFileChooser autoFileChooser;
+	public static JLabel fileName = new JLabel("No file chosen yet");
 
 	// Data structure stuff
 	public static ShapeData shapeData;

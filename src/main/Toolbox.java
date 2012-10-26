@@ -1,6 +1,7 @@
 package main;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Image;
@@ -10,6 +11,7 @@ import java.awt.event.ActionListener;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -114,7 +116,39 @@ public class Toolbox extends JPanel
 		FileIOPanel fileIO = new FileIOPanel();
 		God.fileIOPanel = fileIO;
 		add(fileIO,BorderLayout.NORTH);
+		
+		JPanel afc = new JPanel(new BorderLayout());
+		JButton previous = new JButton("Prev");
+		previous.setPreferredSize(ColorPalette.preferredSize);
+		previous.setAlignmentX(Component.LEFT_ALIGNMENT);
+		previous.addActionListener(new ActionListener()
+		{
 
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				God.autoFileChooser.loadPreviousFile();
+				
+			}
+			
+		});
+		
+		JButton next = new JButton("Next");
+		next.setPreferredSize(ColorPalette.preferredSize);
+		next.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		next.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				God.autoFileChooser.loadNextFile();
+			}
+		});
+		
+		afc.add(previous,BorderLayout.EAST);
+		God.fileName.setPreferredSize(new Dimension(100,30));
+		afc.add(God.fileName,BorderLayout.CENTER);
+		afc.add(next,BorderLayout.WEST);
+		
 		//		JSeparator separator = new JSeparator(JSeparator.HORIZONTAL);
 		//		separator.setPreferredSize(new Dimension(100,10));
 		//	    System.out.println(separator.getPreferredSize().width);
@@ -122,7 +156,8 @@ public class Toolbox extends JPanel
 		//		add(separator);
 
 		JPanel bottomHalf = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		bottomHalf.setPreferredSize(new Dimension(200,400));
+		bottomHalf.add(afc);
+		bottomHalf.setPreferredSize(new Dimension(200,450));
 		bottomHalf.add(scrollPane);
 
 		JButton editLabel = new JButton();
