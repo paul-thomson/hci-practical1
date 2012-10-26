@@ -333,7 +333,8 @@ public class FileIOPanel extends JPanel
 						}
 						shapeData.addShape(new Shape());
 						God.shapeData = shapeData;
-						God.dirtyFlag = false;
+						God.dirtyFlag = false;					
+						God.layeredPanel.paint(God.layeredPanel.getGraphics());
 					} 
 					catch(FileNotFoundException e) 
 					{

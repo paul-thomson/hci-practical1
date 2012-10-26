@@ -213,7 +213,12 @@ public class Toolbox extends JPanel
 		delLabel.addActionListener(new ActionListener()
 		{
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e)
+			{
+				int response = JOptionPane.showConfirmDialog(null,"Are you sure you want to delete this label?"
+						,"Deleting Label",JOptionPane.YES_NO_OPTION);
+				if(response == JOptionPane.NO_OPTION)
+					return;
 				if (ShapeList.list.getSelectedIndex() >= 0)
 				{
 					God.shapeData.listSelection = ShapeList.list.getSelectedIndex();
