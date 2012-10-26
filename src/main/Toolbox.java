@@ -128,6 +128,7 @@ public class Toolbox extends JPanel
 		previous.setIcon(new ImageIcon(newPreImg));
 		
 		previous.setPreferredSize(ColorPalette.preferredSize);
+		previous.setToolTipText("Load the previous image in the directory");
 		previous.setAlignmentX(Component.LEFT_ALIGNMENT);
 		previous.addActionListener(new ActionListener()
 		{
@@ -135,9 +136,7 @@ public class Toolbox extends JPanel
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				God.autoFileChooser.loadPreviousFile();
-				
 			}
-			
 		});
 		
 		JButton next = new JButton();
@@ -145,10 +144,10 @@ public class Toolbox extends JPanel
 		ImageIcon nex = new ImageIcon("res/right.png");
 		Image nexImg = nex.getImage();  
 		Image newNexImg = nexImg.getScaledInstance(ColorPalette.preferredSize.width-5, ColorPalette.preferredSize.height-5,  java.awt.Image.SCALE_SMOOTH);  
-
 		next.setIcon(new ImageIcon(newNexImg));
 		
 		next.setPreferredSize(ColorPalette.preferredSize);
+		next.setToolTipText("Load the next image in the directory");
 		next.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		next.addActionListener(new ActionListener()
 		{
@@ -173,7 +172,7 @@ public class Toolbox extends JPanel
 
 		JPanel bottomHalf = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		bottomHalf.add(afc);
-		bottomHalf.setPreferredSize(new Dimension(200,450));
+		bottomHalf.setPreferredSize(new Dimension(200,460));
 		bottomHalf.add(scrollPane);
 
 		JButton editLabel = new JButton();
@@ -237,6 +236,31 @@ public class Toolbox extends JPanel
 		listTools.add(colourPalette);
 
 		bottomHalf.add(listTools);
+		
+		JButton helpButton = new JButton();
+		ImageIcon hel = new ImageIcon("res/help.png");
+		Image helImg = hel.getImage();  
+		Image newHelImg = helImg.getScaledInstance(ColorPalette.preferredSize.width-5, ColorPalette.preferredSize.height-5,  java.awt.Image.SCALE_SMOOTH);  
+
+		helpButton.setIcon(new ImageIcon(newHelImg));
+		helpButton.setPreferredSize(ColorPalette.preferredSize);
+		helpButton.setToolTipText("Get some help");
+		helpButton.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(God.mainWindow,
+						"- Click and drag vertices to move them\n" +
+						"- 'Enter' will finish the current shape\n" +
+						"- 'Backspace' or 'delete' will delete the vertex\n " +
+						"you are currently moving",
+                        "Shortcuts",
+                        JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
+		
+		
+		bottomHalf.add(helpButton);
 
 		add(bottomHalf,BorderLayout.SOUTH);
 	}
