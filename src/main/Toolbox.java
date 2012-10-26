@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Image;
@@ -30,7 +31,7 @@ public class Toolbox extends JPanel
 	{		
 		this.setBorder(new EmptyBorder(5,5,5,5));
 		this.setPreferredSize(new Dimension(200,600));
-		setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		setLayout(new BorderLayout());
 
 		// Set up thumbnail shape list
 		shapeList = new ShapeList(God.shapeData);
@@ -112,11 +113,18 @@ public class Toolbox extends JPanel
 
 
 		FileIOPanel fileIO = new FileIOPanel();
-		add(fileIO);
 		God.fileIOPanel = fileIO;
-
-
-		add(scrollPane);
+		add(fileIO,BorderLayout.NORTH);
+		
+//		JSeparator separator = new JSeparator(JSeparator.HORIZONTAL);
+//		separator.setPreferredSize(new Dimension(100,10));
+//	    System.out.println(separator.getPreferredSize().width);
+//	    System.out.println(separator.getMaximumSize().height);
+//		add(separator);
+		
+		JPanel bottomHalf = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		bottomHalf.setPreferredSize(new Dimension(200,400));
+		bottomHalf.add(scrollPane);
 		
 		
 		JButton editLabel = new JButton();
@@ -171,7 +179,9 @@ public class Toolbox extends JPanel
 		listTools.add(colourPalette);
 		
 		
-		add(listTools);
+		bottomHalf.add(listTools);
+		
+		add(bottomHalf,BorderLayout.SOUTH);
 
 	}
 }
