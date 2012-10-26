@@ -244,7 +244,7 @@ public class MainWindow extends JFrame
 								else
 								{
 									// Show error message
-									JOptionPane.showMessageDialog(null, "A label must be at least 3 vertices! TODO Delete entire label?");
+									JOptionPane.showMessageDialog(null, "A label must be at least 3 vertices before it can be completed!");
 
 								}
 							}
