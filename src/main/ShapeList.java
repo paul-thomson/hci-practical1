@@ -18,7 +18,7 @@ public class ShapeList extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	static DefaultListModel listModel = new DefaultListModel();
-	JList list;
+	static JList list;
 
 	public ShapeList(ShapeData shapeData) {
 
@@ -48,6 +48,8 @@ public class ShapeList extends JPanel {
 	{
 		listModel.removeAllElements();
 	}
+	
+
 
 	private class MyListSelectionListener implements ListSelectionListener {
 
@@ -55,10 +57,15 @@ public class ShapeList extends JPanel {
 		public void valueChanged(ListSelectionEvent e) {
 			if(!e.getValueIsAdjusting())
 			{
-				God.shapeData.listSelection = list.getSelectedIndex();
+				God.shapeData.listSelection = getSelectedIndex();
 				System.out.println("God.shapeData.listSelection " + God.shapeData.listSelection);
 				God.vertexPanel.paintComponent(God.vertexPanel.getGraphics());
 			}
+		}
+		
+		public int getSelectedIndex()
+		{
+			return list.getSelectedIndex();
 		}
 
 	}

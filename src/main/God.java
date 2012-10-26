@@ -10,7 +10,6 @@ import javax.swing.JScrollPane;
 import data.MoveVertex;
 import data.Shape;
 import data.ShapeData;
-import data.Vertex;
 import fileio.FileIOPanel;
 
 public class God {

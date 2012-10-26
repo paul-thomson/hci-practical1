@@ -252,6 +252,7 @@ public class MainWindow extends JFrame
 					else if (God.lastVertex >= 0)
 					{
 						ArrayList<Shape> shapes = God.shapeData.getShapes();
+						System.out.println("shapes.size(): " + shapes.size());
 						Shape lastShape = shapes.get(shapes.size() - 1);
 						lastShape.remove(God.lastVertex);
 						God.layeredPanel.paint(God.layeredPanel.getGraphics());

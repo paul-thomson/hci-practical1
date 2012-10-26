@@ -38,10 +38,9 @@ public class ShapeData {
 		shapes.add(shape);
 	}
 	
-	public void removeShape(int index) {
+	public void removeShape() {
 		shapes.remove(listSelection);
 		listSelection = -1;
-		index--;
 	}
 	
 	public Shape getLastShape() {

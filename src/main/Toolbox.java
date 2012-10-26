@@ -115,55 +115,59 @@ public class Toolbox extends JPanel
 		FileIOPanel fileIO = new FileIOPanel();
 		God.fileIOPanel = fileIO;
 		add(fileIO,BorderLayout.NORTH);
-		
-//		JSeparator separator = new JSeparator(JSeparator.HORIZONTAL);
-//		separator.setPreferredSize(new Dimension(100,10));
-//	    System.out.println(separator.getPreferredSize().width);
-//	    System.out.println(separator.getMaximumSize().height);
-//		add(separator);
-		
+
+		//		JSeparator separator = new JSeparator(JSeparator.HORIZONTAL);
+		//		separator.setPreferredSize(new Dimension(100,10));
+		//	    System.out.println(separator.getPreferredSize().width);
+		//	    System.out.println(separator.getMaximumSize().height);
+		//		add(separator);
+
 		JPanel bottomHalf = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		bottomHalf.setPreferredSize(new Dimension(200,400));
 		bottomHalf.add(scrollPane);
-		
-		
+
+
 		JButton editLabel = new JButton();
-		
+
 		ImageIcon edit = new ImageIcon("res/edit.png");
 		Image editImg = edit.getImage();  
 		Image newEditImg = editImg.getScaledInstance(ColorPalette.preferredSize.width-5, ColorPalette.preferredSize.height-5,  java.awt.Image.SCALE_SMOOTH); 
-		
+
 		editLabel.setIcon(new ImageIcon(newEditImg));
 		editLabel.setPreferredSize(ColorPalette.preferredSize);
 		editLabel.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String s = (String) JOptionPane.showInputDialog("Please enter new label", 
-						God.shapeData.getShape(God.shapeData.listSelection).getLabel());
-				if (s != null) {
-					God.shapeData.getShape(God.shapeData.listSelection).setLabel(s);
-					God.shapeList.repaint();
+				if (ShapeList.list.getSelectedIndex() >= 0)
+				{
+					God.shapeData.listSelection = ShapeList.list.getSelectedIndex();
+					String s = (String) JOptionPane.showInputDialog("Please enter new label", 
+							God.shapeData.getShape(God.shapeData.listSelection).getLabel());
+					if (s != null) {
+						God.shapeData.getShape(God.shapeData.listSelection).setLabel(s);
+						God.shapeList.repaint();
+					}
 				}
 			}
 		});
 		JButton delLabel = new JButton();
-		
+
 		ImageIcon del = new ImageIcon("res/delete.png");
 		Image delImg = del.getImage();  
 		Image newDelImg = delImg.getScaledInstance(ColorPalette.preferredSize.width-5, ColorPalette.preferredSize.height-5,  java.awt.Image.SCALE_SMOOTH);  
-		
+
 		delLabel.setIcon(new ImageIcon(newDelImg));
 		delLabel.setPreferredSize(ColorPalette.preferredSize);
 		delLabel.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int index = God.shapeData.listSelection;
-				if (index >= 0)
+				if (ShapeList.list.getSelectedIndex() >= 0)
 				{
-					God.shapeData.removeShape(index);
-					God.shapeList.removeShape(index);								
+					God.shapeData.listSelection = ShapeList.list.getSelectedIndex();
+					God.shapeData.removeShape();
+					God.shapeList.removeShape(God.shapeData.listSelection);								
 					God.layeredPanel.paint(God.layeredPanel.getGraphics());
 					God.scrollPane.repaint();
 				}
@@ -177,10 +181,10 @@ public class Toolbox extends JPanel
 		JPanel listTools = new JPanel();
 		listTools.add(buttons);
 		listTools.add(colourPalette);
-		
-		
+
+
 		bottomHalf.add(listTools);
-		
+
 		add(bottomHalf,BorderLayout.SOUTH);
 
 	}
