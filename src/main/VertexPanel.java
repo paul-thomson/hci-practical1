@@ -199,6 +199,7 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 				}
 				lastShape.add(mouse);
 				God.lastVertex = lastShape.size()-1;
+				God.shapeData.listSelection = -1;
 				System.out.println("God.lastVertex " + God.lastVertex);
 				God.dirtyFlag = true;
 				return;
