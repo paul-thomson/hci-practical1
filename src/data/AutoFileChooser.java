@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import main.God;
 
 public class AutoFileChooser {
@@ -74,6 +76,14 @@ public class AutoFileChooser {
 	
 	public void loadImage(File file) {
 		String text = file.getAbsolutePath();
+		if(God.dirtyFlag)
+		{
+			int response = JOptionPane.showConfirmDialog(null,"You have not saved your labels. \nWould you like to continue loading a new image?"
+					,"New Image",JOptionPane.YES_NO_OPTION);
+			if(response == JOptionPane.NO_OPTION)
+				return;
+		}
+		
 		System.out.println("Loading.. " + text);
 		try 
 		{
