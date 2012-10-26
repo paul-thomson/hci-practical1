@@ -196,6 +196,7 @@ public class Toolbox extends JPanel
 							God.shapeData.getShape(God.shapeData.listSelection).getLabel());
 					if (s != null) {
 						God.shapeData.getShape(God.shapeData.listSelection).setLabel(s);
+						God.dirtyFlag = true;
 						God.shapeList.repaint();
 					}
 				}
@@ -220,6 +221,7 @@ public class Toolbox extends JPanel
 					God.shapeData.removeShape();
 					God.shapeList.removeShape();				
 					God.shapeData.listSelection = -1;
+					God.dirtyFlag = true;
 					God.layeredPanel.paint(God.layeredPanel.getGraphics());
 					God.scrollPane.repaint();
 				}
