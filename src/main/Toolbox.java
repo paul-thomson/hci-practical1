@@ -2,6 +2,7 @@ package main;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -119,8 +120,13 @@ public class Toolbox extends JPanel
 		
 		
 		JButton editLabel = new JButton();
-		editLabel.setIcon(new ImageIcon("res/edit.png"));
-		editLabel.setPreferredSize(buttonSize);
+		
+		ImageIcon edit = new ImageIcon("res/edit.png");
+		Image editImg = edit.getImage();  
+		Image newEditImg = editImg.getScaledInstance(ColorPalette.preferredSize.width-5, ColorPalette.preferredSize.height-5,  java.awt.Image.SCALE_SMOOTH); 
+		
+		editLabel.setIcon(new ImageIcon(newEditImg));
+		editLabel.setPreferredSize(ColorPalette.preferredSize);
 		editLabel.addActionListener(new ActionListener()
 		{
 			@Override
@@ -134,8 +140,13 @@ public class Toolbox extends JPanel
 			}
 		});
 		JButton delLabel = new JButton();
-		delLabel.setIcon(new ImageIcon("res/delete.png"));
-		delLabel.setPreferredSize(buttonSize);
+		
+		ImageIcon del = new ImageIcon("res/delete.png");
+		Image delImg = del.getImage();  
+		Image newDelImg = delImg.getScaledInstance(ColorPalette.preferredSize.width-5, ColorPalette.preferredSize.height-5,  java.awt.Image.SCALE_SMOOTH);  
+		
+		delLabel.setIcon(new ImageIcon(newDelImg));
+		delLabel.setPreferredSize(ColorPalette.preferredSize);
 		delLabel.addActionListener(new ActionListener()
 		{
 			@Override

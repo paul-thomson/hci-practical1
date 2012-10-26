@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 public class ColorPalette extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
-	Dimension preferredSize = new Dimension(20,20);
+	public static Dimension preferredSize = new Dimension(32,32);
 
 	/**
 	 * Create the panel.
