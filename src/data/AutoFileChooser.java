@@ -44,13 +44,13 @@ public class AutoFileChooser {
 	public void loadNextFile() {
 		File next = null;
 		if (images.size() > 0) {
-			next = images.get(pos);
-			
 			//increment pos
 			pos++;
 			if (pos >= images.size()) {
 				pos = 0;
 			}
+			next = images.get(pos);
+			
 			if (next != null) {
 				//this is unnecessary check
 				loadImage(next);
@@ -61,11 +61,11 @@ public class AutoFileChooser {
 	public void loadPreviousFile() {
 		if (images.size() > 0) {
 			//decrement pos
-			File next = images.get(pos);
 			pos--;
 			if (pos < 0) {
 				pos = images.size()-1;
 			}
+			File next = images.get(pos);
 			
 			if (next != null) {
 				//this is unnecessary check
