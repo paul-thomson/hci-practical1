@@ -273,6 +273,7 @@ public class MainWindow extends JFrame
 			{
 				if(God.shapeData.listSelection >= 0)
 				{
+					God.shapeData.listSelection = God.shapeList.list.getSelectedIndex();
 					God.shapeData.getShape(God.shapeData.listSelection).setColor(ColorEnum.getColor(arg0.getActionCommand()));
 					God.layeredPanel.paint(God.layeredPanel.getGraphics());
 				}
