@@ -120,7 +120,7 @@ public class FileIOPanel extends JPanel
 				if (returnVal == JFileChooser.APPROVE_OPTION) 
 				{
 					String file = fc.getSelectedFile().getPath();
-					///TODO THIS IS WHAT AUTOFILECHOOSER WANTS
+					God.autoFileChooser = new AutoFileChooser(file);
 
 					try 
 					{

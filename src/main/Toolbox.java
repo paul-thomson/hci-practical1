@@ -1,11 +1,13 @@
 package main;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -15,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
+import data.AutoFileChooser;
 import fileio.FileIOPanel;
 
 public class Toolbox extends JPanel 
@@ -114,7 +117,54 @@ public class Toolbox extends JPanel
 		FileIOPanel fileIO = new FileIOPanel();
 		God.fileIOPanel = fileIO;
 		add(fileIO,BorderLayout.NORTH);
+		
+		JPanel afc = new JPanel(new BorderLayout());
+		JButton previous = new JButton();
+		
+		ImageIcon pre = new ImageIcon("res/left.png");
+		Image preImg = pre.getImage();  
+		Image newPreImg = preImg.getScaledInstance(ColorPalette.preferredSize.width-5, ColorPalette.preferredSize.height-5,  java.awt.Image.SCALE_SMOOTH);  
 
+		previous.setIcon(new ImageIcon(newPreImg));
+		
+		previous.setPreferredSize(ColorPalette.preferredSize);
+		previous.setAlignmentX(Component.LEFT_ALIGNMENT);
+		previous.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				God.autoFileChooser.loadPreviousFile();
+				
+			}
+			
+		});
+		
+		JButton next = new JButton();
+		
+		ImageIcon nex = new ImageIcon("res/right.png");
+		Image nexImg = nex.getImage();  
+		Image newNexImg = nexImg.getScaledInstance(ColorPalette.preferredSize.width-5, ColorPalette.preferredSize.height-5,  java.awt.Image.SCALE_SMOOTH);  
+
+		next.setIcon(new ImageIcon(newNexImg));
+		
+		next.setPreferredSize(ColorPalette.preferredSize);
+		next.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		next.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				God.autoFileChooser.loadNextFile();
+			}
+		});
+		
+		afc.add(previous,BorderLayout.WEST);
+		God.autoFileChooser = new AutoFileChooser((new File(MainWindow.startingImage).getAbsolutePath()));
+		God.fileName.setPreferredSize(new Dimension(100,30));
+		afc.add(God.fileName,BorderLayout.CENTER);
+		afc.add(next,BorderLayout.EAST);
+		
 		//		JSeparator separator = new JSeparator(JSeparator.HORIZONTAL);
 		//		separator.setPreferredSize(new Dimension(100,10));
 		//	    System.out.println(separator.getPreferredSize().width);
@@ -122,7 +172,8 @@ public class Toolbox extends JPanel
 		//		add(separator);
 
 		JPanel bottomHalf = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		bottomHalf.setPreferredSize(new Dimension(200,400));
+		bottomHalf.add(afc);
+		bottomHalf.setPreferredSize(new Dimension(200,450));
 		bottomHalf.add(scrollPane);
 
 		JButton editLabel = new JButton();

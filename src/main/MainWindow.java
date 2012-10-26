@@ -35,7 +35,7 @@ public class MainWindow extends JFrame
 	Toolbox toolbox;
 	Dimension minimumSize = new Dimension(1000,600);
 	//String imageName = "res/kirby.jpg";
-	String imageName = "res/a.jpg";
+	static String startingImage = "res/a.jpg";
 	JFileChooser fc;
 
 	/**
@@ -68,7 +68,7 @@ public class MainWindow extends JFrame
 
 		try 
 		{
-			imagePanel = new ImagePanel(imageName);
+			imagePanel = new ImagePanel(startingImage);
 		} 
 		catch (IOException e) 
 		{
