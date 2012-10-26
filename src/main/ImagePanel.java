@@ -28,7 +28,8 @@ public class ImagePanel extends JPanel
 	public ImagePanel(String imageName) throws IOException
 	{
 		this();
-		setImage(imageName);
+		if(!imageName.equals(""))
+			setImage(imageName);
 	}
 
 	/***
@@ -91,7 +92,7 @@ public class ImagePanel extends JPanel
 			// Set image dimensions
 			God.imageDimension[0] = newWidth;
 			God.imageDimension[1] = newHeight;
-			System.out.println("SCALING TO " + newWidth + "x" + newHeight );
+			//System.out.println("SCALING TO " + newWidth + "x" + newHeight );
 
 			Image scaledImage = image.getScaledInstance(newWidth, newHeight, Image.SCALE_FAST);
 			image = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_RGB);

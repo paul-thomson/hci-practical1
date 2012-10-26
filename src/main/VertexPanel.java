@@ -182,10 +182,10 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 			// If no vertex found, must be a new vertex for current polygon 
 			if(distance == Double.MAX_VALUE)
 			{
-				System.out.println("No candidate vertex found near mouse");	
+				//////System.out.println("No candidate vertex found near mouse");	
 				ArrayList<Shape> shapes = God.shapeData.getShapes();
 
-				System.out.println("Point at : "+ mouse.getX() + " " + mouse.getY());
+				//////System.out.println("Point at : "+ mouse.getX() + " " + mouse.getY());
 				if(shapes.size() == 0)
 				{
 					shapeData.addShape(new Shape());
@@ -199,7 +199,7 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 				lastShape.add(mouse);
 				God.lastVertex = lastShape.size()-1;
 				God.shapeData.listSelection = -1;
-				System.out.println("God.lastVertex " + God.lastVertex);
+				//////System.out.println("God.lastVertex " + God.lastVertex);
 				God.dirtyFlag = true;
 				return;
 			}
@@ -207,14 +207,14 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 
 			if (shapeData.getShape(candidate_vertex[1]).complete())
 			{
-				System.out.println("I'm complete");
-				System.out.println(shapeData.getShape(candidate_vertex[1]).size() + " " + candidate_vertex[1]);
+				//////System.out.println("I'm complete");
+				//////System.out.println(shapeData.getShape(candidate_vertex[1]).size() + " " + candidate_vertex[1]);
 				// Vertex is start (and end) vertex, force vertex to be head
 				// This is for moving the start and end vertices together (seemless to user)
 				if(shapeData.getShape(candidate_vertex[1]).get(candidate_vertex[0]).
 						equals(shapeData.getShape(candidate_vertex[1]).getHead()))
 				{
-					System.out.println("THEY ARE EQUAL");
+					//////System.out.println("THEY ARE EQUAL");
 					candidate_vertex[0] = 0;
 				}
 			}

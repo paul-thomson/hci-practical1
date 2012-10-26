@@ -69,7 +69,7 @@ public class ShapeData {
 			}	
 			else
 			{
-				System.out.println("Need at least 3 vertices to make a shape polygon!");
+				//System.out.println("Need at least 3 vertices to make a shape polygon!");
 			}
 		}
 		return null;

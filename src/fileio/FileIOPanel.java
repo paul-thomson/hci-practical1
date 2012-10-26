@@ -203,7 +203,7 @@ public class FileIOPanel extends JPanel
 								if(shape.complete())
 								{
 									bw.write(shape.getLabel());
-									System.out.println(shape.getLabel());
+									//System.out.println(shape.getLabel());
 									bw.write(',' + String.valueOf(shape.getColor().getRed()));
 									bw.write(',' + String.valueOf(shape.getColor().getGreen()));
 									bw.write(',' + String.valueOf(shape.getColor().getBlue()));
@@ -216,12 +216,12 @@ public class FileIOPanel extends JPanel
 						}
 						bw.close();
 						God.dirtyFlag = false;
-						System.out.println("Done");
+						//System.out.println("Done");
 
 					} catch (IOException e) {
-						System.out.println("Error when writing to file");
+						//System.out.println("Error when writing to file");
 						e.printStackTrace();
-						System.out.println(e.getMessage());
+						//System.out.println(e.getMessage());
 					} 
 				}
 				//Reset the file chooser for the next time it's shown.

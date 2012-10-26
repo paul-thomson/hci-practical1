@@ -34,8 +34,7 @@ public class MainWindow extends JFrame
 	ImagePanel imagePanel;
 	Toolbox toolbox;
 	Dimension minimumSize = new Dimension(1000,600);
-	//String imageName = "res/kirby.jpg";
-	static String startingImage = "res/a.jpg";
+	static String startingImage = "";
 	JFileChooser fc;
 
 	/**
@@ -253,7 +252,7 @@ public class MainWindow extends JFrame
 					else if (God.lastVertex >= 0)
 					{
 						ArrayList<Shape> shapes = God.shapeData.getShapes();
-						System.out.println("shapes.size(): " + shapes.size());
+						///System,out.println("shapes.size(): " + shapes.size());
 						Shape lastShape = shapes.get(shapes.size() - 1);
 						lastShape.remove(God.lastVertex);
 						God.layeredPanel.paint(God.layeredPanel.getGraphics());

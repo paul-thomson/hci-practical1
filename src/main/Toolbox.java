@@ -166,8 +166,8 @@ public class Toolbox extends JPanel
 		
 		//		JSeparator separator = new JSeparator(JSeparator.HORIZONTAL);
 		//		separator.setPreferredSize(new Dimension(100,10));
-		//	    System.out.println(separator.getPreferredSize().width);
-		//	    System.out.println(separator.getMaximumSize().height);
+		//	    ////System.out.println(separator.getPreferredSize().width);
+		//	    ////System.out.println(separator.getMaximumSize().height);
 		//		add(separator);
 
 		JPanel bottomHalf = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));

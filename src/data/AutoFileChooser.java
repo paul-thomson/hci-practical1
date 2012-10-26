@@ -32,12 +32,12 @@ public class AutoFileChooser {
 						fileName.endsWith(".jpg") || 
 						fileName.endsWith(".png")) {
 					images.add(f.getAbsoluteFile());
-					System.out.println(f.getAbsoluteFile());
+					//System.out.println(f.getAbsoluteFile());
 				}
 			}
 		}
 		if (images.size() == 0) {
-			System.out.println("No images found in directory");
+			//System.out.println("No images found in directory");
 		}
 	}
 	
@@ -84,7 +84,7 @@ public class AutoFileChooser {
 				return;
 		}
 		
-		System.out.println("Loading.. " + text);
+		//System.out.println("Loading.. " + text);
 		try 
 		{
 			// TODO SAVE BEFORE NEW PROJECT
