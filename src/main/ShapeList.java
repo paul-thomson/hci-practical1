@@ -57,7 +57,7 @@ public class ShapeList extends JPanel {
 			{
 				God.shapeData.listSelection = list.getSelectedIndex();
 				System.out.println("God.shapeData.listSelection " + God.shapeData.listSelection);
-				God.vertexPanel.paintComponent(God.vertexPanel.getGraphics());
+				God.layeredPanel.paint(God.layeredPanel.getGraphics());
 			}
 		}
 
