@@ -111,7 +111,6 @@ public class Toolbox extends JPanel
 		add(moveButton);
 		 */
 
-
 		FileIOPanel fileIO = new FileIOPanel();
 		God.fileIOPanel = fileIO;
 		add(fileIO,BorderLayout.NORTH);
@@ -126,7 +125,6 @@ public class Toolbox extends JPanel
 		bottomHalf.setPreferredSize(new Dimension(200,400));
 		bottomHalf.add(scrollPane);
 
-
 		JButton editLabel = new JButton();
 
 		ImageIcon edit = new ImageIcon("res/edit.png");
@@ -135,6 +133,7 @@ public class Toolbox extends JPanel
 
 		editLabel.setIcon(new ImageIcon(newEditImg));
 		editLabel.setPreferredSize(ColorPalette.preferredSize);
+		editLabel.setToolTipText("Edit selected label");
 		editLabel.addActionListener(new ActionListener()
 		{
 			@Override
@@ -159,6 +158,7 @@ public class Toolbox extends JPanel
 
 		delLabel.setIcon(new ImageIcon(newDelImg));
 		delLabel.setPreferredSize(ColorPalette.preferredSize);
+		delLabel.setToolTipText("Delete selected label");
 		delLabel.addActionListener(new ActionListener()
 		{
 			@Override
@@ -182,10 +182,8 @@ public class Toolbox extends JPanel
 		listTools.add(buttons);
 		listTools.add(colourPalette);
 
-
 		bottomHalf.add(listTools);
 
 		add(bottomHalf,BorderLayout.SOUTH);
-
 	}
 }
