@@ -19,9 +19,7 @@ public class MyLayeredPane extends JPanel
 
 	public void paint(Graphics g) 
 	{
-		
 		imagePanel.paintComponent(g);
 		vertexPanel.paintComponent(g);
 	}
-
 }

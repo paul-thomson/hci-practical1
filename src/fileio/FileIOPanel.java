@@ -27,6 +27,7 @@ import javax.swing.JTextArea;
 import main.God;
 import main.ShapeList;
 import main.Toolbox;
+import data.AutoFileChooser;
 import data.Shape;
 import data.ShapeData;
 import data.Vertex;
@@ -119,11 +120,11 @@ public class FileIOPanel extends JPanel
 				if (returnVal == JFileChooser.APPROVE_OPTION) 
 				{
 					String file = fc.getSelectedFile().getPath();
+					///TODO THIS IS WHAT AUTOFILECHOOSER WANTS
 
 					try 
 					{
 						// TODO SAVE BEFORE NEW PROJECT
-
 						/*** Reset properties for new image ***/
 						ShapeData shapeData = new ShapeData();
 						God.shapeData = shapeData;
@@ -173,14 +174,6 @@ public class FileIOPanel extends JPanel
 					BufferedWriter bw = null;
 					try {
 						String filePath = fc.getSelectedFile().getPath();
-						System.out.println(filePath);
-						String[] fileArray = filePath.split("\\" + File.separator); // want to make sure we only take name, not extension
-						//						if (fileArray.length > 0) {
-						//							String[] fileExtension = fileArray[1].split(".");
-						//							if (fileExtension.length > 0) {
-						//								filePath
-						//							}
-						//						}
 						int pathLength = filePath.length() - 1;
 						for (int i = pathLength; i >= 0; i--) {
 							if (filePath.charAt(i) == File.separatorChar) {
@@ -191,6 +184,7 @@ public class FileIOPanel extends JPanel
 							}
 
 						}
+						AutoFileChooser afc = new AutoFileChooser(filePath);
 						File file = new File(filePath + ".csv");
 						if (!file.exists()) {
 							file.createNewFile();
@@ -208,17 +202,16 @@ public class FileIOPanel extends JPanel
 							if(shape.size() > 2)
 								if(shape.complete())
 								{
-									{
-										bw.write(shape.getLabel());
-										bw.write(',' + String.valueOf(shape.getColor().getRed()));
-										bw.write(',' + String.valueOf(shape.getColor().getGreen()));
-										bw.write(',' + String.valueOf(shape.getColor().getBlue()));
-										for (Vertex v : shape.getVertices()) {
-											bw.write(',' + String.valueOf(v.getX()));
-											bw.write(',' + String.valueOf(v.getY()));
-										}
-										bw.newLine();
+									bw.write(shape.getLabel());
+									System.out.println(shape.getLabel());
+									bw.write(',' + String.valueOf(shape.getColor().getRed()));
+									bw.write(',' + String.valueOf(shape.getColor().getGreen()));
+									bw.write(',' + String.valueOf(shape.getColor().getBlue()));
+									for (Vertex v : shape.getVertices()) {
+										bw.write(',' + String.valueOf(v.getX()));
+										bw.write(',' + String.valueOf(v.getY()));
 									}
+									bw.newLine();
 								}
 						}
 						bw.close();

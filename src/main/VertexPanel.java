@@ -56,7 +56,6 @@ public class VertexPanel extends JPanel implements MouseListener, MouseMotionLis
 			Shape shape = shapes.get(i);
 			drawShape(this.getGraphics(), shape);
 			if (God.shapeData.listSelection == i) {
-				System.out.println("polygonning");
 				Graphics2D g2 = (Graphics2D) this.getGraphics();
 				g2.setColor(new Color(shape.getColor().getRed(),
 						shape.getColor().getGreen(),
