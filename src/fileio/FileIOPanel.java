@@ -25,6 +25,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 import main.God;
+import main.ShapeList;
 import main.Toolbox;
 import data.Shape;
 import data.ShapeData;
@@ -334,6 +335,7 @@ public class FileIOPanel extends JPanel
 							Rectangle r = shape.getBoundingBox();
 							shape.setThumbnail(screenshot.getSubimage(r.x,r.y,r.width,r.height));
 							shapeData.addShape(shape);
+							ShapeList.addShape(shape);
 
 						}
 						shapeData.addShape(new Shape());
