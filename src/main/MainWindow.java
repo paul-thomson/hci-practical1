@@ -271,9 +271,9 @@ public class MainWindow extends JFrame
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				if(God.shapeData.listSelection >= 0)
+				if (ShapeList.list.getSelectedIndex() >= 0)
 				{
-					God.shapeData.listSelection = God.shapeList.list.getSelectedIndex();
+					God.shapeData.listSelection = ShapeList.list.getSelectedIndex();
 					God.shapeData.getShape(God.shapeData.listSelection).setColor(ColorEnum.getColor(arg0.getActionCommand()));
 					God.layeredPanel.paint(God.layeredPanel.getGraphics());
 				}
