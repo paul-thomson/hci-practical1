@@ -40,7 +40,6 @@ public class ShapeData {
 	
 	public void removeShape() {
 		shapes.remove(listSelection);
-		listSelection = -1;
 	}
 	
 	public Shape getLastShape() {

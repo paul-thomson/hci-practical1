@@ -167,7 +167,8 @@ public class Toolbox extends JPanel
 				{
 					God.shapeData.listSelection = ShapeList.list.getSelectedIndex();
 					God.shapeData.removeShape();
-					God.shapeList.removeShape(God.shapeData.listSelection);								
+					God.shapeList.removeShape();				
+					God.shapeData.listSelection = -1;
 					God.layeredPanel.paint(God.layeredPanel.getGraphics());
 					God.scrollPane.repaint();
 				}

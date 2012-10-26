@@ -36,8 +36,8 @@ public class ShapeList extends JPanel {
 		add(list);
 	}
 
-	public static void removeShape(int index) {
-		listModel.remove(index);
+	public static void removeShape() {
+		listModel.remove(God.shapeData.listSelection);
 	}
 
 	public static void addShape(Shape shape) {
